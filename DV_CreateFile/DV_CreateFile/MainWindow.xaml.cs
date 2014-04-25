@@ -58,7 +58,7 @@ namespace DV_CreateFile
             if (format == "TXT")
             {            
                 Random rnd_sum = new Random();
-                Random rnd_acc = new Random();
+               // Random rnd_acc = new Random();
 
                 int sum = 0;
                 int value = 0;
@@ -70,15 +70,18 @@ namespace DV_CreateFile
                             value = rnd_sum.Next(-1000, 1000);
                             sum += value;
 
-                            sw.Write(rnd_acc.Next(1, 100)); 
-                            sw.WriteLine(" " + value.ToString());
+                           // sw.Write(rnd_acc.Next(1, 100)); 
+                           // sw.WriteLine(" " + value.ToString());
+
+                            sw.WriteLine(value.ToString());
                             
                         }
 
-                        sw.Write(rnd_acc.Next(1, 100));
-                        sw.WriteLine(" " + sum * -1);
-                      
+                       // sw.Write(rnd_acc.Next(1, 100));
+                       // sw.WriteLine(" " + sum * -1);
 
+                        sw.WriteLine(sum * -1);
+  
                     }
 
                     MessageBox.Show("Die Datei wurde erfolgreich erstellt.\nPfad: " + path + filename + "." + format, "Information");
@@ -90,7 +93,7 @@ namespace DV_CreateFile
 
                 XmlDocument doc = new XmlDocument();
                 XmlNode myRoot, myNode;
-                XmlAttribute myAttribute;
+               // XmlAttribute myAttribute;
 
                 Random rnd_sum = new Random();
                 Random rnd_acc = new Random();
@@ -111,9 +114,9 @@ namespace DV_CreateFile
 
                     myNode.InnerText = value.ToString();
 
-                    myAttribute = doc.CreateAttribute("accountNo");
-                    myAttribute.InnerText = rnd_acc.Next(1, 100).ToString();
-                    myNode.Attributes.Append(myAttribute);
+                  //  myAttribute = doc.CreateAttribute("accountNo");
+                  //  myAttribute.InnerText = rnd_acc.Next(1, 100).ToString();
+                  //  myNode.Attributes.Append(myAttribute);
 
                     myRoot.AppendChild(myNode);  
 
@@ -123,9 +126,9 @@ namespace DV_CreateFile
 
                 myNode.InnerText = (sum * -1).ToString();
 
-                myAttribute = doc.CreateAttribute("accountNo");
-                myAttribute.InnerText = rnd_acc.Next(1, 100).ToString();
-                myNode.Attributes.Append(myAttribute);
+                // myAttribute = doc.CreateAttribute("accountNo");
+                // myAttribute.InnerText = rnd_acc.Next(1, 100).ToString();
+                // myNode.Attributes.Append(myAttribute);
 
                 myRoot.AppendChild(myNode);  
 

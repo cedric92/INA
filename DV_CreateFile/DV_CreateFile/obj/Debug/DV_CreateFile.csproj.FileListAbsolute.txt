@@ -11,3 +11,16 @@ c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFil
 c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.csproj.GenerateResource.Cache
 c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.exe
 c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.pdb
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\bin\Debug\DV_CreateFile.exe.config
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.exe
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.pdb
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\bin\Debug\DV_CreateFile.exe
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\bin\Debug\DV_CreateFile.pdb
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.csprojResolveAssemblyReference.cache
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\MainWindow.baml
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\MainWindow.g.cs
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\App.g.cs
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile_MarkupCompile.cache
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.g.resources
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.Properties.Resources.resources
+C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.csproj.GenerateResource.Cache
