@@ -7,6 +7,7 @@ using INA.Model;
 
 namespace INA.ViewModel
 {
+    // ---------- VIEWMODEL ---------------------------------------
     public class ViewModel
     {
         #region Members

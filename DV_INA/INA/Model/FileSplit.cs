@@ -11,13 +11,20 @@ namespace INA.Model
     class FileSplit
     {
         #region Members
+
+        QueueManagement _QueueManagement = new QueueManagement();
+        // list for imported lines
         List<int> transactions = new List<int>();
+
         #endregion
+
         public FileSplit()
         {
 
         }
+
         #region Getter/Setter
+
         public List<int> getTransactions
         {
         get{return transactions;}
@@ -25,10 +32,22 @@ namespace INA.Model
 
         #endregion
 
+        internal QueueManagement QueueManagement
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
         #region Methods
+        // split file into lines
         public void splitFile(string fileName)
         {
-           
+            
             int sum = 0;
             int linecount = 0;
 
@@ -46,7 +65,6 @@ namespace INA.Model
                         if (int.TryParse(line, out value))
                         {
                             transactions.Add(value);
-
                             //add value to sum to check if the file is balanced
                             sum += value;
                         }
@@ -66,9 +84,16 @@ namespace INA.Model
                        
                     }
 
+                    // if accordings arent balanced
                     if (sum != 0)
                     {
                         MessageBox.Show("Buchung nicht ausgeglichen");
+                    }
+                    // if everything is ok, put into messagequeue
+                    else
+                    {
+                        _QueueManagement.startMessageQueue(transactions);
+
                     }
                 }
             }

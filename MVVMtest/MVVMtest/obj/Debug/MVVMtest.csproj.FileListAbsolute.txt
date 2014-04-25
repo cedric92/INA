@@ -11,3 +11,6 @@ c:\users\janine\documents\visual studio 2013\Projects\MVVMtest\MVVMtest\obj\Debu
 c:\users\janine\documents\visual studio 2013\Projects\MVVMtest\MVVMtest\obj\Debug\MVVMtest.csproj.GenerateResource.Cache
 c:\users\janine\documents\visual studio 2013\Projects\MVVMtest\MVVMtest\obj\Debug\MVVMtest.exe
 c:\users\janine\documents\visual studio 2013\Projects\MVVMtest\MVVMtest\obj\Debug\MVVMtest.pdb
+C:\Users\Janine\Documents\GitHub\INA\MVVMtest\MVVMtest\bin\Debug\MVVMtest.exe.config
+C:\Users\Janine\Documents\GitHub\INA\MVVMtest\MVVMtest\obj\Debug\MVVMtest.exe
+C:\Users\Janine\Documents\GitHub\INA\MVVMtest\MVVMtest\obj\Debug\MVVMtest.pdb

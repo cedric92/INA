@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace INA.Model
 {
-    
+    // ---------- MODEL ---------------------------------------
     class Model
     {
         #region Members
         FileSplit _FileSplit;
-        QueueManagement _QueueManagement;
+        //QueueManagement _QueueManagement;
         #endregion
         
         public Model()
         {
             _FileSplit = new FileSplit();
-            _QueueManagement = new QueueManagement();
+           // _QueueManagement = new QueueManagement();
         }
 
         internal FileSplit FileSplit
@@ -31,7 +31,8 @@ namespace INA.Model
             }
         }
 
-        internal QueueManagement QueueManagement
+   /*    
+      internal QueueManagement QueueManagement
         {
             get
             {
@@ -41,6 +42,7 @@ namespace INA.Model
             {
             }
         }
+    */
 
 
         #region Methods
@@ -49,8 +51,8 @@ namespace INA.Model
         {
             _FileSplit.splitFile(fileName);
 
-            
         }
+
         #endregion
     }
 }

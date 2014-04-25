@@ -21,6 +21,8 @@ namespace INA
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
+    /// 
+    // ---------- VIEW ---------------------------------------
     public partial class MainWindow : Window
     {
         #region Members
