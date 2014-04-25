@@ -1,0 +1,13 @@
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\bin\Debug\DV_CreateFile.exe.config
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\bin\Debug\DV_CreateFile.exe
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\bin\Debug\DV_CreateFile.pdb
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.csprojResolveAssemblyReference.cache
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\MainWindow.baml
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\MainWindow.g.cs
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\App.g.cs
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile_MarkupCompile.cache
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.g.resources
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.Properties.Resources.resources
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.csproj.GenerateResource.Cache
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.exe
+c:\users\janine\documents\visual studio 2013\Projects\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.pdb
