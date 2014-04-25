@@ -41,5 +41,16 @@ namespace INA.Model
             {
             }
         }
+
+
+        #region Methods
+
+        public void splitFile(string fileName)
+        {
+            _FileSplit.splitFile(fileName);
+
+            
+        }
+        #endregion
     }
 }

@@ -11,3 +11,16 @@ c:\users\getow_000\documents\visual studio 2013\Projects\INA\INA\obj\Debug\INA.P
 c:\users\getow_000\documents\visual studio 2013\Projects\INA\INA\obj\Debug\INA.csproj.GenerateResource.Cache
 c:\users\getow_000\documents\visual studio 2013\Projects\INA\INA\obj\Debug\INA.exe
 c:\users\getow_000\documents\visual studio 2013\Projects\INA\INA\obj\Debug\INA.pdb
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\bin\Debug\INA.exe.config
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\obj\Debug\INA.exe
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\obj\Debug\INA.pdb
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\bin\Debug\INA.exe
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\bin\Debug\INA.pdb
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\obj\Debug\INA.csprojResolveAssemblyReference.cache
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\obj\Debug\View\MainWindow.baml
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\obj\Debug\View\MainWindow.g.cs
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\obj\Debug\App.g.cs
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\obj\Debug\INA_MarkupCompile.cache
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\obj\Debug\INA.g.resources
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\obj\Debug\INA.Properties.Resources.resources
+C:\Users\getow_000\Documents\Visual Studio 2013\Projects\DV_INA\INA\obj\Debug\INA.csproj.GenerateResource.Cache

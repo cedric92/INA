@@ -2,7 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+    <Grid RenderTransformOrigin="0.624,0.627">
+        <Button x:Name="btOpenFile" Content="Durchsuchen" HorizontalAlignment="Left" Margin="169,44,0,0" VerticalAlignment="Top" Width="115" Click="Button_Click" Height="57"/>
+        <TextBlock x:Name="txtContent" HorizontalAlignment="Left" Margin="78,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="103" Width="275"/>
+
     </Grid>
 </Window>

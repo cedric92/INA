@@ -28,5 +28,13 @@ namespace INA.ViewModel
             {
             }
         }
+
+        #region Methods
+        
+        public void splitFile(string fileName)
+        {
+            _Model.splitFile(fileName);
+        }
+        #endregion
     }
 }

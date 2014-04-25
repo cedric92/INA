@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using INA.ViewModel;
+using System.IO;
 
 namespace INA
 {
@@ -40,6 +41,29 @@ namespace INA
             }
             set
             {
+            }
+        }
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            // Configure open file dialog box
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "Document"; // Default file name
+            dlg.DefaultExt = ".txt"; // Default file extension
+            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results
+            if (result == true)
+            {
+               //get absolute file path
+                string filename = dlg.FileName;
+
+                //call method splitFile which splits the chosen file according to the fileName
+                _ViewModel.splitFile(filename);
             }
         }
     }
