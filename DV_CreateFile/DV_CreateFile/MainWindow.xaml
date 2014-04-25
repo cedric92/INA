@@ -1,26 +1,20 @@
 ﻿<Window x:Class="DV_CreateFile.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Neue Datei erstellen" Height="279" Width="346" ResizeMode="CanMinimize">
-    <Grid>
+        Title="Neue Datei erstellen" Height="171.375" Width="313" ResizeMode="CanMinimize">
+    <Grid HorizontalAlignment="Left" Width="317" Margin="0,0,0,-1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="165*"/>
             <ColumnDefinition Width="163*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Zeilenanzahl:" HorizontalAlignment="Left" Margin="26,36,0,0" VerticalAlignment="Top" Width="117" Height="26"/>
-        <TextBox x:Name="txtLines" HorizontalAlignment="Left" Height="23" Margin="127,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" TextChanged="TextBox_TextChanged" Text="10" Grid.ColumnSpan="2"/>
-        <Label Content="Dateiformat:" HorizontalAlignment="Left" Margin="26,109,0,0" VerticalAlignment="Top" Width="117" Height="26"/>
-        <Label Content="Zielpfad:" HorizontalAlignment="Left" Margin="26,165,0,0" VerticalAlignment="Top" Width="117" Height="26"/>
-        <TextBox x:Name="txtPath" HorizontalAlignment="Left" Height="23" Margin="127,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" Text="C:\Users\Public\Desktop\" Grid.ColumnSpan="2"/>
-        <ComboBox x:Name="cbFileformat" Margin="127,110,47,0" VerticalAlignment="Top" SelectionChanged="cbFileformat_SelectionChanged" Grid.ColumnSpan="2" Height="22">
-            <ComboBoxItem Content="TXT" HorizontalAlignment="Left" Width="118" Selected="ComboBoxItem_Selected"/>
-            <ComboBoxItem Content="XML" HorizontalAlignment="Left" Width="118"/>
-        </ComboBox>
-        <Button x:Name="btCreate" Content="Erstellen" HorizontalAlignment="Left" Margin="70,208,0,0" VerticalAlignment="Top" Width="75" Click="btCreate_Click" Grid.Column="1" Height="22"/>
-        <Label Content="Dateiname:" HorizontalAlignment="Left" Margin="26,137,0,0" VerticalAlignment="Top" Width="117" Height="26"/>
-        <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="127,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" TextChanged="TextBox_TextChanged" Text="file" Grid.ColumnSpan="2"/>
-        <GroupBox Header="Datensätze" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top" Height="64" Width="308" Grid.ColumnSpan="2"/>
-        <GroupBox Header="Einstellungen" Margin="10,81,0,0" VerticalAlignment="Top" Height="122" HorizontalAlignment="Left" Width="308" Grid.ColumnSpan="2"/>
+
+        <Label Content="Zeilenanzahl:" HorizontalAlignment="Left" Margin="11,13,0,0" VerticalAlignment="Top" Width="117" Height="26"/>
+        <TextBox x:Name="txtLines" HorizontalAlignment="Left" Height="23" Margin="112,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" TextChanged="TextBox_TextChanged" Text="10" Grid.ColumnSpan="2"/>
+        <Button x:Name="btCreate" Content="Erstellen" HorizontalAlignment="Left" Margin="48,98,0,0" VerticalAlignment="Top" Width="75" Click="btCreate_Click" Grid.Column="1" Height="22"/>
+
+        <CheckBox x:Name="chbBuggy" Content="Text in zufälliger Zeile" HorizontalAlignment="Left" Margin="112,44,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="chbWrongamount" Content="Nicht ausgeglichen" HorizontalAlignment="Left" Margin="112,65,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+
 
     </Grid>
 </Window>
