@@ -3,8 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid RenderTransformOrigin="0.624,0.627">
-        <Button x:Name="btOpenFile" Content="Durchsuchen" HorizontalAlignment="Left" Margin="169,44,0,0" VerticalAlignment="Top" Width="115" Click="Button_Click" Height="57"/>
-        <TextBlock x:Name="txtContent" HorizontalAlignment="Left" Margin="78,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="103" Width="275"/>
+        <Button x:Name="btOpenFile" Content="Durchsuchen" HorizontalAlignment="Left" Margin="375,55,0,0" VerticalAlignment="Top" Width="115" Click="Button_Click" Height="30"/>
+
+        <TextBlock x:Name="txtContent" HorizontalAlignment="Left" Margin="35,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="310"/>
+        <Button x:Name="btStart" Content="Start" HorizontalAlignment="Left" Margin="51,262,0,0" VerticalAlignment="Top" Width="90" Height="30"/>
+        <Button x:Name="btAnhalten" Content="Anhalten" HorizontalAlignment="Left" Margin="214,262,0,0" VerticalAlignment="Top" Width="90" Height="30" Click="Button_Click_1"/>
+        <Button x:Name="btBeenden" Content="Beenden" HorizontalAlignment="Left" Margin="375,262,0,0" VerticalAlignment="Top" Width="90" Height="30" Click="btBeenden_Click"/>
+        <ProgressBar HorizontalAlignment="Left" Height="30" Margin="51,133,0,0" VerticalAlignment="Top" Width="414"/>
 
     </Grid>
 </Window>
