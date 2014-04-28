@@ -4,12 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using INA.Model;
+using System.ComponentModel;
+
+
 
 namespace INA.ViewModel
 {
     // ---------- VIEWMODEL ---------------------------------------
-    public class ViewModel
+    public class ViewModel : INotifyPropertyChanged
     {
+        #region NotifiyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+                //NotifyPropertyChanged("name");
+            }
+        }
+
+        #endregion
+
         #region Members
         Model.Model _Model;
         #endregion
@@ -27,6 +45,7 @@ namespace INA.ViewModel
             }
             set
             {
+                
             }
         }
 
@@ -35,6 +54,7 @@ namespace INA.ViewModel
         public void splitFile(string fileName)
         {
             _Model.splitFile(fileName);
+           
         }
         #endregion
     }
