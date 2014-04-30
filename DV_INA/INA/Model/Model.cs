@@ -12,14 +12,19 @@ namespace INA.Model
         #region Members
         FileSplit _FileSplit;
         //QueueManagement _QueueManagement;
+
+        private string loadedFiles = "";
+        private List<string> loadedFilesWithAbsolutePath = new List<string>();
         #endregion
         
         public Model()
         {
             _FileSplit = new FileSplit();
+
+         
            // _QueueManagement = new QueueManagement();
         }
-
+        #region Getter/Setter
         internal FileSplit FileSplit
         {
             get
@@ -30,6 +35,18 @@ namespace INA.Model
             {
             }
         }
+
+        public string _loadedFiles
+        {
+            get { return loadedFiles; }
+            set { this.loadedFiles = loadedFiles+"\n"+value; }
+        }
+        public string setloadedFilesWithAbsolutePath
+        {
+            set { this.loadedFilesWithAbsolutePath.Add(value); }
+        }
+        #endregion
+        
 
    /*    
       internal QueueManagement QueueManagement
@@ -47,10 +64,22 @@ namespace INA.Model
 
         #region Methods
 
-        public void splitFile(string fileName)
+        public void splitFiles()
         {
-            _FileSplit.splitFile(fileName);
 
+            _FileSplit.splitFile(loadedFilesWithAbsolutePath);
+        }
+        //check if the given parameter path already exists in the file path list
+        public bool compareFilePath(string path)
+        {
+            for (int i = 0; i < loadedFilesWithAbsolutePath.Count; i++)
+            {
+                if (loadedFilesWithAbsolutePath.ElementAt(i).Equals(path))
+                {
+                   return true;
+                }
+            }
+            return false;
         }
 
         #endregion

@@ -37,7 +37,7 @@ namespace INA.Model
         }
 
         // start 
-        public void startMessageQueue(List<int> transactions)
+        public void startMessageQueue(List<KeyValuePair<string, string>> transactions)
         {
             SendStringMessageToQueue(transactions);
         }
@@ -60,13 +60,14 @@ namespace INA.Model
         }
 
         // send messages to queue
-        private static void SendStringMessageToQueue(List<int> transactions)
+        private static void SendStringMessageToQueue(List<KeyValuePair<string, string>> transactions)
         {
 
             MessageQueue msgQueue = GetStringMessageQueue();
 
             // serialize the message while sending
-            msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(int) });
+            msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
+            
 
             for (int i = 0; i < transactions.Count; i++)
             {
@@ -84,7 +85,7 @@ namespace INA.Model
             MessageQueue msgQueue = GetStringMessageQueue();
 
             // Set the formatter to indicate body contains an Order.
-            msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(int) });
+            msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
 
             try
             {
@@ -92,6 +93,7 @@ namespace INA.Model
                 {
                     // write queue messages on console
                     Console.WriteLine(message.Body.ToString());
+                    
                 }
                 // clear queue
                 msgQueue.Purge();

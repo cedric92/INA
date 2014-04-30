@@ -24,3 +24,16 @@ C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_Cr
 C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.g.resources
 C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.Properties.Resources.resources
 C:\Users\Janine\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.csproj.GenerateResource.Cache
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\bin\Debug\DV_CreateFile.exe.config
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.exe
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.pdb
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\bin\Debug\DV_CreateFile.exe
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\bin\Debug\DV_CreateFile.pdb
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.csprojResolveAssemblyReference.cache
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\MainWindow.baml
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\MainWindow.g.cs
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\App.g.cs
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile_MarkupCompile.cache
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.g.resources
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.Properties.Resources.resources
+C:\Users\getow_000\Documents\GitHub\INA\DV_CreateFile\DV_CreateFile\obj\Debug\DV_CreateFile.csproj.GenerateResource.Cache

@@ -27,12 +27,16 @@ namespace INA
     {
         #region Members
         ViewModel.ViewModel _ViewModel;
+        string filename="";
         #endregion
        
         public MainWindow()
         {
             InitializeComponent();
             _ViewModel = new ViewModel.ViewModel();
+
+           this.DataContext = _ViewModel;
+
         }
 
         public INA.ViewModel.ViewModel ViewModel
@@ -47,7 +51,19 @@ namespace INA
         }
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_ClickStart(object sender, RoutedEventArgs e)
+        {
+            //call method splitFile which splits the chosen file according to the fileNam
+
+            _ViewModel.splitFiles();
+        }
+       
+        private void btBeenden_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btOpenFile_Click(object sender, RoutedEventArgs e)
         {
             // Configure open file dialog box
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -61,12 +77,33 @@ namespace INA
             // Process open file dialog box results
             if (result == true)
             {
-               //get absolute file path
-                string filename = dlg.FileName;
+                //get absolute file path
+                this.filename = dlg.FileName;
 
-                //call method splitFile which splits the chosen file according to the fileName
-                _ViewModel.splitFile(filename);
-            }
+                //check if the choosen file is loaded
+                if (_ViewModel.compareFilePath(filename))
+                {
+                    //file already loaded
+                    MessageBox.Show("Achtung: Die ausgwählte Datei wurde bereits geladen. Ein weiteres laden ist deshalb nicht moeglich!");
+                }
+                else
+                {
+                    //file not loaded
+
+                    //add absolute file path to list
+                    _ViewModel.setloadedFilesWithAbsolutePath = filename;
+
+                    //code for \
+                    char c = '\\';
+                    //get last position of \ in absolute path
+                    int pos = filename.LastIndexOf(c);
+                    //cut the path at the last pos of \ => shows only the file name without absolute path
+                    string sub = filename.Substring(pos + 1);
+                    //set text for loaded files => databinding
+                    _ViewModel.loadedFiles = sub;
+                }
+               
+            }         
         }
     }
 }

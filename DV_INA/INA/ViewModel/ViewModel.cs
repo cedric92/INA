@@ -15,15 +15,13 @@ namespace INA.ViewModel
     {
         #region NotifiyPropertyChanged
 
+       
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyPropertyChanged(String info)
+        protected internal void OnPropertyChanged(string propertyname)
         {
             if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-                //NotifyPropertyChanged("name");
-            }
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
 
         #endregion
@@ -32,10 +30,26 @@ namespace INA.ViewModel
         Model.Model _Model;
         #endregion
 
+        #region Getter/Setter
         public ViewModel()
         {
             _Model = new Model.Model();
         }
+        public string loadedFiles
+        {
+            get { return _Model._loadedFiles; }
+            set {
+                _Model._loadedFiles = value;
+                OnPropertyChanged("loadedFiles");         
+                }
+        }
+
+        public string setloadedFilesWithAbsolutePath
+        {
+            set { _Model.setloadedFilesWithAbsolutePath = value; }
+        }
+        #endregion
+       
 
         internal INA.Model.Model Model
         {
@@ -51,10 +65,14 @@ namespace INA.ViewModel
 
         #region Methods
         
-        public void splitFile(string fileName)
+        public void splitFiles()
         {
-            _Model.splitFile(fileName);
+            _Model.splitFiles();
            
+        }
+        public bool compareFilePath(string s)
+        {
+            return _Model.compareFilePath(s);
         }
         #endregion
     }
