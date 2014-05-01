@@ -39,121 +39,146 @@ namespace DV_CreateFile
 
         private void btCreate_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.SaveFileDialog saveDialog = new Microsoft.Win32.SaveFileDialog();
-            saveDialog.FileName = "Document"; // Default file name
-            saveDialog.DefaultExt = ".txt"; // Default file extension
-            saveDialog.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+            int min = 0;
+            int max = 0;
 
-            string filename = null;
-
-            // Show save file dialog box
-            Nullable<bool> result = saveDialog.ShowDialog();
-
-            // Process save file dialog box results
-            if (result == true)
+            try
             {
-                // Save document
-                filename = saveDialog.FileName;
+                min = Convert.ToInt32(txtMin.Text);
+                max = Convert.ToInt32(txtMax.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Bitte geeignete Beträge eingeben.");
+                txtMax.Text = "";
+                txtMin.Text = "";
             } 
-            
-            int lines = 0;
 
-            if (Convert.ToInt32(txtLines.Text) > 0)
+            if (min < max)
             {
-                 lines = Convert.ToInt32(txtLines.Text);
-            }
-            else
-            {
-                lines = 100;
-                MessageBox.Show("Es wurde eine Datei mit 100 Zeilen erstellt.", "Information");
-            }
 
-            string extension = Path.GetExtension(saveDialog.FileName);
+                Microsoft.Win32.SaveFileDialog saveDialog = new Microsoft.Win32.SaveFileDialog();
+                saveDialog.FileName = "Document"; // Default file name
+                saveDialog.DefaultExt = ".txt"; // Default file extension
+                saveDialog.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
 
-            if (extension == ".txt")
-            {            
-                Random rnd_sum = new Random();
-               // Random rnd_acc = new Random();
+                string filename = null;
 
-                int sum = 0;
-                int value = 0;
+                // Show save file dialog box
+                Nullable<bool> result = saveDialog.ShowDialog();
 
-                if (chbBuggy.IsChecked == true)
+                // Process save file dialog box results
+                if (result == true)
                 {
-                    Random rnd_checked = new Random();
-                    int bug = rnd_checked.Next(1, lines-1);
+                    // Save document
+                    filename = saveDialog.FileName;
+                }
 
-                    using (StreamWriter sw = File.CreateText(filename))
+                int lines = 0;
+
+                if (Convert.ToInt32(txtLines.Text) > 0)
+                {
+                    lines = Convert.ToInt32(txtLines.Text);
+                }
+                else
+                {
+                    lines = 100;
+                    MessageBox.Show("Es wurde eine Datei mit 100 Zeilen erstellt.", "Information");
+                }
+
+                string extension = Path.GetExtension(saveDialog.FileName);
+
+                if (extension == ".txt")
+                {
+                    Random rnd_sum = new Random();
+                    // Random rnd_acc = new Random();
+
+                    int sum = 0;
+                    int value = 0;
+
+                    if (chbBuggy.IsChecked == true)
                     {
-                        for (int i = 0; i < lines - 1; i++)
+                        Random rnd_checked = new Random();
+                        int bug = rnd_checked.Next(1, lines - 1);
+
+                        using (StreamWriter sw = File.CreateText(filename))
                         {
-                            if (i == bug)
+                            for (int i = 0; i < lines - 1; i++)
                             {
-                                sw.WriteLine("BUG");
+                                if (i == bug)
+                                {
+                                    sw.WriteLine("BUG");
+                                }
+                                else
+                                {
+                                    value = rnd_sum.Next(min, max);
+                                    sum += value;
+
+                                    // sw.Write(rnd_acc.Next(1, 100)); 
+                                    // sw.WriteLine(" " + value.ToString());
+
+                                    sw.WriteLine(value.ToString());
+                                }
+
+                            }
+
+                            if (chbWrongamount.IsChecked == true)
+                            {
+                                sw.WriteLine(rnd_sum.Next(min, max));
                             }
                             else
                             {
-                                value = rnd_sum.Next(-1000, 1000);
+                                // sw.Write(rnd_acc.Next(1, 100));
+                                // sw.WriteLine(" " + sum * -1);
+
+                                sw.WriteLine(sum * -1);
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        using (StreamWriter sw = File.CreateText(filename))
+                        {
+                            for (int i = 0; i < lines - 1; i++)
+                            {
+                                value = rnd_sum.Next(min, max);
                                 sum += value;
 
                                 // sw.Write(rnd_acc.Next(1, 100)); 
                                 // sw.WriteLine(" " + value.ToString());
 
                                 sw.WriteLine(value.ToString());
+
+                            }
+
+                            if (chbWrongamount.IsChecked == true)
+                            {
+                                sw.WriteLine(rnd_sum.Next(min, max));
+
+                            }
+                            else
+                            {
+                                // sw.Write(rnd_acc.Next(1, 100));
+                                // sw.WriteLine(" " + sum * -1);
+
+                                sw.WriteLine(sum * -1);
                             }
 
                         }
 
-                        if (chbWrongamount.IsChecked == true)
-                        {
-                            sw.WriteLine(rnd_sum.Next(-1000, 1000));
-                        }
-                        else
-                        {
-                            // sw.Write(rnd_acc.Next(1, 100));
-                            // sw.WriteLine(" " + sum * -1);
-
-                            sw.WriteLine(sum * -1);
-                        }
-
                     }
-                }
-                else
-                {
-                    using (StreamWriter sw = File.CreateText(filename))
-                    {
-                        for (int i = 0; i < lines - 1; i++)
-                        {
-                            value = rnd_sum.Next(-1000, 1000);
-                            sum += value;
-
-                            // sw.Write(rnd_acc.Next(1, 100)); 
-                            // sw.WriteLine(" " + value.ToString());
-
-                            sw.WriteLine(value.ToString());
-
-                        }
-
-                        if (chbWrongamount.IsChecked == true)
-                        {
-                            sw.WriteLine(rnd_sum.Next(-1000, 1000));
-
-                        }
-                        else
-                        {
-                            // sw.Write(rnd_acc.Next(1, 100));
-                            // sw.WriteLine(" " + sum * -1);
-
-                            sw.WriteLine(sum * -1);
-                        }
-
-                    }
-
-                }
 
 
                     MessageBox.Show("Die Datei wurde erfolgreich erstellt.\nPfad: " + filename, "Information");
 
+                }
+
+
+                else
+                {
+                    MessageBox.Show("Bitte korrekte Werte eingeben.", "Information");
+                }
             }
        /*     else if (extension == ".xml")
             {
