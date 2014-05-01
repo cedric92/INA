@@ -4,15 +4,15 @@ INA
 #### **Modul(1)**
 
 > **Was geht?**
-> 
+> - GUI vorhanden
 > - 1 Datei einlesen + zerteilen + pruefen
-> - Dateischnipsel in MSMQ laden
-> - Inhalt der MSMQ wieder abrufen
+> - Datensaetze UND Header/Footer in die Queue 
+> - Mehr als eine Datei gleichzeitig einlesen
 
 > **To Do**
-> 
-> - VORHER KLAEREN: Datensaetze UND Header/Footer in die Queue 
-> - VORHER KLAEREN: Mehr als eine Datei gleichzeitig einlesen
+> - Liste auf der GUI die eingelesene Dateien anzeigt + Loeschmoeglichkeit
+> - Dateischnipsel in MSMQ laden
+> - Inhalt der MSMQ wieder abrufen
 > - Thema BackoutQueue: Bei Verbindungsabruch rein da
 > - BackoutQueue irgendwie neu anstossen
 
