@@ -67,7 +67,9 @@ namespace INA.Model
                     using (StreamReader sr = new StreamReader(fileName))
                     {
                         string line = "";
+
                         transactions.Add(new KeyValuePair<string, string>(fileID.ToString(), "header"));
+
                         while ((line = sr.ReadLine()) != null)
                         {
                             linecount++;
@@ -96,9 +98,11 @@ namespace INA.Model
                                 break;
                             }
                         }
+
                         transactions.Add(new KeyValuePair<string, string>(fileID.ToString(), ("footer#"+linecount)));
 
                         fileID++;
+
                         // if accordings arent balanced
                         if (sum != 0)
                         {
@@ -115,12 +119,13 @@ namespace INA.Model
 
                 catch (Exception)
                 {
-                    //nich so geil
+
 
                 }
 
 
             }
+
             //finally call startMessageQueue
             _QueueManagement.startMessageQueue(completeTransactions);
         }

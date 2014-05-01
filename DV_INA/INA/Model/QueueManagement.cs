@@ -66,12 +66,16 @@ namespace INA.Model
             MessageQueue msgQueue = GetStringMessageQueue();
 
             // serialize the message while sending
-            msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
-            
+           msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
+
+
+           string sendtoqueue = null;
 
             for (int i = 0; i < transactions.Count; i++)
             {
-                msgQueue.Send(transactions.ElementAt(i), MessageQueueTransactionType.Automatic);
+                sendtoqueue = transactions.ElementAt(i).ToString();
+                // a transaction type used for Microsoft Transaction Server (MTS) it will be used when sending or receiving the message
+                msgQueue.Send(sendtoqueue, MessageQueueTransactionType.Automatic);
             }
 
             ReadStringMessageFromQueue();
@@ -81,23 +85,24 @@ namespace INA.Model
         // read messages from queue
         private static void ReadStringMessageFromQueue()
         {
-            // Connect to the a queue on the local computer.
+            // connect to the a queue on the local computer
             MessageQueue msgQueue = GetStringMessageQueue();
 
-            // Set the formatter to indicate body contains an Order.
-            msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
+            // set the formatter to indicate body contains a string
+            msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
 
             try
             {
-                foreach (Message message in msgQueue.GetAllMessages())
+                // get messages from queue
+                Message[] msgs = msgQueue.GetAllMessages();
+
+                foreach (Message message in msgs)
                 {
-                    // write queue messages on console
-                    Console.WriteLine(message.Body.ToString());
-                    
+                    // write messages on console
+                    Console.WriteLine(message.Body);
                 }
                 // clear queue
                 msgQueue.Purge();
-
            }
 
             catch (MessageQueueException)
@@ -105,7 +110,7 @@ namespace INA.Model
                 // Handle Message Queuing exceptions.
             }
 
-            // Handle invalid serialization format. 
+            // handle invalid serialization format. 
             catch (InvalidOperationException e)
             {
                 Console.WriteLine(e.Message);
