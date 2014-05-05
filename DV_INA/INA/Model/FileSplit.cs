@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace INA.Model
 {
-  
+
     class FileSplit
     {
         #region Members
@@ -21,18 +21,18 @@ namespace INA.Model
         //completeTransactions will be 
         List<KeyValuePair<string, string>> completeTransactions = new List<KeyValuePair<string, string>>();
 
-        
+
 
         #endregion
 
         public FileSplit()
         {
-          
+
         }
 
         #region Getter/Setter
 
-       /* public List<KeyValuePair<string, string>> getTransactions
+        /* public List<KeyValuePair<string, string>> getTransactions
         {
             get { return transactions; }
         }*/
@@ -54,18 +54,40 @@ namespace INA.Model
         // split file into lines
         public void splitFile(List<string> loadedFilePaths)
         {
+            //defines the maximum number of threads
             int maxThreads = 5;
-            
+
             //defines the file id
             int fileID = 1;
 
-            for (int i = 0; i < maxThreads; i++)
+            //Thread declaration
+            switch (loadedFilePaths.Count)
             {
-                ThreadStart tStart = new ThreadStart(() => ThreadWork("s", 5));
-                Thread thread = new Thread(tStart);
-                thread.Start();
+                case 0:
+                    MessageBox.Show("No file loaded");
+                    break;
+                case 1:
+                    //Thread 1
+                    ThreadStart tStart = new ThreadStart(() => ThreadWork(loadedFilePaths.ElementAt(fileID - 1), fileID));
+                    Thread thread = new Thread(tStart);
+                    thread.Start();
+                    break;
+                default:
+                    //Thread 1
+                    ThreadStart tStartc1 = new ThreadStart(() => ThreadWork(loadedFilePaths.ElementAt(fileID - 1), fileID));
+                    Thread threadc1 = new Thread(tStartc1);
+                    threadc1.Start();
+                    fileID++;
+                    //Thread 2
+                    ThreadStart tStartc2 = new ThreadStart(() => ThreadWork(loadedFilePaths.ElementAt(fileID - 1), fileID));
+                    Thread threadc2 = new Thread(tStartc2);
+                    threadc2.Start();
+                    
+                    break;
             }
-          
+
+           
+
         }
         #endregion
         public void ThreadWork(string filePath, int fileID)
@@ -77,22 +99,23 @@ namespace INA.Model
             int sum = 0;
 
             try
+            {
+                using (StreamReader sr = new StreamReader(filePath))
                 {
-                    using (StreamReader sr = new StreamReader(filePath))
+                    string line = "";
+
+                    transactions.Add(new KeyValuePair<string, string>(fileID.ToString(), "header"));
+
+                    while ((line = sr.ReadLine()) != null)
                     {
-                        string line = "";
-
-                        transactions.Add(new KeyValuePair<string, string>(fileID.ToString(), "header"));
-
-                        while ((line = sr.ReadLine()) != null)
+                        if (line.Contains('#'))
                         {
-                            if (line.Contains('#'))
-                            {
-                                sum = 0;
-                            }
-                            
-                            line = deleteFirstLetters(line," ");
-                           
+                            sum = 0;
+                        }
+                        else
+                        {
+                            line = deleteFirstLetters(line, " ");
+
                             int value = 0;
 
                             //check if the transaction is a number
@@ -120,33 +143,32 @@ namespace INA.Model
                             }
                         }
 
-                        transactions.Add(new KeyValuePair<string, string>(fileID.ToString(), ("footer#" + 1)));
-
-                        fileID++;
-
-                        // if accordings arent balanced
-                        if (sum != 0)
-                        {
-                            MessageBox.Show("Buchung nicht ausgeglichen.\nDie Datei kann nicht verarbeitet werden!");
-                        }
-                        // if everything is ok, put into messagequeue
-                        else
-                        {
-                            completeTransactions.AddRange(transactions);
-                        }
-                        transactions.Clear();
                     }
+
+                    transactions.Add(new KeyValuePair<string, string>(fileID.ToString(), ("footer#" + fileID)));
+
+                    // if accordings arent balanced
+                    if (sum != 0)
+                    {
+                        MessageBox.Show("Buchung nicht ausgeglichen.\nDie Datei kann nicht verarbeitet werden!");
+                    }
+                    // if everything is ok, put into messagequeue
+                    else
+                    {
+                        completeTransactions.AddRange(transactions);
+                    }
+                    transactions.Clear();
                 }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
 
-                catch (Exception)
-                {
+            }
+            catch (Exception)
+            {
 
 
-                }
-
-
-            
-
+            }
             //finally call startMessageQueue
             _QueueManagement.startMessageQueue(completeTransactions);
         }
@@ -157,7 +179,7 @@ namespace INA.Model
 
             for (int i = 0; i < line.Length; i++)
             {
-                if ((line[0] != delSign[0])& !delPosOver)
+                if ((line[0] != delSign[0]) & !delPosOver)
                 {
                     line = line.Remove(0, 1);
                 }
