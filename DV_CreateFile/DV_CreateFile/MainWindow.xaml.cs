@@ -91,47 +91,55 @@ namespace DV_CreateFile
                 if (extension == ".txt")
                 {
                     Random rnd_sum = new Random();
-                    // Random rnd_acc = new Random();
+                    Random rnd_acc = new Random();
 
-                    int sum = 0;
                     int value = 0;
 
                     if (chbBuggy.IsChecked == true)
                     {
                         Random rnd_checked = new Random();
-                        int bug = rnd_checked.Next(1, lines - 1);
+                        int bug = rnd_checked.Next(1, lines);
 
                         using (StreamWriter sw = File.CreateText(filename))
                         {
+                            // Hastag Z 1
+                            sw.WriteLine("#");
+
                             for (int i = 0; i < lines - 1; i++)
                             {
+                                // Betrag
+                                value = rnd_sum.Next(min, max);
+
                                 if (i == bug)
                                 {
-                                    sw.WriteLine("BUG");
+                                    // Kto 1
+                                    sw.Write(rnd_acc.Next(1, 100));
+                                    sw.WriteLine(" " + value.ToString());
+                                    // Kto 2
+                                    sw.Write(rnd_acc.Next(1, 100));
+                                    sw.WriteLine(" BUG");
+
                                 }
                                 else
                                 {
-                                    value = rnd_sum.Next(min, max);
-                                    sum += value;
-
-                                    // sw.Write(rnd_acc.Next(1, 100)); 
-                                    // sw.WriteLine(" " + value.ToString());
-
-                                    sw.WriteLine(value.ToString());
+                                    // Kto 1
+                                    sw.Write(rnd_acc.Next(1, 100));
+                                    sw.WriteLine(" " + value.ToString());
+                                    // Kto 2
+                                    sw.Write(rnd_acc.Next(1, 100));
+                                    sw.WriteLine(" " + (-1 * value).ToString());
                                 }
 
+                                // #
+                                sw.WriteLine("#");
                             }
 
                             if (chbWrongamount.IsChecked == true)
                             {
-                                sw.WriteLine(rnd_sum.Next(min, max));
-                            }
-                            else
-                            {
-                                // sw.Write(rnd_acc.Next(1, 100));
-                                // sw.WriteLine(" " + sum * -1);
-
-                                sw.WriteLine(sum * -1);
+                                sw.Write(rnd_acc.Next(1, 100));
+                                sw.WriteLine(" " + rnd_sum.Next(min, max).ToString());
+                                // #
+                                sw.WriteLine("#");
                             }
 
                         }
@@ -140,31 +148,32 @@ namespace DV_CreateFile
                     {
                         using (StreamWriter sw = File.CreateText(filename))
                         {
-                            for (int i = 0; i < lines - 1; i++)
+                            // Hastag Z 1
+                            sw.WriteLine("#");
+
+                            for (int i = 0; i < lines; i++)
                             {
+                                // Betrag
                                 value = rnd_sum.Next(min, max);
-                                sum += value;
 
-                                // sw.Write(rnd_acc.Next(1, 100)); 
-                                // sw.WriteLine(" " + value.ToString());
+                                // Kto 1
+                                sw.Write(rnd_acc.Next(1, 100)); 
+                                sw.WriteLine(" " + value.ToString());
+                                // Kto 2
+                                sw.Write(rnd_acc.Next(1, 100));
+                                sw.WriteLine(" " + (-1*value).ToString());
 
-                                sw.WriteLine(value.ToString());
-
+                                // #
+                                sw.WriteLine("#");
                             }
 
                             if (chbWrongamount.IsChecked == true)
                             {
-                                sw.WriteLine(rnd_sum.Next(min, max));
-
+                                sw.Write(rnd_acc.Next(1, 100));
+                                sw.WriteLine(" " + rnd_sum.Next(min, max).ToString());
+                                // #
+                                sw.WriteLine("#");
                             }
-                            else
-                            {
-                                // sw.Write(rnd_acc.Next(1, 100));
-                                // sw.WriteLine(" " + sum * -1);
-
-                                sw.WriteLine(sum * -1);
-                            }
-
                         }
 
                     }

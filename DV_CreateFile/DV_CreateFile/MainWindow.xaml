@@ -8,7 +8,7 @@
             <ColumnDefinition Width="163*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Content="Zeilenanzahl:" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Width="117" Height="26"/>
+        <Label Content="Buchungen:" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Width="117" Height="26"/>
         <TextBox x:Name="txtLines" HorizontalAlignment="Left" Height="23" Margin="111,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" TextChanged="TextBox_TextChanged" Text="100" Grid.ColumnSpan="2"/>
         <Button x:Name="btCreate" Content="Erstellen" HorizontalAlignment="Left" Margin="53,108,0,0" VerticalAlignment="Top" Width="69" Click="btCreate_Click" Height="22" Grid.Column="1"/>
 
