@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading;
 using System.Windows;
+
 
 namespace INA.Model
 {
+  
     class FileSplit
     {
         #region Members
@@ -15,23 +18,24 @@ namespace INA.Model
         QueueManagement _QueueManagement = new QueueManagement();
         // list for imported lines
 
-        //string contains the file name
-        //int contains the transaction value
-        List<KeyValuePair<string, string>> transactions = new List<KeyValuePair<string, string>>();
+        //completeTransactions will be 
+        List<KeyValuePair<string, string>> completeTransactions = new List<KeyValuePair<string, string>>();
+
+        
 
         #endregion
 
         public FileSplit()
         {
-
+          
         }
 
         #region Getter/Setter
 
-        public List<KeyValuePair<string, string>> getTransactions
+       /* public List<KeyValuePair<string, string>> getTransactions
         {
             get { return transactions; }
-        }
+        }*/
 
         #endregion
 
@@ -50,21 +54,31 @@ namespace INA.Model
         // split file into lines
         public void splitFile(List<string> loadedFilePaths)
         {
-            List<KeyValuePair<string, string>> completeTransactions = new List<KeyValuePair<string, string>>();
+            int maxThreads = 5;
+            
             //defines the file id
             int fileID = 1;
 
-            foreach (var fileName in loadedFilePaths)
+            for (int i = 0; i < maxThreads; i++)
             {
-                //count each line
-                int sum = 0;
+                ThreadStart tStart = new ThreadStart(() => ThreadWork("s", 5));
+                Thread thread = new Thread(tStart);
+                thread.Start();
+            }
+          
+        }
+        #endregion
+        public void ThreadWork(string filePath, int fileID)
+        {
+            //string contains the file name
+            //int contains the transaction value
+            List<KeyValuePair<string, string>> transactions = new List<KeyValuePair<string, string>>();
 
-                //count each line in file
-                int linecount = 0;
+            int sum = 0;
 
-                try
+            try
                 {
-                    using (StreamReader sr = new StreamReader(fileName))
+                    using (StreamReader sr = new StreamReader(filePath))
                     {
                         string line = "";
 
@@ -72,9 +86,16 @@ namespace INA.Model
 
                         while ((line = sr.ReadLine()) != null)
                         {
-                            linecount++;
+                            if (line.Contains('#'))
+                            {
+                                sum = 0;
+                            }
+                            
+                            line = deleteFirstLetters(line," ");
+                           
                             int value = 0;
 
+                            //check if the transaction is a number
                             //try to parse the variable line to an int
                             if (int.TryParse(line, out value))
                             {
@@ -89,7 +110,7 @@ namespace INA.Model
                                 //clear transactions because the file is corrupt
                                 transactions.Clear();
 
-                                MessageBox.Show("Ungültiger Wert in Datei\nWert: " + line + " in Zeile " + linecount);
+                                MessageBox.Show("Ungültiger Wert in Datei\nWert: " + line + " in Zeile " + 1);
 
                                 //set sum = 0 to avoid last message box
                                 sum = 0;
@@ -99,7 +120,7 @@ namespace INA.Model
                             }
                         }
 
-                        transactions.Add(new KeyValuePair<string, string>(fileID.ToString(), ("footer#"+linecount)));
+                        transactions.Add(new KeyValuePair<string, string>(fileID.ToString(), ("footer#" + 1)));
 
                         fileID++;
 
@@ -114,7 +135,7 @@ namespace INA.Model
                             completeTransactions.AddRange(transactions);
                         }
                         transactions.Clear();
-                    }                   
+                    }
                 }
 
                 catch (Exception)
@@ -124,11 +145,32 @@ namespace INA.Model
                 }
 
 
-            }
+            
 
             //finally call startMessageQueue
             _QueueManagement.startMessageQueue(completeTransactions);
         }
-        #endregion
+
+        private string deleteFirstLetters(string line, string delSign)
+        {
+            bool delPosOver = false;
+
+            for (int i = 0; i < line.Length; i++)
+            {
+                if ((line[0] != delSign[0])& !delPosOver)
+                {
+                    line = line.Remove(0, 1);
+                }
+                else
+                {
+                    delPosOver = true;
+                }
+            }
+
+            line = line.Remove(0, 1);
+            return line;
+        }
     }
+
+
 }

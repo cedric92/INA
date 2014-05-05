@@ -15,12 +15,15 @@ namespace INA.Model
 
         private string loadedFiles = "";
         private List<string> loadedFilesWithAbsolutePath = new List<string>();
+
+   
+        
         #endregion
         
         public Model()
         {
             _FileSplit = new FileSplit();
-
+            
          
            // _QueueManagement = new QueueManagement();
         }
@@ -45,6 +48,7 @@ namespace INA.Model
         {
             set { this.loadedFilesWithAbsolutePath.Add(value); }
         }
+    
         #endregion
         
 
