@@ -19,11 +19,16 @@ namespace INA.Model
         private int ID = 0;
 
         QueueManagement _QueueManagement = new QueueManagement();
-        // list for imported lines
-
-        //completeTransactions will be 
-        List<KeyValuePair<string, string>> completeTransactions = new List<KeyValuePair<string, string>>();
-
+        internal QueueManagement QueueManagement
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
         #endregion
 
         public FileSplit()
@@ -35,16 +40,7 @@ namespace INA.Model
 
         #endregion
 
-        internal QueueManagement QueueManagement
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
+        
 
         #region Methods
         // split file into lines
@@ -54,159 +50,116 @@ namespace INA.Model
             
             foreach (var path in loadedFilePaths)
             {
-                tasks.Add(Task.Factory.StartNew(() => readFiles(path), TaskCreationOptions.LongRunning));
+                tasks.Add(Task.Factory.StartNew(() => readFile(path), TaskCreationOptions.LongRunning));
             }
 
 
             //Task.WaitAll(tasks.ToArray());
 
-            //finally call startMessageQueue
-            _QueueManagement.startMessageQueue(completeTransactions);
-
         }
         #endregion
 
-        public void readFiles(string filePath)
+        public void readFile(string filePath)
         {
             ID++;
-            //string contains the file name
-            //int contains the transaction value
-            List<KeyValuePair<string, string>> transactions = new List<KeyValuePair<string, string>>();
 
-            int sum = 0;
+            //first string defines the file id
+            //2nd string defines the transaction value
+            List<KeyValuePair<string, string>> transactionsForQueue = new List<KeyValuePair<string, string>>();
 
             try
             {
                 using (StreamReader sr = new StreamReader(filePath))
-                {
+                {  
                     string line = "";
+                    List<string> transactionBlock = new List<string>();
 
-
-                    List<string> entry = new List<string>();
-
-                    transactions.Add(new KeyValuePair<string, string>(ID.ToString(), "header"));
+                    transactionsForQueue.Add(new KeyValuePair<string, string>(ID.ToString(), "header"));
 
                     while ((line = sr.ReadLine()) != null)
                     {
-                        if (line.Contains('#'))
+                        
+                        if (!line.Contains('#'))
                         {
-                           // so schonmal nicht :o)
-                            if (checkTextLines(entry))
-	                        {
-		                        transactions.
-	                        }
+                            string s = deleteFirstLetters(line, " ");
+                            transactionBlock.Add(s);
+
+                           /* //fügt transaktions-wert + blz hinzu
+                            transactionsForQueue.Add(new KeyValuePair<string, string>(ID.ToString(), line));
+                            */
                             
-                            entry.Clear();
+                            //fügt nur den transaktions-wert hinzu (ohne blz)
+                            transactionsForQueue.Add(new KeyValuePair<string, string>(ID.ToString(), s));
+                             
                         }
                         else
                         {
-                            entry.Add(deleteFirstLetters(line, " "));
 
-
-                                // transactions.Add(value);
-                                transactions.Add(new KeyValuePair<string, string>(ID.ToString(), value.ToString()));
-
-                        
-                                //clear transactions because the file is corrupt
-                                transactions.Clear();
-
-                                MessageBox.Show("Ungültiger Wert in Datei\nWert: " + line + " in Zeile " + 1);
-
-                                //set sum = 0 to avoid last message box
-                                sum = 0;
-
-                                //stop loop
-                                break;
-                            
+                            if (transactionBlock.Count > 0)
+                            {
+                                if (! checkTextLines(transactionBlock, filePath))
+                                {
+                                    transactionBlock.Clear();
+                                    transactionsForQueue.Clear();
+                                    break;                     
+                                }
+                                else
+                                {
+                                    
+                                } 
+                            }
                         }
-
                     }
 
-                    transactions.Add(new KeyValuePair<string, string>(ID.ToString(), ("footer#" + ID)));
-
-                    // if accordings arent balanced
-                    if (sum != 0)
+                    if (transactionsForQueue.Count()>0)
                     {
-                        MessageBox.Show("Buchung nicht ausgeglichen.\nDie Datei kann nicht verarbeitet werden!");
+                        transactionsForQueue.Add(new KeyValuePair<string, string>(ID.ToString(), ("footer#" + ID)));
+
+                        _QueueManagement.startMessageQueue(transactionsForQueue);
+                        transactionsForQueue.Clear();  
                     }
-                    // if everything is ok, put into messagequeue
-                    else
-                    {
-                        completeTransactions.AddRange(transactions);
-                    }
-                    transactions.Clear();
+                      
                 }
             }
             catch (ArgumentOutOfRangeException)
             {
-
             }
             catch (Exception)
             {
-
-
             }
-
         }
 
-        private bool checkTextLines(List<string> line)
+        //check if the given entries in the list are valid. fileName is used to show errormessages
+        private bool checkTextLines(List<string> transactionBlock, string fileName)
         {
+            int sum = 0;
+            int value = 0;
+            foreach (var item in transactionBlock)
+            {
+                //check if the line is a number
+                if (int.TryParse(item, out value))
+                {
+                    sum += value;
+                }
+                else
+                {
+                    MessageBox.Show("Error: file "+getFileNameFromPath(fileName)+" contains not a number");
+                    return false;
+                }
+            }
+            //check if the transaction block is balanced ( sum = 0)
+            if (sum != 0)
+            {
+                MessageBox.Show("Error: file " + getFileNameFromPath(fileName) + " is not balanced");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
-           if (line.Contains('#'))
-           {
-               return false;
-           }
-                        else
-                        {
-                            line = deleteFirstLetters(line, " ");
-
-                            int value = 0;
-
-                            //check if the transaction is a number
-                            //try to parse the variable line to an int
-                            if (int.TryParse(line, out value))
-                            {
-                                // transactions.Add(value);
-                                transactions.Add(new KeyValuePair<string, string>(ID.ToString(), value.ToString()));
-
-                                //add value to sum to check if the file is balanced
-                                sum += value;
-                            }
-                            else
-                            {
-                                //clear transactions because the file is corrupt
-                                transactions.Clear();
-
-                                MessageBox.Show("Ungültiger Wert in Datei\nWert: " + line + " in Zeile " + 1);
-
-                                //set sum = 0 to avoid last message box
-                                sum = 0;
-
-                                //stop loop
-                                break;
-                            }
-                        }
-
-                    }
-
-                    transactions.Add(new KeyValuePair<string, string>(ID.ToString(), ("footer#" + ID)));
-
-                    // if accordings arent balanced
-                    if (sum != 0)
-                    {
-                        MessageBox.Show("Buchung nicht ausgeglichen.\nDie Datei kann nicht verarbeitet werden!");
-                    }
-                    // if everything is ok, put into messagequeue
-                    else
-                    {
-                        completeTransactions.AddRange(transactions);
-                    }
-                    transactions.Clear();
-
-            return true;
-       
-}
-
+        //delete first letters of the given string until the given param delSign
         private string deleteFirstLetters(string line, string delSign)
         {
             bool delPosOver = false;
@@ -225,6 +178,19 @@ namespace INA.Model
 
             line = line.Remove(0, 1);
             return line;
+        }
+
+        //returns only the file name according to the given param filePath
+        private string getFileNameFromPath(string filePath)
+        {
+            char c = '\\';
+            //get last position of \ in absolute path
+            int pos = filePath.LastIndexOf(c);
+            //cut the path at the last pos of \ => shows only the file name without absolute path
+            string sub = filePath.Substring(pos + 1);
+            //set text for loaded files => databinding
+
+            return sub;
         }
     }
 
