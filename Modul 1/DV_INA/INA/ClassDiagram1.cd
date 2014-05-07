@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="INA.MainWindow" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAEAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>View\MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ViewModel" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="INA.Model.FileSplit" Collapsed="true">
+    <Position X="4.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAIAAAAAAASgAA=</HashCode>
+      <FileName>Model\FileSplit.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="QueueManagement" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="INA.Model.Model" Collapsed="true">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAQAAAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Model\Model.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="FileSplit" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="INA.Model.MultiThreading" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\MultiThreading.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="INA.Model.QueueManagement" Collapsed="true">
+    <Position X="4" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAIAAAABABAAAAAAAAQAAAAAAAAAABAA=</HashCode>
+      <FileName>Model\QueueManagement.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="MultiThreading" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="INA.ViewModel.ViewModel" Collapsed="true">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAACAIA=</HashCode>
+      <FileName>ViewModel\ViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Model" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
