@@ -92,6 +92,7 @@ namespace DV_CreateFile
                 {
                     Random rnd_sum = new Random();
                     Random rnd_acc = new Random();
+                    Random rnd_entries = new Random();
 
                     int value = 0;
 
@@ -105,43 +106,57 @@ namespace DV_CreateFile
                             // Hastag Z 1
                             sw.WriteLine("#");
 
-                            for (int i = 0; i < lines - 1; i++)
+                            for (int i = 0; i < lines; i++)
                             {
-                                // Betrag
-                                value = rnd_sum.Next(min, max);
+                                int sum = 0;
+                                int no_acc = rnd_entries.Next(2, 5);
 
                                 if (i == bug)
                                 {
-                                    // Kto 1
-                                    sw.Write(rnd_acc.Next(1, 100));
-                                    sw.WriteLine(" " + value.ToString());
-                                    // Kto 2
-                                    sw.Write(rnd_acc.Next(1, 100));
-                                    sw.WriteLine(" BUG");
+                                    for (int j = 0; j < no_acc - 1; j++)
+                                    {
+                                        value = rnd_sum.Next(min, max);
+                                        // Kto + Betrag
+                                        sw.Write(rnd_acc.Next(1, 100));
+                                        sw.WriteLine(" " + value.ToString());
+                                        sum += value;
+                                    }
 
+                                    // Kto + Betrag
+                                    sw.Write(rnd_acc.Next(1, 100));
+                                    sw.WriteLine(" " + "BUG");
+
+                                    // #
+                                    sw.WriteLine("#");
                                 }
                                 else
                                 {
-                                    // Kto 1
+                                    for (int j = 0; j < no_acc - 1; j++)
+                                    {
+                                        value = rnd_sum.Next(min, max);
+                                        // Kto + Betrag
+                                        sw.Write(rnd_acc.Next(1, 100));
+                                        sw.WriteLine(" " + value.ToString());
+                                        sum += value;
+                                    }
+
+                                    // Kto + Betrag
                                     sw.Write(rnd_acc.Next(1, 100));
-                                    sw.WriteLine(" " + value.ToString());
-                                    // Kto 2
-                                    sw.Write(rnd_acc.Next(1, 100));
-                                    sw.WriteLine(" " + (-1 * value).ToString());
+                                    sw.WriteLine(" " + (sum * -1).ToString());
+
+                                    // #
+                                    sw.WriteLine("#");
                                 }
 
-                                // #
-                                sw.WriteLine("#");
-                            }
+                                if (chbWrongamount.IsChecked == true)
+                                {
+                                    sw.Write(rnd_acc.Next(1, 100));
+                                    sw.WriteLine(" " + rnd_sum.Next(min, max).ToString());
+                                    // #
+                                    sw.WriteLine("#");
+                                }
 
-                            if (chbWrongamount.IsChecked == true)
-                            {
-                                sw.Write(rnd_acc.Next(1, 100));
-                                sw.WriteLine(" " + rnd_sum.Next(min, max).ToString());
-                                // #
-                                sw.WriteLine("#");
                             }
-
                         }
                     }
                     else
@@ -153,15 +168,21 @@ namespace DV_CreateFile
 
                             for (int i = 0; i < lines; i++)
                             {
-                                // Betrag
-                                value = rnd_sum.Next(min, max);
+                                int no_acc = rnd_entries.Next(2, 5);
+                                int sum = 0;
 
-                                // Kto 1
-                                sw.Write(rnd_acc.Next(1, 100)); 
-                                sw.WriteLine(" " + value.ToString());
-                                // Kto 2
+                                for (int j = 0; j < no_acc - 1; j++)
+                                {
+                                    value = rnd_sum.Next(min, max);
+                                    // Kto + Betrag
+                                    sw.Write(rnd_acc.Next(1, 100));
+                                    sw.WriteLine(" " + value.ToString());
+                                    sum += value;
+                                }
+
+                                // Kto + Betrag
                                 sw.Write(rnd_acc.Next(1, 100));
-                                sw.WriteLine(" " + (-1*value).ToString());
+                                sw.WriteLine(" " + (sum * -1).ToString());
 
                                 // #
                                 sw.WriteLine("#");
