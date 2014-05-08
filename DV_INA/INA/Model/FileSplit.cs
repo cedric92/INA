@@ -124,21 +124,23 @@ namespace INA.Model
             int sum = 0;
             int value = 0;
 
+            bool check = false;
+
             foreach (var line in transactionBlock)
             {
                 //try to parse to an int
                 if (int.TryParse(deleteFirstLetters(line.Value, " "), out value))
                 {
                     sum += value;
+                    check = true;
                 }
                 else
                 {
-                    writeToFile(line.ToString());
+                    writeToFile("ERROR: " + line.ToString() + Environment.NewLine);
 
                   /*  errorTransactions.Add(new KeyValuePair<int, string>( transactionBlock.ElementAt(0).Key, "#"));
                     errorTransactions.AddRange(transactionBlock);*/
-                    
-                    return false;
+                    check = false;
                 }
             }
             //check if the transaction block is balanced (sum = 0)
@@ -146,20 +148,18 @@ namespace INA.Model
             {
                 foreach (var line in transactionBlock)
                 {
-                    writeToFile(line.ToString());   
+                    writeToFile("ERROR: " + line.ToString() + Environment.NewLine);   
                 }
-                
 /*
                 errorTransactions.Add(new KeyValuePair<int, string>(transactionBlock.ElementAt(0).Key, "#"));
                 errorTransactions.AddRange(transactionBlock);
  */
+                check = false;
+            }
 
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+
+
+            return check;
         }
 
         //delete first letters of the given string until the given param delSign
@@ -201,7 +201,9 @@ namespace INA.Model
 
         private void writeToFile(string message)
         {
-            string path = Environment.ExpandEnvironmentVariables("%USERPROFILE%") + @"\Desktop";  
+           string path = Path.Combine((Environment.ExpandEnvironmentVariables("%USERPROFILE%") + @"\Desktop"), "Log.txt");
+            //string path = Path.GetTempPath();
+            //string path = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
 
             // This text is added only once to the file.
             if (!File.Exists(path))
