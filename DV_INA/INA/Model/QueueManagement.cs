@@ -9,35 +9,24 @@ using System.Windows;
 
 namespace INA.Model
 {
-    // serializable wg xml formatter
+    // serializable due to xml formatter
     [Serializable()]
     class QueueManagement
     {
-        #region Members
+    #region Members
 
         // generate new queue
-        public Queue<string> queue = null;
+        Queue<string> queue = null;
 
-        #endregion
+    #endregion
 
         public QueueManagement()
         {
             this.queue = new Queue<string>();
         }
 
-        internal MultiThreading MultiThreading
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-
         // start 
-        public void startMessageQueue(List<KeyValuePair<string, string>> transactions)
+        public void startMessageQueue(string transactions)
         {
             SendStringMessageToQueue(transactions);
         }
@@ -60,7 +49,7 @@ namespace INA.Model
         }
 
         // send messages to queue
-        private static void SendStringMessageToQueue(List<KeyValuePair<string, string>> transactions)
+        private static void SendStringMessageToQueue(string transactions)
         {
 
             MessageQueue msgQueue = GetStringMessageQueue();
@@ -68,29 +57,32 @@ namespace INA.Model
             // serialize the message while sending
            msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
 
-
-           string sendtoqueue = null;
-
-            for (int i = 0; i < transactions.Count; i++)
-            {
-                sendtoqueue = transactions.ElementAt(i).ToString();
-                // a transaction type used for Microsoft Transaction Server (MTS) it will be used when sending or receiving the message
-                msgQueue.Send(sendtoqueue, MessageQueueTransactionType.Automatic);
-            }
-
-            ReadStringMessageFromQueue();
+           // a transaction type used for Microsoft Transaction Server (MTS) it will be used when sending or receiving the message
+           msgQueue.Send(transactions, MessageQueueTransactionType.Automatic);
+          Console.WriteLine("Gesendet: " + transactions);
 
         }
 
-        // read messages from queue
-        private static void ReadStringMessageFromQueue()
+        public static void clearMessageQueue()
         {
             // connect to the a queue on the local computer
             MessageQueue msgQueue = GetStringMessageQueue();
+            msgQueue.Purge();
+        }
 
+        // FEHLERHAFT: Abruf teilw. doppelt oder gar nicht bzw wenn Queue nicht richtig geleert 
+        // wurde noch Altdaten die beim kommenden Start angezeigt werden
+        // METHODE IST KEIN TEIL VON MODUL 1, damit sollte nur Programmablauf getestet werden!!!!!
+        // read messages from queue
+        public static void ReceiveStringMessageFromQueue()
+        {
+            // connect to the a queue on the local computer
+            MessageQueue msgQueue = GetStringMessageQueue();
+            
             // set the formatter to indicate body contains a string
             msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
-
+            
+            
             try
             {
                 // get messages from queue
@@ -117,7 +109,6 @@ namespace INA.Model
             }
 
             // Catch other exceptions as necessary. 
-
             return;
         }
 

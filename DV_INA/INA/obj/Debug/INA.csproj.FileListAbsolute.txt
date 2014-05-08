@@ -53,5 +53,4 @@ C:\Users\getow_000\Documents\GitHub\INA\DV_INA\INA\obj\Debug\INA.csproj.Generate
 C:\Users\Woldemar\Documents\GitHub\INA\DV_INA\INA\bin\Debug\INA.exe.config
 C:\Users\Woldemar\Documents\GitHub\INA\DV_INA\INA\obj\Debug\INA.exe
 C:\Users\Woldemar\Documents\GitHub\INA\DV_INA\INA\obj\Debug\INA.pdb
-C:\Users\getow_000\Documents\GitHub\INA\DV_INA\INA\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\getow_000\Documents\GitHub\INA\DV_INA\INA\obj\Debug\INA_MarkupCompile.lref

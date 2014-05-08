@@ -65,13 +65,8 @@ namespace INA
         int i = 0;
         private void btBeenden_Click(object sender, RoutedEventArgs e)
         {
-            /*i++;
-            ObservableCollection<string> tmp = new ObservableCollection<string>();
-            for (int k = 0; k < i; k++)
-            {
-                tmp.Add(i.ToString());  
-            }        
-            _ViewModel._testList = tmp;*/
+
+            this.Close();
         }
 
         private void btOpenFile_Click(object sender, RoutedEventArgs e)
