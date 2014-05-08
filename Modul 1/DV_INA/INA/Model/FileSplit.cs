@@ -7,7 +7,6 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 
-
 namespace INA.Model
 {
 
@@ -23,10 +22,14 @@ namespace INA.Model
 
     #endregion
 
+    #region Constructor
+
         public FileSplit()
         {
 
-        }    
+        }
+
+    #endregion
 
     #region Methods
 
@@ -36,18 +39,17 @@ namespace INA.Model
             // file id for  queue
             int id = 0;
             
-            // create new task for every file
+            // create new task
             foreach (var path in loadedFilePaths)
             {
-                // ...
-                Task.Factory.StartNew(() => readFile(path, id++), TaskCreationOptions.LongRunning);
+                Task.Factory.StartNew(() => readFile(path, id++));
             }
 
             // show messages from messagequeue
-           QueueManagement.ReceiveStringMessageFromQueue();
+           // QueueManagement.ReceiveStringMessageFromQueue();
         }
 
-        // import an check files
+        // import and check files
         public void readFile(string filePath, int id)
         {           
             try
@@ -80,14 +82,12 @@ namespace INA.Model
                                 {
                                     // if file is corrupt add transaction to error-list
                                     errorTransactions.AddRange(transactionBlock);
-                                    // clear transactionBlock
                                     transactionBlock.Clear();
                                 }
-                                else // check was successful
+                                else
                                 {
                                     foreach (var t in transactionBlock)
 	                                {
-                                        // count to show number of lines in footer
                                         count++;
                                         // send string to queue
                                         _QueueManagement.startMessageQueue(t.ToString());
@@ -156,8 +156,8 @@ namespace INA.Model
 
             for (int i = 0; i < line.Length; i++)
             {
-                // delete chars until delSign
-                if ((line[0] != delSign[0]) & !delPosOver)
+                // delete chars until delSign (space)
+                if ((line[0] != delSign[0]) && !delPosOver)
                 {
                     line = line.Remove(0, 1);
                 }
@@ -182,7 +182,6 @@ namespace INA.Model
             int pos = filePath.LastIndexOf(c);
             //cut the path at the last pos of \ => shows only the file name without absolute path
             string sub = filePath.Substring(pos + 1);
-            //set text for loaded files => databinding
 
             return sub;
         }

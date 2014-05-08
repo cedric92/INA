@@ -59,7 +59,7 @@ namespace INA.Model
 
            // a transaction type used for Microsoft Transaction Server (MTS) it will be used when sending or receiving the message
            msgQueue.Send(transactions, MessageQueueTransactionType.Automatic);
-          // Console.WriteLine("Gesendet: " + transactions);
+          Console.WriteLine("Gesendet: " + transactions);
 
         }
 
@@ -70,6 +70,9 @@ namespace INA.Model
             msgQueue.Purge();
         }
 
+        // FEHLERHAFT: Abruf teilw. doppelt oder gar nicht bzw wenn Queue nicht richtig geleert 
+        // wurde noch Altdaten die beim kommenden Start angezeigt werden
+        // METHODE IST KEIN TEIL VON MODUL 1, damit sollte nur Programmablauf getestet werden!!!!!
         // read messages from queue
         public static void ReceiveStringMessageFromQueue()
         {
