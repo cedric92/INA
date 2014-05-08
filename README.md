@@ -12,28 +12,31 @@ INA
 > - Inhalt der MSMQ wieder abrufen
 
 > **To Do**
-> - Liste auf der GUI die eingelesene Dateien anzeigt + Loeschmoeglichkeit
-> - Thema BackoutQueue: Bei Verbindungsabruch rein da
-> - BackoutQueue irgendwie neu anstossen
+> - Neues Pattern: Pipes + Filters
+> - Mehr als einen Buchungssatz
+> - Fehlerhafte Buchungssaetze in Log-Datei speichen
+> - Grundzuege Ladebalken
+> - string[] words = stringname.Split(" ");
+> - Fehlermeldungen: Log GUI
+
 
 #### **Modul(2)**
 
 > **Was geht?**
-> 
 > - ...
 
 > **To Do**
-> 
+> - Thema BackoutQueue: Bei Verbindungsabruch rein da
+> - BackoutQueue irgendwie neu anstossen 
 > - MultiThreading: Daten aus Queue laden 
 > - Verbindung zur Datenbank
 > - Diverse Pruefungen
+> - logging framework
 
 #### **Modul(3)**
 
 > **Was geht?**
-> 
 > - ...
 
 > **To Do**
-> 
 > - Daten in Datenbank schreiben
