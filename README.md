@@ -10,14 +10,14 @@ INA
 > - Mehr als eine Datei gleichzeitig einlesen
 > - Dateischnipsel in MSMQ laden
 > - Inhalt der MSMQ wieder abrufen
+> - Mehr als einen Buchungssatz
+> - Fehlerhafte Buchungssaetze in Log-Datei speichen
 
 > **To Do**
 > - Neues Pattern: Pipes + Filters
-> - Mehr als einen Buchungssatz
-> - Fehlerhafte Buchungssaetze in Log-Datei speichen
 > - Grundzuege Ladebalken
 > - string[] words = stringname.Split(" ");
-> - Fehlermeldungen: Log GUI
+> - Fehlermeldungen: Log GUI (Observer?)
 
 
 #### **Modul(2)**
