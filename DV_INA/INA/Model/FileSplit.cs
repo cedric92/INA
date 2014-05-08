@@ -40,8 +40,6 @@ namespace INA.Model
 
         #endregion
 
-        
-
         #region Methods
         // split file into lines
         public void splitFile(List<string> loadedFilePaths)
@@ -57,7 +55,7 @@ namespace INA.Model
             //Task.WaitAll(tasks.ToArray());
 
         }
-        #endregion
+        
 
         public void readFile(string filePath)
         {
@@ -129,6 +127,10 @@ namespace INA.Model
             }
         }
 
+        #endregion
+
+        #region Helpers     
+
         //check if the given entries in the list are valid. fileName is used to show errormessages
         private bool checkTextLines(List<string> transactionBlock, string fileName)
         {
@@ -192,6 +194,7 @@ namespace INA.Model
 
             return sub;
         }
+        #endregion
     }
 
 

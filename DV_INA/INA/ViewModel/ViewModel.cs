@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using INA.Model;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 
 
@@ -35,15 +36,19 @@ namespace INA.ViewModel
         {
             _Model = new Model.Model();
         }
-        public string loadedFiles
+      
+        //to delete
+        public ObservableCollection<string> _testList
         {
-            get { return _Model._loadedFiles; }
-            set {
-                _Model._loadedFiles = value;
-                OnPropertyChanged("loadedFiles");         
-                }
+            get { return _Model._testList; }
+            set
+            {
+                _Model._testList = value;
+                OnPropertyChanged("_testList");
+            }
         }
-
+      
+        
         public string setloadedFilesWithAbsolutePath
         {
             set { _Model.setloadedFilesWithAbsolutePath = value; }

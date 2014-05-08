@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using INA.ViewModel;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace INA
 {
@@ -28,8 +29,11 @@ namespace INA
         #region Members
         ViewModel.ViewModel _ViewModel;
         string filename="";
+        ObservableCollection<string> tmp = new ObservableCollection<string>();
         #endregion
+
        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -57,10 +61,17 @@ namespace INA
 
             _ViewModel.splitFiles();
         }
-       
+
+        int i = 0;
         private void btBeenden_Click(object sender, RoutedEventArgs e)
         {
-            
+            /*i++;
+            ObservableCollection<string> tmp = new ObservableCollection<string>();
+            for (int k = 0; k < i; k++)
+            {
+                tmp.Add(i.ToString());  
+            }        
+            _ViewModel._testList = tmp;*/
         }
 
         private void btOpenFile_Click(object sender, RoutedEventArgs e)
@@ -100,7 +111,11 @@ namespace INA
                     //cut the path at the last pos of \ => shows only the file name without absolute path
                     string sub = filename.Substring(pos + 1);
                     //set text for loaded files => databinding
-                    _ViewModel.loadedFiles = sub;
+                  
+                    //_ViewModel.loadedFiles = sub;
+                
+                    tmp.Add(sub);  
+                    _ViewModel._testList = tmp;
                 }
                
             }         
