@@ -81,7 +81,8 @@ namespace INA.Model
                                 if (!checkTextLines(transactionBlock, filePath))
                                 {
                                     // if file is corrupt add transaction to error-list
-                                    errorTransactions.AddRange(transactionBlock);
+                                 // errorTransactions.Add(new KeyValuePair<int, string>(transactionBlock.ElementAt(0).Key, "#"));
+                                 //   errorTransactions.AddRange(transactionBlock);
                                     transactionBlock.Clear();
                                 }
                                 else
@@ -109,8 +110,9 @@ namespace INA.Model
             catch (ArgumentOutOfRangeException)
             {
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
             }
 
         }
@@ -131,16 +133,27 @@ namespace INA.Model
                 }
                 else
                 {
-                 //   MessageBox.Show("Error in File " + getFileNameFromPath(fileName) + ": " + deleteFirstLetters(line.Value, " ") 
-                  //      + " is not an int.\nSkipped concerned accounting record.");
+                    writeToFile(line.ToString());
+
+                  /*  errorTransactions.Add(new KeyValuePair<int, string>( transactionBlock.ElementAt(0).Key, "#"));
+                    errorTransactions.AddRange(transactionBlock);*/
+                    
                     return false;
                 }
             }
             //check if the transaction block is balanced (sum = 0)
             if (sum != 0)
             {
-             //   MessageBox.Show("Error in File " + getFileNameFromPath(fileName) 
-             //       + ": Sum is not balanced.\nSkipped concerned accounting record.");
+                foreach (var line in transactionBlock)
+                {
+                    writeToFile(line.ToString());   
+                }
+                
+/*
+                errorTransactions.Add(new KeyValuePair<int, string>(transactionBlock.ElementAt(0).Key, "#"));
+                errorTransactions.AddRange(transactionBlock);
+ */
+
                 return false;
             }
             else
@@ -184,6 +197,25 @@ namespace INA.Model
             string sub = filePath.Substring(pos + 1);
 
             return sub;
+        }
+
+        private void writeToFile(string message)
+        {
+            string path = Environment.ExpandEnvironmentVariables("%USERPROFILE%") + @"\Desktop";  
+
+            // This text is added only once to the file.
+            if (!File.Exists(path))
+            {
+                // Create a file to write to.
+                File.WriteAllText(path, message);
+            }
+            else
+            {
+                File.AppendAllText(path, message);
+            }
+
+            Console.WriteLine("Error Message logged to file ");
+            
         }
     
     #endregion
