@@ -62,7 +62,7 @@ namespace INA
             _ViewModel.splitFiles();
         }
 
-        int i = 0;
+        
         private void btBeenden_Click(object sender, RoutedEventArgs e)
         {
 

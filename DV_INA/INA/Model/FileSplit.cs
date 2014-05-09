@@ -46,7 +46,7 @@ namespace INA.Model
             }
 
             // show messages from messagequeue
-           // QueueManagement.ReceiveStringMessageFromQueue();
+           QueueManagement.ReceiveStringMessageFromQueue();
         }
 
         // import and check files
