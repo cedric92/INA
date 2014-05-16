@@ -32,8 +32,6 @@ namespace INA
         ObservableCollection<string> tmp = new ObservableCollection<string>();
         #endregion
 
-       
-
         public MainWindow()
         {
             InitializeComponent();
@@ -58,7 +56,6 @@ namespace INA
         private void Button_ClickStart(object sender, RoutedEventArgs e)
         {
             //call method splitFile which splits the chosen file according to the fileNam
-
             _ViewModel.splitFiles();
         }
 

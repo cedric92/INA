@@ -12,26 +12,21 @@ INA
 > - Inhalt der MSMQ wieder abrufen
 > - Mehr als einen Buchungssatz
 > - Fehlerhafte Buchungssaetze in Log-Datei speichen
+> - Neues Pattern: Pipes + Filters
+> - string[] words = stringname.Split(" ");
 
 > **To Do**
-> - Neues Pattern: Pipes + Filters
 > - Grundzuege Ladebalken
-> - string[] words = stringname.Split(" ");
 > - Fehlermeldungen: Log GUI (Observer?)
-
 
 #### **Modul(2)**
 
 > **Was geht?**
-> - ...
+> Threads horchen an MSMQ, Abarbeitung nacheinander (leider)
 
 > **To Do**
-> - Thema BackoutQueue: Bei Verbindungsabruch rein da
-> - BackoutQueue irgendwie neu anstossen 
-> - MultiThreading: Daten aus Queue laden 
-> - Verbindung zur Datenbank
-> - Diverse Pruefungen
-> - logging framework
+> - Threads sollen PARALLEL einlesen
+> - Thema BackoutQueue
 
 #### **Modul(3)**
 
@@ -39,4 +34,7 @@ INA
 > - ...
 
 > **To Do**
+> - Verbindung zur Datenbank
+> - Diverse Pruefungen
+> - logging framework
 > - Daten in Datenbank schreiben

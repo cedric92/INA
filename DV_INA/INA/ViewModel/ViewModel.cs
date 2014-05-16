@@ -15,8 +15,7 @@ namespace INA.ViewModel
     public class ViewModel : INotifyPropertyChanged
     {
         #region NotifiyPropertyChanged
-
-       
+ 
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected internal void OnPropertyChanged(string propertyname)

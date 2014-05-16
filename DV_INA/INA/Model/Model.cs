@@ -26,11 +26,7 @@ namespace INA.Model
         
         public Model()
         {
-
             _FileSplit = new FileSplit();
-            
-         
-           // _QueueManagement = new QueueManagement();
         }
         #region Getter/Setter
         internal FileSplit FileSplit
@@ -64,8 +60,6 @@ namespace INA.Model
             }
         }
     */
-
-
         #region Methods
 
         public void splitFiles()

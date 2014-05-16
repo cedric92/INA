@@ -17,14 +17,12 @@ namespace INA.Model
 
         // generate new queue
         Queue<string> queue = null;
-       
 
     #endregion
 
         public QueueManagement()
         {
-            this.queue = new Queue<string>();
-            
+            this.queue = new Queue<string>(); 
         }
 
         internal MultiTasking MultiTasking
@@ -45,10 +43,10 @@ namespace INA.Model
         }
 
         // create queue + queue name
-        private static MessageQueue GetStringMessageQueue()
+        public static MessageQueue GetStringMessageQueue()
         {
             MessageQueue msgQueue = null;
-            string queueName = @".\private$\MyStringQueue";
+            string queueName = @".\private$\INAqueue";
 
             if (!MessageQueue.Exists(queueName))
             {
@@ -64,7 +62,6 @@ namespace INA.Model
         // send messages to queue
         private static void SendStringMessageToQueue(string transactions)
         {
-
             MessageQueue msgQueue = GetStringMessageQueue();
 
             // serialize the message while sending
@@ -72,65 +69,6 @@ namespace INA.Model
 
            // a transaction type used for Microsoft Transaction Server (MTS) it will be used when sending or receiving the message
            msgQueue.Send(transactions, MessageQueueTransactionType.Automatic);
-        //  Console.WriteLine("Gesendet: " + transactions);
-
         }
-
-        public static void clearMessageQueue()
-        {
-            // connect to the a queue on the local computer
-            MessageQueue msgQueue = GetStringMessageQueue();
-            msgQueue.Purge();
-        }
-
-        // FEHLERHAFT: Abruf teilw. doppelt oder gar nicht bzw wenn Queue nicht richtig geleert 
-        // wurde noch Altdaten die beim kommenden Start angezeigt werden
-        // METHODE IST KEIN TEIL VON MODUL 1, damit sollte nur Programmablauf getestet werden!!!!!
-        // read messages from queue
-        public static void ReceiveStringMessageFromQueue()
-        {
-
-             MultiTasking mt = new MultiTasking();
-
-            
-            /*  // connect to the a queue on the local computer
-              MessageQueue msgQueue = GetStringMessageQueue();
-            
-              // set the formatter to indicate body contains a string
-              msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
-            
-            
-              try
-              {
-                  // get messages from queue
-                  Message[] msgs = msgQueue.GetAllMessages();
-
-                  foreach (Message message in msgs)
-                  {
-                      // write messages on console
-                      Console.WriteLine(message.Body);
-                  }
-                  // clear queue
-                  msgQueue.Purge();
-             }
-
-              catch (MessageQueueException)
-              {
-                  // Handle Message Queuing exceptions.
-              }
-
-              // handle invalid serialization format. 
-              catch (InvalidOperationException e)
-              {
-                  Console.WriteLine(e.Message);
-              }
-
-              // Catch other exceptions as necessary. 
-              return;
-             * 
-             * */
-        }
-           
-
     }
 }

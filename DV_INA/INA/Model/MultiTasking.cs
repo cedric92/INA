@@ -13,34 +13,57 @@ namespace INA.Model
     [Serializable()]
     class MultiTasking
     {
+        MessageQueue queue = QueueManagement.GetStringMessageQueue();
 
         public MultiTasking()
         {
             startTasks();
         }
 
-        //Todo: while(true) läuft immer weiter => abbruch
-
         public void startTasks()
         {
-            string queueName = @".\private$\MyStringQueue";
 
-            MessageQueue queue = new MessageQueue(queueName);
             // set the formatter to indicate body contains a string
             queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
 
-            queue.ReceiveCompleted += new ReceiveCompletedEventHandler(createDataQuery);
-
-            Parallel.ForEach(Enumerable.Range(0, 10), (i) =>
-            {
-                listen(queue);
-            });
+            // define eventhandler for msmq
+            queue.ReceiveCompleted += new ReceiveCompletedEventHandler(myReceiveCompleted);
+            // start listening
+           queue.BeginReceive();     
         }
-        private void listen(MessageQueue queue)
+
+        // eventhandler (there are new messages)
+        private void myReceiveCompleted(Object source, ReceiveCompletedEventArgs asyncResult)
         {
             try
-            { 
+            {
+                // get new messages from queue
+                Message msg = queue.EndReceive(asyncResult.AsyncResult);
+
+                // Process each message on a separate thread
+                // This will immediately queue all items on the threadpool,
+                // so there may be more threads spawned than you really want
+                // Change how many items are allowed to process concurrently using ThreadPool.SetMaxThreads()
+                System.Threading.ThreadPool.QueueUserWorkItem(new WaitCallback(processQueueMessage), msg);
+              
+                // Restart the asynchronous receive operation
                 queue.BeginReceive();
+            }
+            catch (MessageQueueException)
+            {
+                // Handle sources of MessageQueueException.
+            }
+
+        }
+
+        // one thread processes one message
+        private void processQueueMessage(object message)
+        {
+            Message msg = (Message)message;
+
+            try
+            {
+                Console.WriteLine(msg.Body.ToString());
             }
             catch (MessageQueueException mqex)
             {
@@ -52,19 +75,6 @@ namespace INA.Model
             }
         }
 
-        private void createDataQuery(Object source, ReceiveCompletedEventArgs asyncResult)
-        {
-            string queueName = @".\private$\MyStringQueue";
-            MessageQueue queue = new MessageQueue(queueName);
 
-            Message msg = queue.EndReceive(asyncResult.AsyncResult);
-
-            //do work
-
-            queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
-            Console.WriteLine(msg.Body.ToString());
-
-            listen(queue);
-        }
     }
 }
