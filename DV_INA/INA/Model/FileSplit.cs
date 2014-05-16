@@ -50,11 +50,17 @@ namespace INA.Model
             // file id for  queue
             int id = 0;
             
-            // create new task
+           /* // create new task // not optimal version... parallel is much more efficient
             foreach (var path in loadedFilePaths)
             {
                 Task.Factory.StartNew(() => readFile(path, id++));
-            }
+            }*/
+            /*Info für Parallel:
+             * http://stackoverflow.com/questions/5009181/parallel-foreach-vs-task-factory-startnew
+             * */
+
+            Parallel.ForEach<string>(loadedFilePaths, path => readFile(path, id++));
+
 
             // show messages from messagequeue
            QueueManagement.ReceiveStringMessageFromQueue();

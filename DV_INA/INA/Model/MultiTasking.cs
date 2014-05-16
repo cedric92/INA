@@ -25,36 +25,46 @@ namespace INA.Model
         {
             string queueName = @".\private$\MyStringQueue";
 
-            while (true)
+            MessageQueue queue = new MessageQueue(queueName);
+            // set the formatter to indicate body contains a string
+            queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
+
+            queue.ReceiveCompleted += new ReceiveCompletedEventHandler(createDataQuery);
+
+            Parallel.ForEach(Enumerable.Range(0, 10), (i) =>
             {
-                int msgCount = 0;
-
-                Parallel.ForEach(Enumerable.Range(0, 20), (i) =>
-                {
-                    MessageQueue queue = new MessageQueue(queueName);
-                    // set the formatter to indicate body contains a string
-                    queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
-                    Message msg = new Message();
-                    try
-                    {
-                        msg = queue.Receive(TimeSpan.Zero);
-
-                        // do work
-                        Console.WriteLine(msg.Body.ToString());
-
-                        Interlocked.Increment(ref msgCount);
-                    }
-                    catch (MessageQueueException mqex)
-                    {
-                        if (mqex.MessageQueueErrorCode == MessageQueueErrorCode.IOTimeout)
-                        {
-                            return; // nothing in queue
-                        }
-                        else throw;
-                    }
-                });
-
+                listen(queue);
+            });
+        }
+        private void listen(MessageQueue queue)
+        {
+            try
+            { 
+                queue.BeginReceive();
             }
+            catch (MessageQueueException mqex)
+            {
+                if (mqex.MessageQueueErrorCode == MessageQueueErrorCode.IOTimeout)
+                {
+                    return; // nothing in queue
+                }
+                else throw;
+            }
+        }
+
+        private void createDataQuery(Object source, ReceiveCompletedEventArgs asyncResult)
+        {
+            string queueName = @".\private$\MyStringQueue";
+            MessageQueue queue = new MessageQueue(queueName);
+
+            Message msg = queue.EndReceive(asyncResult.AsyncResult);
+
+            //do work
+
+            queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
+            Console.WriteLine(msg.Body.ToString());
+
+            listen(queue);
         }
     }
 }
