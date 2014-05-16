@@ -14,7 +14,7 @@
             <Button x:Name="btBeenden" Content="Beenden" Margin="358,0,0,0" VerticalAlignment="Top" Height="30" Click="btBeenden_Click" HorizontalAlignment="Left" Width="90"/>
         </Grid>
         <TextBlock x:Name="tbInfo" HorizontalAlignment="Left" Margin="50,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="71" Width="400"/>
-        <ListView HorizontalAlignment="Left" Height="97" Margin="50,42,0,0" VerticalAlignment="Top" Width="280" ItemsSource="{Binding _testList}">
+        <ListView HorizontalAlignment="Left" Height="97" Margin="50,42,0,0" VerticalAlignment="Top" Width="280" ItemsSource="{Binding _loadedFiles}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

@@ -66,7 +66,7 @@ namespace INA
         private void btBeenden_Click(object sender, RoutedEventArgs e)
         {
 
-            this.Close();
+            //this.Close();
         }
 
         private void btOpenFile_Click(object sender, RoutedEventArgs e)
@@ -109,8 +109,8 @@ namespace INA
                   
                     //_ViewModel.loadedFiles = sub;
                 
-                    tmp.Add(sub);  
-                    _ViewModel._testList = tmp;
+                    tmp.Add(sub);
+                    _ViewModel._loadedFiles = tmp;
                 }
                
             }         

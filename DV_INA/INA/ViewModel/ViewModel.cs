@@ -38,13 +38,13 @@ namespace INA.ViewModel
         }
       
         //to delete
-        public ObservableCollection<string> _testList
+        public ObservableCollection<string> _loadedFiles
         {
-            get { return _Model._testList; }
+            get { return _Model._loadedFiles; }
             set
             {
-                _Model._testList = value;
-                OnPropertyChanged("_testList");
+                _Model._loadedFiles = value;
+                OnPropertyChanged("_loadedFiles");
             }
         }
       

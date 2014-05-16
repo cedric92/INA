@@ -27,6 +27,17 @@ namespace INA.Model
             
         }
 
+        internal MultiTasking MultiTasking
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
         // start 
         public void startMessageQueue(string transactions)
         {

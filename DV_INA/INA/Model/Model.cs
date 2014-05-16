@@ -15,11 +15,11 @@ namespace INA.Model
         //QueueManagement _QueueManagement;
         private List<string> loadedFilesWithAbsolutePath = new List<string>();
        //to delete
-        private ObservableCollection<string> testList = new ObservableCollection<string>();
-        public ObservableCollection<string> _testList
+        private ObservableCollection<string> loadedFiles = new ObservableCollection<string>();
+        public ObservableCollection<string> _loadedFiles
         {
-            get { return testList; }
-            set { testList = value; }
+            get { return loadedFiles; }
+            set { loadedFiles = value; }
         }
 
         #endregion

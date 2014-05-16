@@ -31,6 +31,17 @@ namespace INA.Model
 
     #endregion
 
+        internal QueueManagement QueueManagement
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
     #region Methods
 
         // split file into lines

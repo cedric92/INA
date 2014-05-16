@@ -18,10 +18,11 @@ namespace INA.Model
         {
             startTasks();
         }
+
+        //Todo: while(true) läuft immer weiter => abbruch
+
         public void startTasks()
         {
-
-
             string queueName = @".\private$\MyStringQueue";
 
             while (true)
@@ -37,10 +38,11 @@ namespace INA.Model
                     try
                     {
                         msg = queue.Receive(TimeSpan.Zero);
+
                         // do work
                         Console.WriteLine(msg.Body.ToString());
 
-                         Interlocked.Increment(ref msgCount);
+                        Interlocked.Increment(ref msgCount);
                     }
                     catch (MessageQueueException mqex)
                     {
