@@ -29,7 +29,7 @@ namespace INA.Model
             // define eventhandler for msmq
             queue.ReceiveCompleted += new ReceiveCompletedEventHandler(myReceiveCompleted);
             // start listening
-           queue.BeginReceive();     
+            queue.BeginReceive();     
         }
 
         // eventhandler (there are new messages)
