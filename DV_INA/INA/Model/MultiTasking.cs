@@ -74,7 +74,5 @@ namespace INA.Model
                 else throw;
             }
         }
-
-
     }
 }
