@@ -47,6 +47,9 @@ namespace INA.Model
             //do work
             queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
             Console.WriteLine(msg.Body.ToString());
+           // string s = msg.Body.ToString();
+
+
 
             listen(this.queue);
         }
