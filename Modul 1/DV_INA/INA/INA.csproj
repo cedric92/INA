@@ -64,7 +64,6 @@
     </Compile>
     <Compile Include="Model\FileSplit.cs" />
     <Compile Include="Model\Model.cs" />
-    <Compile Include="Model\MultiThreading.cs" />
     <Compile Include="Model\QueueManagement.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">

@@ -3,30 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace INA.Model
 {
-    // ---------- MODEL ---------------------------------------
     class Model
     {
         #region Members
+
         FileSplit _FileSplit;
         //QueueManagement _QueueManagement;
-
-        private string loadedFiles = "";
         private List<string> loadedFilesWithAbsolutePath = new List<string>();
+       //to delete
+        private ObservableCollection<string> loadedFiles = new ObservableCollection<string>();
 
-   
-        
-        #endregion
+        #endregion     
         
         public Model()
         {
             _FileSplit = new FileSplit();
-            
-         
-           // _QueueManagement = new QueueManagement();
         }
+
         #region Getter/Setter
         internal FileSplit FileSplit
         {
@@ -39,33 +36,19 @@ namespace INA.Model
             }
         }
 
-        public string _loadedFiles
-        {
-            get { return loadedFiles; }
-            set { this.loadedFiles = loadedFiles+"\n"+value; }
-        }
         public string setloadedFilesWithAbsolutePath
         {
             set { this.loadedFilesWithAbsolutePath.Add(value); }
         }
-    
+
+        public ObservableCollection<string> _loadedFiles
+        {
+            get { return loadedFiles; }
+            set { loadedFiles = value; }
+        }   
+
         #endregion
         
-
-   /*    
-      internal QueueManagement QueueManagement
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-    */
-
-
         #region Methods
 
         public void splitFiles()

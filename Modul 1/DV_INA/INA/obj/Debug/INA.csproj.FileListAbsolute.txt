@@ -53,16 +53,19 @@ C:\Users\getow_000\Documents\GitHub\INA\DV_INA\INA\obj\Debug\INA.csproj.Generate
 C:\Users\Woldemar\Documents\GitHub\INA\DV_INA\INA\bin\Debug\INA.exe.config
 C:\Users\Woldemar\Documents\GitHub\INA\DV_INA\INA\obj\Debug\INA.exe
 C:\Users\Woldemar\Documents\GitHub\INA\DV_INA\INA\obj\Debug\INA.pdb
+C:\Users\getow_000\Documents\GitHub\INA\DV_INA\INA\obj\Debug\INA_MarkupCompile.lref
+C:\Users\Janine\Documents\GitHub\INA\DV_INA\INA\obj\Debug\INA_MarkupCompile.lref
 C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\bin\Debug\INA.exe.config
 C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\obj\Debug\INA.exe
 C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\obj\Debug\INA.pdb
-C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\bin\Debug\INA.exe
-C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\bin\Debug\INA.pdb
 C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\obj\Debug\INA.csprojResolveAssemblyReference.cache
-C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\obj\Debug\View\MainWindow.baml
 C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\obj\Debug\View\MainWindow.g.cs
 C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\obj\Debug\App.g.cs
 C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\obj\Debug\INA_MarkupCompile.cache
+C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\obj\Debug\INA_MarkupCompile.lref
+C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\bin\Debug\INA.exe
+C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\bin\Debug\INA.pdb
+C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\obj\Debug\View\MainWindow.baml
 C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\obj\Debug\INA.g.resources
 C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\obj\Debug\INA.Properties.Resources.resources
 C:\Users\Janine\Documents\GitHub\INA\Modul 1\DV_INA\INA\obj\Debug\INA.csproj.GenerateResource.Cache

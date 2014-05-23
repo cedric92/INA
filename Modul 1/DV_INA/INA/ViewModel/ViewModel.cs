@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using INA.Model;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 
 
@@ -14,8 +15,7 @@ namespace INA.ViewModel
     public class ViewModel : INotifyPropertyChanged
     {
         #region NotifiyPropertyChanged
-
-       
+ 
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected internal void OnPropertyChanged(string propertyname)
@@ -35,15 +35,19 @@ namespace INA.ViewModel
         {
             _Model = new Model.Model();
         }
-        public string loadedFiles
+      
+        //to delete
+        public ObservableCollection<string> _loadedFiles
         {
             get { return _Model._loadedFiles; }
-            set {
+            set
+            {
                 _Model._loadedFiles = value;
-                OnPropertyChanged("loadedFiles");         
-                }
+                OnPropertyChanged("_loadedFiles");
+            }
         }
-
+      
+        
         public string setloadedFilesWithAbsolutePath
         {
             set { _Model.setloadedFilesWithAbsolutePath = value; }

@@ -17,9 +17,6 @@ namespace INA.Model
 
         QueueManagement _QueueManagement = new QueueManagement();
 
-        // save corrupt account entries, KeyValuePair simplifies access to key and value
-        List<KeyValuePair<int, string>> errorTransactions = new List<KeyValuePair<int, string>>();
-
     #endregion
 
     #region Constructor
@@ -31,6 +28,17 @@ namespace INA.Model
 
     #endregion
 
+        internal QueueManagement QueueManagement
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
     #region Methods
 
         // split file into lines
@@ -38,15 +46,32 @@ namespace INA.Model
         {
             // file id for  queue
             int id = 0;
-            
-            // create new task
-            foreach (var path in loadedFilePaths)
+
+            // write to log file
+            writeToFile("### Start Import: "
+                + DateTime.Now.ToShortTimeString().ToString() + ", "
+                + DateTime.Now.ToString("dd-MM-yyyy")
+                + Environment.NewLine);
+
+            /*Info für Parallel:
+             * http://stackoverflow.com/questions/5009181/parallel-foreach-vs-task-factory-startnew
+             * */
+
+           var loopResult = Parallel.ForEach<string>(loadedFilePaths, path => readFile(path, id++));
+
+            // fuer anhalten button (kommt noch)
+            if (!loopResult.IsCompleted && !loopResult.LowestBreakIteration.HasValue)
             {
-                Task.Factory.StartNew(() => readFile(path, id++));
+                // write to log file
+                writeToFile("### Import aborted ############" + Environment.NewLine);
             }
 
-            // show messages from messagequeue
-           // QueueManagement.ReceiveStringMessageFromQueue();
+            // if loop successful
+            if (loopResult.IsCompleted)
+            {
+                // write to log file
+                writeToFile("### Import successful ############" + Environment.NewLine);
+            }
         }
 
         // import and check files
@@ -54,8 +79,10 @@ namespace INA.Model
         {           
             try
             {
+                
                 using (StreamReader sr = new StreamReader(filePath))
                 {
+                    
                     string line = "";
                     int count = 0;
 
@@ -64,7 +91,7 @@ namespace INA.Model
 
                     // send header to queue
                     _QueueManagement.startMessageQueue((new KeyValuePair<int, string>(id, "Header")).ToString());
-
+                    
                     // read file
                     while ((line = sr.ReadLine()) != null)
                     {
@@ -80,8 +107,11 @@ namespace INA.Model
                                 // check transactionBlock
                                 if (!checkTextLines(transactionBlock, filePath))
                                 {
-                                    // if file is corrupt add transaction to error-list
-                                    errorTransactions.AddRange(transactionBlock);
+                                    foreach (var tline in transactionBlock)
+                                    {
+                                        writeToFile("ERROR: " + Path.GetFileName(filePath) + ", "
+                                            + tline.ToString() + Environment.NewLine);
+                                    }
                                     transactionBlock.Clear();
                                 }
                                 else
@@ -102,92 +132,73 @@ namespace INA.Model
                     // send footer to queue, add count
                     _QueueManagement.startMessageQueue((new KeyValuePair<int, string>(id, "Footer#" + count)).ToString());
 
-                    count = 0; 
+                    count = 0;
+
                 }
 
             }
             catch (ArgumentOutOfRangeException)
             {
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
             }
 
         }
 
         //check if the entries in the list are valid. 
         // fileName is used to show errormessages
-        private bool checkTextLines(List<KeyValuePair<int, string>> transactionBlock, string fileName)
+        private bool checkTextLines(List<KeyValuePair<int, string>> transactionBlock, string filePath)
         {
             int sum = 0;
             int value = 0;
 
+            bool check = true;
+
             foreach (var line in transactionBlock)
             {
+                // split line.Value: acc no, amount
+                string[] transaction  = line.Value.Split(' ');
                 //try to parse to an int
-                if (int.TryParse(deleteFirstLetters(line.Value, " "), out value))
-                {
-                    sum += value;
-                }
-                else
-                {
-                    MessageBox.Show("Error in File " + getFileNameFromPath(fileName) + ": " + deleteFirstLetters(line.Value, " ") 
-                        + " is not an int.\nSkipped concerned accounting record.");
-                    return false;
-                }
+                if (int.TryParse(transaction[1], out value) && check)
+                    {
+                        sum += value;
+                    }
+                    else
+                    {
+                        check = false;
+                   }
+
             }
             //check if the transaction block is balanced (sum = 0)
             if (sum != 0)
             {
-                MessageBox.Show("Error in File " + getFileNameFromPath(fileName) 
-                    + ": Sum is not balanced.\nSkipped concerned accounting record.");
-                return false;
+                check = false;
+            }
+
+            return check;
+        }
+
+        private void writeToFile(string message)
+        {
+           string path = Path.Combine((Environment.ExpandEnvironmentVariables("%USERPROFILE%") + @"\Desktop"), "Log.txt");
+            //string path = Path.GetTempPath();
+            //string path = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
+
+            // This text is added only once to the file.
+            if (!File.Exists(path))
+            {
+                // Create a file to write to.
+                File.WriteAllText(path, message);
             }
             else
             {
-                return true;
+                File.AppendAllText(path, message);
             }
-        }
-
-        //delete first letters of the given string until the given param delSign
-        private string deleteFirstLetters(string line, string delSign)
-        {
-            bool delPosOver = false;
-
-            for (int i = 0; i < line.Length; i++)
-            {
-                // delete chars until delSign (space)
-                if ((line[0] != delSign[0]) && !delPosOver)
-                {
-                    line = line.Remove(0, 1);
-                }
-                else
-                {
-                    delPosOver = true;
-                }
-            }
-
-            // remove delSign (space)
-            line = line.Remove(0, 1);
-            
-            // return new string
-            return line;
-        }
-
-        //returns the file name according to the given param filePath
-        private string getFileNameFromPath(string filePath)
-        {
-            char c = '\\';
-            //get last position of \ in absolute path
-            int pos = filePath.LastIndexOf(c);
-            //cut the path at the last pos of \ => shows only the file name without absolute path
-            string sub = filePath.Substring(pos + 1);
-
-            return sub;
         }
     
     #endregion
     }
-
 
 }
