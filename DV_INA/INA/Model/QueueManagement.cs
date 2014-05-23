@@ -20,6 +20,8 @@ namespace INA.Model
 
     #endregion
 
+    #region Methods
+
         public QueueManagement()
         {
             this.queue = new Queue<string>(); 
@@ -42,7 +44,7 @@ namespace INA.Model
                 msgQueue = MessageQueue.Create(queueName);
             }
             else
-            {
+            { 
                 msgQueue = new MessageQueue(queueName);
             }
             return msgQueue;
@@ -59,5 +61,8 @@ namespace INA.Model
            // a transaction type used for Microsoft Transaction Server (MTS) it will be used when sending or receiving the message
            msgQueue.Send(transactions, MessageQueueTransactionType.Automatic);
         }
+
+    #endregion
+
     }
 }

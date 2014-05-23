@@ -14,6 +14,7 @@ namespace INA.Model
     {
     
     #region Members
+
         MultiTasking _MultiTasking = new MultiTasking();
 
     #endregion

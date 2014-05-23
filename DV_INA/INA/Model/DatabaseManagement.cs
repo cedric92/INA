@@ -9,136 +9,158 @@ namespace INA.Model
 {
     class DatabaseManagement : QueueManagement
     {
-        SqlConnection _sqlconnection = null;
-        string conString = @"Server=WINJ5GTVAPSLQX\SQLEXPRESS;Database=INA;Trusted_Connection=True;";
+        #region Members
+            SqlConnection _sqlconnection = null;
+            string conString = @"Server=WINJ5GTVAPSLQX\SQLEXPRESS;Database=INA;Trusted_Connection=True;";
 
-        //foreach file a key value pair exists. the first int defines the file id, the second int 
-        //counts the already datasets => compare to footer-counter
-        List<KeyValuePair<int, int>> transactionCount = new List<KeyValuePair<int, int>>();
-        List<KeyValuePair<int, SqlTransaction>> Transactions = new List<KeyValuePair<int, SqlTransaction>>();
+            //foreach file a key value pair exists. the first int defines the file id, the second int 
+            //counts the already transacted datasets => compare to footer-counter
+            List<KeyValuePair<int, int>> transactionCount = new List<KeyValuePair<int, int>>();
+            // list with a transaction for each fileid
+            List<KeyValuePair<int, SqlTransaction>> Transactions = new List<KeyValuePair<int, SqlTransaction>>();
 
-        public DatabaseManagement()
-        {
-            _sqlconnection = new SqlConnection(conString);
-        }
+        #endregion
 
-        public void addToTransaction()
-        {
+        #region Constructor
 
-        }
-
-        public void addDataToTransactionCount(string value)
-        {
-            string tmp = value;
-            tmp=tmp.Remove(0, 1);
-            tmp = tmp.Remove(tmp.Length-1, 1);
-            int ind = tmp.IndexOf(',');
-            tmp = tmp.Remove(ind, 1);
-            string[] abc = tmp.Split(' ');
-
-            switch (abc[1])
+            public DatabaseManagement()
             {
-                case "Header": // O.o
+                // start new connection with constring
+                _sqlconnection = new SqlConnection(conString);
+            }
+        
+        #endregion
 
-                    break;
-                case "Footer":
-                    int transValue = 0;
-                    foreach (var item in transactionCount)
-                    {
-                        if (item.Key == Convert.ToInt32(abc[0]))
-                        {
-                            transValue = item.Value;
-                        }
-                    }
+        #region Methods
 
-                    if (transValue == Convert.ToInt32(abc[2]))
-                    {
-                        foreach (var item in Transactions)
-                        {
-                            if (item.Key == Convert.ToInt32(abc[0]))
-                            {
-                                item.Value.Commit();
-                                Console.WriteLine("Commit file with id " + abc[0]);
-                            }
-                            else
-                            {
-                                //
-                                SendStringMessageToQueue(value);
-                            }
-                        }
-                    }
+            public string[] splitString(string value)
+            {
+                string tmp = value;
+                tmp = tmp.Remove(0, 1);
+                tmp = tmp.Remove(tmp.Length - 1, 1);
+                int ind = tmp.IndexOf(',');
+                tmp = tmp.Remove(ind, 1);
+                string[] s = tmp.Split(' ');
 
-                    break;
-
-                default:
-                    generateTransaction(Convert.ToInt32(abc[0]));
-
-                    using (_sqlconnection=new SqlConnection(conString))
-                    {
-                        _sqlconnection.Open();
-
-                        foreach (var item in Transactions)
-                        {
-                            if (item.Key == Convert.ToInt32(abc[0]))
-                            {
-                                SqlTransaction trans = item.Value;
-                                trans = _sqlconnection.BeginTransaction();
-
-
-                                SqlCommand command = _sqlconnection.CreateCommand();
-                                command.Connection = _sqlconnection;
-                                command.Transaction = trans;
-
-                                try
-                                {
-                                    command.CommandText = "INSERT INTO AccMgmt (Account, Amount) VALUES ("+abc[1]+","+abc[0]+")";
-                                    command.ExecuteNonQuery();      
-                             
-                                    
-                                }
-                                catch (Exception)
-                                {
-                                    
-                                    //todo: transaction rollback definieren
-
-                                    throw;
-                                }
-
-                                var newEntry = new KeyValuePair<int, SqlTransaction>(item.Key, trans);
-                                Transactions[item.Key] = newEntry;
-                            }
-                        }
-                    }
-                    break;
+                return s;
             }
 
-        }
-
-        private void generateTransaction(int fileID)
-        {
-            foreach (var item in transactionCount)
+            public void addDataToTransactionCount(string value)
             {
+                string[] record = splitString(value);
 
-                //if file id already exists => increment total number of lines
-                if (item.Key == fileID)
+                switch (record[1])
                 {
-                    int oldvalue = item.Value;
-                    var newEntry = new KeyValuePair<int,int>(fileID, oldvalue++);                  
+                    case "Header": // do nothing
+                        break;
+                    case "Footer": // compare transacted lines with number of lines
+                        int transValue = 0;
+                        // search correct listindex by delivered fileid, get counted lines
+                        // transactioncount: file id | counted lines
+                        foreach (var item in transactionCount)
+                        {
+                            if (item.Key == Convert.ToInt32(record[0]))
+                            {
+                                transValue = item.Value;
+                            }
+                        }
+                        // compare counted lines with number of lines from footer
+                        if (transValue == Convert.ToInt32(record[2]))
+                        {
+                            foreach (var item in Transactions)
+                            {
+                                if (item.Key == Convert.ToInt32(record[0]))
+                                {
+                                    // everythings ok - commit this file
+                                    item.Value.Commit();
+                                    Console.WriteLine("Commit file with id " + record[0]);
+                                }
+                                else
+                                {
+                                    // return footer to queue
+                                    SendStringMessageToQueue(value);
+                                }
+                            }
+                        }
 
-                    transactionCount[fileID] = newEntry;
+                        break;
+
+                    default: // record with fileid, accno and amount
+                        // generate transaction if necessary, count record
+                        generateTransaction(Convert.ToInt32(record[0]));
+
+                        // connect to database
+                        using (_sqlconnection=new SqlConnection(conString))
+                        {
+                            // open connection
+                            _sqlconnection.Open();
+
+                            // lookup transaction for this fileid
+                            foreach (var item in Transactions)
+                            {
+                                if (item.Key == Convert.ToInt32(record[0]))
+                                {
+                                    SqlTransaction trans = item.Value;
+                                    trans = _sqlconnection.BeginTransaction();
+
+                                    SqlCommand command = _sqlconnection.CreateCommand();
+                                    command.Connection = _sqlconnection;
+                                    command.Transaction = trans;
+
+                                    // begin transaction
+                                    try
+                                    {
+                                        command.CommandText = "INSERT INTO AccMgmt (Account, Amount) VALUES (" + record[1] + "," + record[0] + ")";
+                                        command.ExecuteNonQuery();      
+                                    }
+                                    catch (Exception)
+                                    {                     
+                                        //todo: transaction rollback definieren
+                                        // wenn hier rollback alle offenen transaktionen des files gelöscht
+                                        // was wenn noch weitere kommen?? unterbinden!
+                                        //trans.Rollback();
+
+                                        throw;
+                                    }
+
+                                    // overwrite old transaction in list
+                                    var newEntry = new KeyValuePair<int, SqlTransaction>(item.Key, trans);
+                                    Transactions[item.Key] = newEntry;
+                                }
+                            }
+                        }
+                        break;
                 }
-                // if file id doesnt exist => create new entry
-                else
+
+            }
+
+            private void generateTransaction(int fileID)
+            {
+                foreach (var item in transactionCount)
                 {
-                    transactionCount.Add(new KeyValuePair<int, int>(fileID,1));
-                    createTransaktion(fileID);
+
+                    //if file id already exists => increment total number of lines
+                    if (item.Key == fileID)
+                    {
+                        int oldvalue = item.Value;
+                        var newEntry = new KeyValuePair<int,int>(fileID, oldvalue++);                  
+
+                        transactionCount[fileID] = newEntry;
+                    }
+                    // if file id doesnt exist => create new entry
+                    else
+                    {
+                        transactionCount.Add(new KeyValuePair<int, int>(fileID,1));
+                        createTransaktion(fileID);
+                    }
                 }
             }
-        }
 
-        private void createTransaktion(int fileID)
-        {
-            Transactions.Add(new KeyValuePair<int, SqlTransaction>(fileID, _sqlconnection.BeginTransaction()));
-        }
+            private void createTransaktion(int fileID)
+            {
+                Transactions.Add(new KeyValuePair<int, SqlTransaction>(fileID, _sqlconnection.BeginTransaction()));
+            }       
+     
+        #endregion
     }
 }

@@ -57,17 +57,28 @@ namespace INA
         {
             //call method splitFile which splits the chosen file according to the fileNam
             _ViewModel.splitFiles();
+
+            // deacticate start button
+            btStart.IsEnabled = false;
         }
 
         
         private void btBeenden_Click(object sender, RoutedEventArgs e)
         {
-
-            //this.Close();
+            MessageBoxResult result = MessageBox.Show("Möchten Sie wirklich beenden?", "INA beenden", 
+                MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes); 
+            
+            if (result == MessageBoxResult.Yes)
+            { 
+                this.Close(); 
+            }
         }
 
         private void btOpenFile_Click(object sender, RoutedEventArgs e)
         {
+            // acticate start button
+            btStart.IsEnabled = true;
+            
             // Configure open file dialog box
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.FileName = "Document"; // Default file name
@@ -87,7 +98,7 @@ namespace INA
                 if (_ViewModel.compareFilePath(filename))
                 {
                     //file already loaded
-                    MessageBox.Show("Achtung: Die ausgwählte Datei wurde bereits geladen. Ein weiteres laden ist deshalb nicht moeglich!");
+                    MessageBox.Show("Achtung: Die ausgwählte Datei wurde bereits geladen.");
                 }
                 else
                 {
