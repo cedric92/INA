@@ -10,12 +10,10 @@ using System.Windows;
 namespace INA.Model
 {
 
-    class FileSplit
+    class FileSplit : QueueManagement
     {
     
     #region Members
-
-        QueueManagement _QueueManagement = new QueueManagement();
         MultiTasking _MultiTasking = new MultiTasking();
 
     #endregion
@@ -29,17 +27,6 @@ namespace INA.Model
         }
 
     #endregion
-
-        internal QueueManagement QueueManagement
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
 
     #region Methods
 
@@ -89,7 +76,7 @@ namespace INA.Model
                     List<KeyValuePair<int, string>> transactionBlock = new List<KeyValuePair<int, string>>();
 
                     // send header to queue
-                    _QueueManagement.startMessageQueue((new KeyValuePair<int, string>(id, "Header")).ToString());
+                    startMessageQueue((new KeyValuePair<int, string>(id, "Header")).ToString());
                     
                     // read file
                     while ((line = sr.ReadLine()) != null)
@@ -119,7 +106,7 @@ namespace INA.Model
 	                                {
                                         count++;
                                         // send string to queue
-                                        _QueueManagement.startMessageQueue(t.ToString());
+                                        startMessageQueue(t.ToString());
 	                                }
                                     // clear transactionBlock
                                     transactionBlock.Clear(); 
@@ -129,7 +116,7 @@ namespace INA.Model
                     }
 
                     // send footer to queue, add count
-                    _QueueManagement.startMessageQueue((new KeyValuePair<int, string>(id, "Footer#" + count)).ToString());
+                   startMessageQueue((new KeyValuePair<int, string>(id, "Footer " + count)).ToString());
 
                     count = 0; 
                 }

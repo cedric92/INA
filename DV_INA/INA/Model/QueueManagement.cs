@@ -25,25 +25,14 @@ namespace INA.Model
             this.queue = new Queue<string>(); 
         }
 
-        internal MultiTasking MultiTasking
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-
         // start 
-        public void startMessageQueue(string transactions)
+        protected void startMessageQueue(string transactions)
         {
             SendStringMessageToQueue(transactions);
         }
 
         // create queue + queue name
-        public static MessageQueue GetStringMessageQueue()
+        protected static MessageQueue GetStringMessageQueue()
         {
             MessageQueue msgQueue = null;
             string queueName = @".\private$\INAqueue";
@@ -60,7 +49,7 @@ namespace INA.Model
         }
 
         // send messages to queue
-        private static void SendStringMessageToQueue(string transactions)
+        protected static void SendStringMessageToQueue(string transactions)
         {
             MessageQueue msgQueue = GetStringMessageQueue();
 

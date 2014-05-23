@@ -11,9 +11,11 @@ namespace INA.Model
 {
     // serializable due to xml formatter
     [Serializable()]
-    class MultiTasking
+    class MultiTasking:QueueManagement
     {
-        MessageQueue queue = QueueManagement.GetStringMessageQueue();
+        DatabaseManagement _databasemanagement = new DatabaseManagement();
+
+        MessageQueue queue = GetStringMessageQueue();
 
         public MultiTasking()
         {
@@ -46,10 +48,13 @@ namespace INA.Model
 
             //do work
             queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
-            Console.WriteLine(msg.Body.ToString());
+
+          //  Console.WriteLine(msg.Body.ToString());
            // string s = msg.Body.ToString();
 
+            //todoooooooooooooooooooooooooooooo//
 
+            _databasemanagement.addDataToTransactionCount(msg.Body.ToString());
 
             listen(this.queue);
         }
