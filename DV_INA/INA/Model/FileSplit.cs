@@ -58,13 +58,21 @@ namespace INA.Model
             /*Info für Parallel:
              * http://stackoverflow.com/questions/5009181/parallel-foreach-vs-task-factory-startnew
              * */
-            Parallel.ForEach<string>(loadedFilePaths, new ParallelOptions { MaxDegreeOfParallelism = 10 }, path =>
-            {
-                readFile(path, id++);
-            });
+            var loopResult = Parallel.ForEach<string>(loadedFilePaths, path => readFile(path, id++));
 
-            // write to log file
-            writeToFile("### Import successful ############" + Environment.NewLine);
+            // fuer anhalten button (kommt noch)
+            if (!loopResult.IsCompleted && !loopResult.LowestBreakIteration.HasValue)
+            {
+                // write to log file
+                writeToFile("### Import aborted ############" + Environment.NewLine);
+            }
+
+            // if loop successful
+            if (loopResult.IsCompleted)
+            {
+                // write to log file
+                writeToFile("### Import successful ############" + Environment.NewLine);
+            }
         }
 
         // import and check files
