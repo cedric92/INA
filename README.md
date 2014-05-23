@@ -5,27 +5,24 @@ INA
 
 > **Was geht?**
 > - GUI vorhanden
-> - 1 Datei einlesen + zerteilen + pruefen
-> - Datensaetze UND Header/Footer in die Queue 
-> - Mehr als eine Datei gleichzeitig einlesen
-> - Dateischnipsel in MSMQ laden
-> - Inhalt der MSMQ wieder abrufen
-> - Mehr als einen Buchungssatz
-> - Fehlerhafte Buchungssaetze in Log-Datei speichen
-> - Neues Pattern: Pipes + Filters
-> - string[] words = stringname.Split(" ");
+> - Files einlesen
+> - Files auf Fehler prüfen
+> - Files von mehreren Tasks bearbeiten lassen
+
 
 > **To Do**
 > - Grundzuege Ladebalken
-> - Fehlermeldungen: Log GUI (Observer?)
+> - Fehlermeldungen: Log GUI (Observer?=> Databinding)
 
 #### **Modul(2)**
 
 > **Was geht?**
-> Threads horchen an MSMQ, Abarbeitung nacheinander (leider)
+> - Threads horchen an MSMQ, Abarbeitung parallel
+> - Datensätze werden parallel in die MSMQ geschireben
+> - Datensätze werden parallel aus der MSMQ genommen
+> - Grad der Parallelität kann angepasst werden
 
 > **To Do**
-> - Threads sollen PARALLEL einlesen
 > - Thema BackoutQueue
 
 #### **Modul(3)**
@@ -37,4 +34,5 @@ INA
 > - Verbindung zur Datenbank
 > - Diverse Pruefungen
 > - logging framework
-> - Daten in Datenbank schreiben
+> - Header, Footer prüfung
+> - Query erstellen => Daten in Datenbank schreiben
