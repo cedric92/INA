@@ -1,38 +1,22 @@
-INA
+﻿INA
 =====================
 
 #### **Modul(1)**
 
-> **Was geht?**
-> - GUI vorhanden
-> - Files einlesen
-> - Files auf Fehler prüfen
-> - Files von mehreren Tasks bearbeiten lassen
-
-
 > **To Do**
-> - Grundzuege Ladebalken
+> - Ladebalken
 > - Fehlermeldungen: Log GUI (Observer?=> Databinding)
+> - Geladene Dateien aus Liste löschen
+> - Anhalten (Stop sinnvoll?) + Fortsetzen Button
 
 #### **Modul(2)**
 
-> **Was geht?**
-> - Threads horchen an MSMQ, Abarbeitung parallel
-> - Datensätze werden parallel in die MSMQ geschireben
-> - Datensätze werden parallel aus der MSMQ genommen
-> - Grad der Parallelität kann angepasst werden
-
 > **To Do**
-> - Thema BackoutQueue
+> - Thema BackoutQueue: Überhaupt notwendig?
+> - Kann MSMQ voll sein? Was geschieht dann? (Retry offenbar einmal)
 
 #### **Modul(3)**
 
-> **Was geht?**
-> - ...
-
 > **To Do**
-> - Verbindung zur Datenbank
-> - Diverse Pruefungen
+> - Test DB Zugriff
 > - logging framework
-> - Header, Footer prüfung
-> - Query erstellen => Daten in Datenbank schreiben
