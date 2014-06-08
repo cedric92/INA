@@ -1,0 +1,13 @@
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\bin\Debug\DBConnection.exe.config
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\bin\Debug\DBConnection.exe
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\bin\Debug\DBConnection.pdb
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\obj\Debug\DBConnection.csprojResolveAssemblyReference.cache
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\obj\Debug\MainWindow.baml
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\obj\Debug\MainWindow.g.cs
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\obj\Debug\App.g.cs
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\obj\Debug\DBConnection_MarkupCompile.cache
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\obj\Debug\DBConnection.g.resources
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\obj\Debug\DBConnection.Properties.Resources.resources
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\obj\Debug\DBConnection.csproj.GenerateResource.Cache
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\obj\Debug\DBConnection.exe
+c:\users\getow_000\documents\visual studio 2013\Projects\DBConnection\DBConnection\obj\Debug\DBConnection.pdb
