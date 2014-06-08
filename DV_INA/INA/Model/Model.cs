@@ -81,5 +81,10 @@ namespace INA.Model
         }
 
         #endregion
+
+        public void startTasks()
+        {
+            _FileSplit.startTasks();
+        }
     }
 }

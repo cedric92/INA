@@ -60,6 +60,9 @@ namespace INA
 
             // deacticate start button
             btStart.IsEnabled = false;
+
+            _ViewModel.startTasks();
+
         }
 
         

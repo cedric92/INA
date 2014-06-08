@@ -16,7 +16,7 @@ namespace INA.Model
     #region Members
 
         // generate new queue
-        Queue<string> queue = null;
+        //Queue<string> queue = null;
 
     #endregion
 
@@ -24,7 +24,7 @@ namespace INA.Model
 
         public QueueManagement()
         {
-            this.queue = new Queue<string>(); 
+           // this.queue = new Queue<string>(); 
         }
 
         // start 
@@ -41,7 +41,8 @@ namespace INA.Model
 
             if (!MessageQueue.Exists(queueName))
             {
-                msgQueue = MessageQueue.Create(queueName);
+                msgQueue = MessageQueue.Create(queueName,true);
+
             }
             else
             { 
@@ -56,10 +57,26 @@ namespace INA.Model
             MessageQueue msgQueue = GetStringMessageQueue();
 
             // serialize the message while sending
-           msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
+          // msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
 
            // a transaction type used for Microsoft Transaction Server (MTS) it will be used when sending or receiving the message
-           msgQueue.Send(transactions, MessageQueueTransactionType.Automatic);
+           //msgQueue.Send(transactions, MessageQueueTransactionType.Automatic);
+           // Send a message to the queue. 
+           if (msgQueue.Transactional == true)
+           {
+               // Create a transaction.
+               MessageQueueTransaction myTransaction = new
+                   MessageQueueTransaction();
+
+               // Begin the transaction.
+               myTransaction.Begin();
+
+               // Send the message.
+               msgQueue.Send(transactions, myTransaction);
+
+               // Commit the transaction.
+               myTransaction.Commit();
+           }
         }
 
     #endregion

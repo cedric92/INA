@@ -19,7 +19,7 @@ namespace INA.Model
 
         public MultiTasking()
         {
-            startTasks();
+
         }
 
         public void startTasks()
@@ -28,47 +28,62 @@ namespace INA.Model
             queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
 
             // define eventhandler for msmq
-            queue.ReceiveCompleted += new ReceiveCompletedEventHandler(createDataQuery);
+           // queue.ReceiveCompleted += new ReceiveCompletedEventHandler(createDataQuery);
 
-
+            
             //enumerable range + max degree of parallelism => define how many threads will be created
-            Parallel.ForEach(Enumerable.Range(0, 10), new ParallelOptions { MaxDegreeOfParallelism = 10 }, (i) =>
+            Parallel.ForEach(Enumerable.Range(0, 10), new ParallelOptions { MaxDegreeOfParallelism = 4 }, (i) =>
             {
-                // Restart the asynchronous receive operation
-                queue.BeginReceive();
+                // Restart the synchronous receive operation
+                process();
+   
             });
-
-            // start listening
-           //  queue.BeginReceive();
+  
         }
 
-        private void createDataQuery(Object source, ReceiveCompletedEventArgs asyncResult)
+        private void process()
         {
-            Message msg = queue.EndReceive(asyncResult.AsyncResult);
+            // Create a transaction.
+            MessageQueueTransaction myTransaction = new MessageQueueTransaction();
 
-            //do work
-            queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
-
-          //  Console.WriteLine(msg.Body.ToString());
-           // string s = msg.Body.ToString();
-
-            //todoooooooooooooooooooooooooooooo//
-
-            _databasemanagement.addDataToTransactionCount(msg.Body.ToString());
-
-            listen(this.queue);
-        }
-
-        private void listen(MessageQueue queue)
-        {
             try
             {
-                queue.BeginReceive();
-            }
-            catch (MessageQueueException)
-            {
+                // Begin the transaction.
+                myTransaction.Begin();
 
+                // Receive the message. 
+                Message myMessage = queue.Receive(myTransaction);
+                String myOrder = (String)myMessage.Body;
+
+                // Display message information.
+                if (_databasemanagement.addDataToTransactionCount(myOrder))
+                {
+                    // Commit the transaction.
+                    myTransaction.Commit();
+                }
+                else
+                {
+                    // Abort the transaction.
+                    myTransaction.Abort();
+                }
             }
+
+            catch (MessageQueueException e)
+            {
+                // Handle nontransactional queues. 
+                if (e.MessageQueueErrorCode ==
+                    MessageQueueErrorCode.TransactionUsage)
+                {
+                    Console.WriteLine("Queue is not transactional.");
+                }
+
+                // Roll back the transaction.
+                myTransaction.Abort();
+            }
+            // rekursiv
+            process();
+
         }
+
     }
 }

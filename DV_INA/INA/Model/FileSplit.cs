@@ -185,6 +185,11 @@ namespace INA.Model
         }
     
     #endregion
+
+        public void startTasks()
+        {
+            _MultiTasking.startTasks();
+        }
     }
 
 

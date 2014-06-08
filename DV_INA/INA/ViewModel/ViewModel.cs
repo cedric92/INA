@@ -74,6 +74,10 @@ namespace INA.ViewModel
             _Model.splitFiles();
            
         }
+        public void startTasks()
+        {
+            _Model.startTasks();
+        }
         public bool compareFilePath(string s)
         {
             return _Model.compareFilePath(s);
