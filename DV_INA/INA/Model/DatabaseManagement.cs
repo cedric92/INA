@@ -42,8 +42,12 @@ namespace INA.Model
         public bool addDataToTransactionCount(string value)
         {
             string[] record = splitString(value);
-
+            
             SqlTransaction trans = null;
+
+            // record[0] => fileid
+            // record[1] => Header, Footer or Accountno
+            // record[2] => sum or Amount 
 
             switch (record[1])
             {
@@ -116,7 +120,7 @@ namespace INA.Model
                     }
                     break;
             }
-
+            
             return true;
 
         }
