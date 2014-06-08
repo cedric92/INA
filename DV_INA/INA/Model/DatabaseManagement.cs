@@ -35,6 +35,7 @@ namespace INA.Model
 
             public string[] splitString(string value)
             {
+                // split received string from queue
                 string tmp = value;
                 tmp = tmp.Remove(0, 1);
                 tmp = tmp.Remove(tmp.Length - 1, 1);
