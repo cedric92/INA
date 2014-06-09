@@ -51,37 +51,37 @@ namespace INA.Model
         //message => write to database
         public bool evaluateMessageLine(string value)
         {
-            bool success=true;
+            bool success = true;
             //string value => single message from file
 
             string[] record = splitString(value);
-            
+
             // record[0] => file-id
             // record[1] => Header, Footer or Accountno
             // record[2] => sum or Amount 
 
             switch (record[1])
             {
-                    //message is a header
+                //message is a header
                 case "Header": // do nothing
                     break;
-                    //message is a footer
-                case "Footer": 
-                   success= evaluateFooter(record);                   
+                //message is a footer
+                case "Footer":
+                    success = evaluateFooter(record);
                     break;
-                    //message is no footer/header
-                default: 
-                    success = evaluateMessage(record);                  
+                //message is no footer/header
+                default:
+                    success = evaluateMessage(record);
                     break;
-            }            
+            }
             return success;
 
         }
 
-        private bool evaluateFooter(string[]record)
+        private bool evaluateFooter(string[] record)
         {
             SqlTransaction trans;
-             // connect to database
+            // connect to database
             using (_sqlconnection = new SqlConnection(conString))
             {
                 try

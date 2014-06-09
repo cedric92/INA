@@ -41,6 +41,8 @@ namespace INA.Model
   
         }
 
+        //used by each task
+        //handle a single line, after completing the handling, execute next iteration(recursive) and handle next line
         private void process()
         {
             // Create a transaction.
