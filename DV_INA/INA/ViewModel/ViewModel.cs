@@ -82,6 +82,11 @@ namespace INA.ViewModel
         {
             return _Model.compareFilePath(s);
         }
+        public void clearFilePath(int index)
+        {
+            _Model.clearFilePath(index);
+            OnPropertyChanged("_loadedFiles");
+        }
         #endregion
     }
 }

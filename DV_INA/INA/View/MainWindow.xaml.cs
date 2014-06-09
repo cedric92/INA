@@ -40,19 +40,6 @@ namespace INA
            this.DataContext = _ViewModel;
 
         }
-
-        public INA.ViewModel.ViewModel ViewModel
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-
-
         private void Button_ClickStart(object sender, RoutedEventArgs e)
         {
             //call method splitFile which splits the chosen file according to the fileNam
@@ -64,6 +51,8 @@ namespace INA
             _ViewModel.startTasks();
 
             btAnhalten.IsEnabled = true;
+
+          
 
         }
 
@@ -135,6 +124,16 @@ namespace INA
             i++;
 
             btStart.IsEnabled = true;
+        }
+
+        private void btDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (filesView.SelectedItem != null)
+            {
+                int index = filesView.SelectedIndex;
+                _ViewModel.clearFilePath(index);
+            }
+           
         }
 
         

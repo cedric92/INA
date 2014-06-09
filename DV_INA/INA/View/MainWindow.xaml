@@ -16,13 +16,14 @@
 
         <TextBlock x:Name="tbInfo"   HorizontalAlignment="Left" Margin="50,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="112" Width="400" Background="#FFF1F0F0" Text="{Binding _textBoxInfo}"  />
 
-        <ListView HorizontalAlignment="Left" Height="97" Margin="50,42,0,0" VerticalAlignment="Top" Width="280" ItemsSource="{Binding _loadedFiles}">
+        <ListView x:Name="filesView" HorizontalAlignment="Left" Height="97" Margin="50,42,0,0" VerticalAlignment="Top" Width="280" ItemsSource="{Binding _loadedFiles}" SelectionMode="Single">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button x:Name="btDelete" Content="Delete" HorizontalAlignment="Left" Height="19" Margin="335,120,0,0" VerticalAlignment="Top" Width="86" Click="btDelete_Click"/>
 
     </Grid>
 </Window>

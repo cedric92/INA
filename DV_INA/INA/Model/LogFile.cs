@@ -37,7 +37,15 @@ namespace INA.Model
             }
             else
             {
-                File.AppendAllText(path, message);
+                try
+                {
+                    File.AppendAllText(path, message);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error in Logfile: Write To File");
+                }
+               
             }
         }
 

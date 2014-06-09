@@ -13,7 +13,7 @@ namespace INA.Model
         #region Members
         FileSplit _FileSplit;
         
-        //QueueManagement _QueueManagement;
+        //QueueManagement _QueueManagement
         private List<string> loadedFilesWithAbsolutePath = new List<string>();
        
         private ObservableCollection<string> loadedFiles = new ObservableCollection<string>();
@@ -109,6 +109,16 @@ namespace INA.Model
         public void startTasks()
         {
             _FileSplit.startTasks();
+        }
+
+        public void clearFilePath(int index)
+        {
+            
+            string s1 = loadedFiles.ElementAt(index);
+            loadedFiles.Remove(s1);
+
+            string s2 = loadedFilesWithAbsolutePath.ElementAt(index);
+            loadedFilesWithAbsolutePath.Remove(s2);
         }
     }
 }

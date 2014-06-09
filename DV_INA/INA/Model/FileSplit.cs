@@ -12,25 +12,29 @@ namespace INA.Model
 
     class FileSplit : QueueManagement
     {
-    
-    #region Members
+
+        #region Members
 
         MultiTasking _MultiTasking;
         LogFile _Logfile;
 
-    #endregion
+        #endregion
 
-    #region Constructor
+        #region Constructor
 
         public FileSplit(LogFile f)
         {
-          this._Logfile = f;
-          _MultiTasking = new MultiTasking(f);
+            this._Logfile = f;
+            _MultiTasking = new MultiTasking(f);
         }
 
-    #endregion
+        #endregion
 
-    #region Methods
+        #region Getter/setter
+
+        #endregion
+
+        #region Methods
 
         // split file into lines
         public void splitFile(List<string> loadedFilePaths)
@@ -39,43 +43,52 @@ namespace INA.Model
             int id = 0;
 
             // write to log file
-            _Logfile.writeToFile("### Start Import: "
-                + DateTime.Now.ToShortTimeString().ToString() + ", "
-                + DateTime.Now.ToString("dd-MM-yyyy")
-                + Environment.NewLine);
+            /*   _Logfile.writeToFile("### Start Import: "
+                   + DateTime.Now.ToShortTimeString().ToString() + ", "
+                   + DateTime.Now.ToString("dd-MM-yyyy")
+                   + Environment.NewLine);*/
 
             /*Info für Parallel:
              * http://stackoverflow.com/questions/5009181/parallel-foreach-vs-task-factory-startnew
              * */
 
 
+
+
             var loopResult =
-                Task.Factory.StartNew(() =>
-                Parallel.ForEach<string>(loadedFilePaths, path => readFile(path, id++))
-                );
-               
+            Task.Factory.StartNew(() =>
+            Parallel.ForEach<string>(loadedFilePaths, path => readFile(path, id++))
+            );
 
 
 
-/*
-            // fuer anhalten button (kommt noch)
-            if (!loopResult.IsCompleted && !loopResult.LowestBreakIteration.HasValue)
-            {
-                // write to log file
-                _Logfile.writeToFile("### Import aborted ############" + Environment.NewLine);
-            }*/
+
+
+
+
+            /*
+                        // fuer anhalten button (kommt noch)
+                        if (!loopResult.IsCompleted && !loopResult.LowestBreakIteration.HasValue)
+                        {
+                            // write to log file
+                            _Logfile.writeToFile("### Import aborted ############" + Environment.NewLine);
+                        }*/
 
             // if loop successful
-            if (loopResult.IsCompleted)
+            // if (loopResult.IsCompleted)
             {
                 // write to log file
-                _Logfile.writeToFile("### Import successful ############" + Environment.NewLine);
+                // _Logfile.writeToFile("### Import successful ############" + Environment.NewLine);
             }
         }
 
         // import and check files
         public void readFile(string filePath, int id)
-        {           
+        {
+            
+
+            _Logfile.writeToFile("Started to import file " + filePath);
+
             try
             {
                 using (StreamReader sr = new StreamReader(filePath))
@@ -88,7 +101,7 @@ namespace INA.Model
 
                     // send header to queue
                     startMessageQueue((new KeyValuePair<int, string>(id, "Header")).ToString());
-                    
+
                     // read file
                     while ((line = sr.ReadLine()) != null)
                     {
@@ -114,22 +127,24 @@ namespace INA.Model
                                 else
                                 {
                                     foreach (var t in transactionBlock)
-	                                {
+                                    {
                                         count++;
                                         // send string to queue
                                         startMessageQueue(t.ToString());
-	                                }
+                                    }
                                     // clear transactionBlock
-                                    transactionBlock.Clear(); 
+                                    transactionBlock.Clear();
                                 }
                             }
                         }
                     }
 
                     // send footer to queue, add count
-                   startMessageQueue((new KeyValuePair<int, string>(id, "Footer " + count)).ToString());
+                    startMessageQueue((new KeyValuePair<int, string>(id, "Footer " + count)).ToString());
 
-                    count = 0; 
+                    _Logfile.writeToFile("File successfully imported");
+
+                    count = 0;
                 }
 
             }
@@ -155,16 +170,16 @@ namespace INA.Model
             foreach (var line in transactionBlock)
             {
                 // split line.Value: acc no, amount
-                string[] transaction  = line.Value.Split(' ');
+                string[] transaction = line.Value.Split(' ');
                 //try to parse to an int
                 if (int.TryParse(transaction[1], out value) && check)
-                    {
-                        sum += value;
-                    }
-                    else
-                    {
-                        check = false;
-                   }
+                {
+                    sum += value;
+                }
+                else
+                {
+                    check = false;
+                }
 
             }
             //check if the transaction block is balanced (sum = 0)
@@ -176,11 +191,7 @@ namespace INA.Model
             return check;
         }
 
-        #region Methods
-      
         #endregion
-    
-    #endregion
 
         public void startTasks()
         {
