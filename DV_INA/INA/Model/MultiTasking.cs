@@ -12,19 +12,19 @@ namespace INA.Model
 {
     // serializable due to xml formatter
     [Serializable()]
-    class MultiTasking:QueueManagement
+    class MultiTasking : QueueManagement
     {
         #region Member
         DatabaseManagement _databasemanagement;
 
         MessageQueue queue = GetStringMessageQueue();
         #endregion
-        
+
 
         public MultiTasking(LogFile f)
         {
             _databasemanagement = new DatabaseManagement(f);
-        }     
+        }
         #region Methods
         public void startTasks()
         {
@@ -34,14 +34,17 @@ namespace INA.Model
             // define eventhandler for msmq
             // queue.ReceiveCompleted += new ReceiveCompletedEventHandler(createDataQuery);
 
+            Task.Factory.StartNew(() =>
 
+                 Parallel.ForEach(Enumerable.Range(0, 10), new ParallelOptions { MaxDegreeOfParallelism = 4 }, (i) =>
+           {
+               // Restart the synchronous receive operation
+               process();
+
+           })
+                );
             //enumerable range + max degree of parallelism => define how many threads will be created
-            Parallel.ForEach(Enumerable.Range(0, 10), new ParallelOptions { MaxDegreeOfParallelism = 4 }, (i) =>
-            {
-                // Restart the synchronous receive operation
-                process();
 
-            });
 
         }
 
@@ -90,7 +93,7 @@ namespace INA.Model
             process();
 
         }
-      
+
         #endregion
 
 

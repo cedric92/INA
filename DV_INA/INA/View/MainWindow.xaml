@@ -9,8 +9,8 @@
         <TextBlock x:Name="txtContent" HorizontalAlignment="Left" Margin="50,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="280" Text="Geladene Dateien"/>
         <ProgressBar HorizontalAlignment="Left" Height="30" Margin="50,144,0,0" VerticalAlignment="Top" Width="400" Visibility="Hidden"/>
         <Grid HorizontalAlignment="Left" Height="31" Margin="-1,270,-7,0" VerticalAlignment="Top" Width="500">
-            <Button x:Name="btStart" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Height="30" Click="Button_ClickStart" Margin="51,0,0,0"/>
-            <Button x:Name="btAnhalten" Content="Anhalten" HorizontalAlignment="Left" Margin="203,0,0,0" VerticalAlignment="Top" Width="90" Height="30" Click="btAnhalten_Click" />
+            <Button x:Name="btStart" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Height="30" Click="Button_ClickStart" Margin="51,0,0,0" IsEnabled="False"/>
+            <Button x:Name="btAnhalten" Content="Anhalten" HorizontalAlignment="Left" Margin="203,0,0,0" VerticalAlignment="Top" Width="90" Height="30" Click="btAnhalten_Click" IsEnabled="False" />
             <Button x:Name="btBeenden" Content="Beenden" Margin="358,0,0,0" VerticalAlignment="Top" Height="30" Click="btBeenden_Click" HorizontalAlignment="Left" Width="90"/>
         </Grid>
 

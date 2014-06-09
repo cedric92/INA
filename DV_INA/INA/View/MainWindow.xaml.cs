@@ -63,6 +63,8 @@ namespace INA
 
             _ViewModel.startTasks();
 
+            btAnhalten.IsEnabled = true;
+
         }
 
         
@@ -131,6 +133,8 @@ namespace INA
         {
             _ViewModel._textBoxInfo = i.ToString();
             i++;
+
+            btStart.IsEnabled = true;
         }
 
         
