@@ -12,32 +12,56 @@ namespace INA.Model
     {
         #region Members
         FileSplit _FileSplit;
+        
         //QueueManagement _QueueManagement;
         private List<string> loadedFilesWithAbsolutePath = new List<string>();
-       //to delete
+       
         private ObservableCollection<string> loadedFiles = new ObservableCollection<string>();
+
+        string[] info = new string[7];
+        
+        int infoCount = 0;
+
+        #endregion
+        
+        public Model(LogFile _Logfile)
+        {
+            _FileSplit = new FileSplit(_Logfile);
+            info[0] = " ";
+            info[1] = " ";
+            info[2] = " ";
+            info[3] = " ";
+            info[4] = " ";
+            info[5] = " ";
+            info[6] = " ";
+        }
+        #region Getter/Setter
+        public string _textBoxInfo
+        {
+            get {
+                string s = "";
+                for (int i = 0; i < info.Count(); i++)
+                {
+                    s += (info[i].ToString()+"\n");
+                }
+                return s; 
+            }
+            set
+            {              
+                info[infoCount] = value;
+
+                infoCount++;
+                if (infoCount == 7)
+                {
+                    infoCount = 0;
+                }
+
+            }
+        }
         public ObservableCollection<string> _loadedFiles
         {
             get { return loadedFiles; }
             set { loadedFiles = value; }
-        }
-
-        #endregion
-        
-        public Model()
-        {
-            _FileSplit = new FileSplit();
-        }
-        #region Getter/Setter
-        internal FileSplit FileSplit
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
         }
 
         public string setloadedFilesWithAbsolutePath

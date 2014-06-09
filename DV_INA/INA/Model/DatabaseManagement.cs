@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace INA.Model
 {
@@ -11,15 +12,17 @@ namespace INA.Model
     {
         #region Members
         SqlConnection _sqlconnection = null;
+        LogFile _LogFile;
         string conString = @"Server=WINJ5GTVAPSLQX\SQLEXPRESS;Database=INA;Trusted_Connection=True;";
         #endregion
 
         #region Constructor
 
-        public DatabaseManagement()
+        public DatabaseManagement(LogFile f)
         {
             // start new connection with constring
             _sqlconnection = new SqlConnection(conString);
+            this._LogFile = f;
         }
 
         #endregion
@@ -67,11 +70,11 @@ namespace INA.Model
                     break;
                 //message is a footer
                 case "Footer":
-                    success = evaluateFooter(record);
+                    //success = evaluateFooter(record);
                     break;
                 //message is no footer/header
                 default:
-                    success = evaluateMessage(record);
+                   // success = evaluateMessage(record);
                     break;
             }
             return success;
@@ -96,7 +99,7 @@ namespace INA.Model
                     command.Transaction = trans;
 
                     // begin transaction
-
+                    
                     command.CommandText = "SELECT * FROM AccMgmt WHERE Fileid=" + record[0] + ")";
                     int i = command.ExecuteNonQuery();
                     trans.Commit();
@@ -104,9 +107,11 @@ namespace INA.Model
                     // alles da?
                     if (i != Convert.ToInt32(record[2]))
                     {
+                       
                         return false;
                     }
                     //everything worked => return true
+                    this._LogFile.writeToFile("Footer check ok with ID = " + record[0]);
                     return true;
 
                 }
@@ -150,6 +155,7 @@ namespace INA.Model
 
             }
         }
+
         #endregion
     }
 }

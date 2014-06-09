@@ -126,6 +126,12 @@ namespace INA
                
             }         
         }
+        int i = 0;
+        private void btAnhalten_Click(object sender, RoutedEventArgs e)
+        {
+            _ViewModel._textBoxInfo = i.ToString();
+            i++;
+        }
 
         
     }

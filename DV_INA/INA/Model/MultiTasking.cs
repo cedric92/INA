@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Messaging;
 using System.Collections.Concurrent;
 using System.Threading;
+using System.IO;
 
 namespace INA.Model
 {
@@ -13,32 +14,35 @@ namespace INA.Model
     [Serializable()]
     class MultiTasking:QueueManagement
     {
-        DatabaseManagement _databasemanagement = new DatabaseManagement();
+        #region Member
+        DatabaseManagement _databasemanagement;
 
         MessageQueue queue = GetStringMessageQueue();
+        #endregion
+        
 
-        public MultiTasking()
+        public MultiTasking(LogFile f)
         {
-
-        }
-
+            _databasemanagement = new DatabaseManagement(f);
+        }     
+        #region Methods
         public void startTasks()
         {
             // set the formatter to indicate body contains a string
             queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
 
             // define eventhandler for msmq
-           // queue.ReceiveCompleted += new ReceiveCompletedEventHandler(createDataQuery);
+            // queue.ReceiveCompleted += new ReceiveCompletedEventHandler(createDataQuery);
 
-            
+
             //enumerable range + max degree of parallelism => define how many threads will be created
             Parallel.ForEach(Enumerable.Range(0, 10), new ParallelOptions { MaxDegreeOfParallelism = 4 }, (i) =>
             {
                 // Restart the synchronous receive operation
                 process();
-   
+
             });
-  
+
         }
 
         //used by each task
@@ -86,6 +90,9 @@ namespace INA.Model
             process();
 
         }
+      
+        #endregion
+
 
     }
 }

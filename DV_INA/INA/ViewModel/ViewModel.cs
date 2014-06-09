@@ -15,7 +15,7 @@ namespace INA.ViewModel
     public class ViewModel : INotifyPropertyChanged
     {
         #region NotifiyPropertyChanged
- 
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected internal void OnPropertyChanged(string propertyname)
@@ -28,15 +28,28 @@ namespace INA.ViewModel
 
         #region Members
         Model.Model _Model;
+        LogFile _Logfile;
         #endregion
 
-        #region Getter/Setter
         public ViewModel()
         {
-            _Model = new Model.Model();
+            _Logfile = new LogFile(this);
+            _Model = new Model.Model(_Logfile);
+            
         }
-      
-        //to delete
+
+        #region Getter/Setter
+
+        public string _textBoxInfo
+        {
+            get { return _Model._textBoxInfo; }
+            set
+            {
+                _Model._textBoxInfo = value;
+                OnPropertyChanged("_textBoxInfo");
+            }
+        }
+
         public ObservableCollection<string> _loadedFiles
         {
             get { return _Model._loadedFiles; }
@@ -46,33 +59,20 @@ namespace INA.ViewModel
                 OnPropertyChanged("_loadedFiles");
             }
         }
-      
-        
+
+
         public string setloadedFilesWithAbsolutePath
         {
             set { _Model.setloadedFilesWithAbsolutePath = value; }
         }
         #endregion
-       
-
-        internal INA.Model.Model Model
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-                
-            }
-        }
 
         #region Methods
-        
+
         public void splitFiles()
         {
             _Model.splitFiles();
-           
+
         }
         public void startTasks()
         {

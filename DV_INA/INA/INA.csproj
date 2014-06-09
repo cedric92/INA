@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="Model\DatabaseManagement.cs" />
     <Compile Include="Model\FileSplit.cs" />
+    <Compile Include="Model\LogFile.cs" />
     <Compile Include="Model\Model.cs" />
     <Compile Include="Model\MultiTasking.cs" />
     <Compile Include="Model\QueueManagement.cs" />

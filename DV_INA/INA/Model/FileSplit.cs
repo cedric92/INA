@@ -15,16 +15,17 @@ namespace INA.Model
     
     #region Members
 
-        MultiTasking _MultiTasking = new MultiTasking();
+        MultiTasking _MultiTasking;
+        LogFile _Logfile;
 
     #endregion
 
     #region Constructor
 
-        public FileSplit()
+        public FileSplit(LogFile f)
         {
-          
-            
+          this._Logfile = f;
+          _MultiTasking = new MultiTasking(f);
         }
 
     #endregion
@@ -38,7 +39,7 @@ namespace INA.Model
             int id = 0;
 
             // write to log file
-            writeToFile("### Start Import: "
+            _Logfile.writeToFile("### Start Import: "
                 + DateTime.Now.ToShortTimeString().ToString() + ", "
                 + DateTime.Now.ToString("dd-MM-yyyy")
                 + Environment.NewLine);
@@ -52,14 +53,14 @@ namespace INA.Model
             if (!loopResult.IsCompleted && !loopResult.LowestBreakIteration.HasValue)
             {
                 // write to log file
-                writeToFile("### Import aborted ############" + Environment.NewLine);
+                _Logfile.writeToFile("### Import aborted ############" + Environment.NewLine);
             }
 
             // if loop successful
             if (loopResult.IsCompleted)
             {
                 // write to log file
-                writeToFile("### Import successful ############" + Environment.NewLine);
+                _Logfile.writeToFile("### Import successful ############" + Environment.NewLine);
             }
         }
 
@@ -96,7 +97,7 @@ namespace INA.Model
                                 {
                                     foreach (var tline in transactionBlock)
                                     {
-                                        writeToFile("ERROR: " + Path.GetFileName(filePath) + ", "
+                                        _Logfile.writeToFile("ERROR: " + Path.GetFileName(filePath) + ", "
                                             + tline.ToString() + Environment.NewLine);
                                     }
                                     transactionBlock.Clear();
@@ -166,23 +167,9 @@ namespace INA.Model
             return check;
         }
 
-        private void writeToFile(string message)
-        {
-           string path = Path.Combine((Environment.ExpandEnvironmentVariables("%USERPROFILE%") + @"\Desktop"), "Log.txt");
-            //string path = Path.GetTempPath();
-            //string path = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-
-            // This text is added only once to the file.
-            if (!File.Exists(path))
-            {
-                // Create a file to write to.
-                File.WriteAllText(path, message);
-            }
-            else
-            {
-                File.AppendAllText(path, message);
-            }
-        }
+        #region Methods
+      
+        #endregion
     
     #endregion
 
