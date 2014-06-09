@@ -56,7 +56,7 @@ namespace INA.Model
                 String myOrder = (String)myMessage.Body;
 
                 // Display message information.
-                if (_databasemanagement.addDataToTransactionCount(myOrder))
+                if (_databasemanagement.evaluateMessageLine(myOrder))
                 {
                     // Commit the transaction.
                     myTransaction.Commit();

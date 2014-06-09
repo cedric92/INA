@@ -15,16 +15,13 @@ namespace INA.Model
     {
     #region Members
 
-        // generate new queue
-        //Queue<string> queue = null;
-
     #endregion
 
     #region Methods
 
         public QueueManagement()
         {
-           // this.queue = new Queue<string>(); 
+           
         }
 
         // start 
@@ -60,13 +57,12 @@ namespace INA.Model
           // msgQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
 
            // a transaction type used for Microsoft Transaction Server (MTS) it will be used when sending or receiving the message
-           //msgQueue.Send(transactions, MessageQueueTransactionType.Automatic);
            // Send a message to the queue. 
+
            if (msgQueue.Transactional == true)
            {
                // Create a transaction.
-               MessageQueueTransaction myTransaction = new
-                   MessageQueueTransaction();
+               MessageQueueTransaction myTransaction = new MessageQueueTransaction();
 
                // Begin the transaction.
                myTransaction.Begin();
