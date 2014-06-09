@@ -50,7 +50,7 @@ namespace INA
 
             _ViewModel.startTasks();
 
-            btAnhalten.IsEnabled = true;
+          
 
           
 
@@ -113,19 +113,11 @@ namespace INA
                 
                     tmp.Add(sub);
                     _ViewModel._loadedFiles = tmp;
-                }
-               
+                } 
             }         
         }
-        int i = 0;
-        private void btAnhalten_Click(object sender, RoutedEventArgs e)
-        {
-            _ViewModel._textBoxInfo = i.ToString();
-            i++;
-
-            btStart.IsEnabled = true;
-        }
-
+        
+      
         private void btDelete_Click(object sender, RoutedEventArgs e)
         {
             if (filesView.SelectedItem != null)

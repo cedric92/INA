@@ -110,10 +110,12 @@ namespace INA.Model
                        
                         return false;
                     }
-                    //everything worked => return true
-                    this._LogFile.writeToFile("Footer check ok with ID = " + record[0]);
-                    return true;
-
+                    else
+                    {
+                        //everything worked => return true
+                        this._LogFile.writeToFile("Complete file with "+record[2]+" messages successfully inserted!");
+                        return true;
+                    }
                 }
                 catch (Exception)
                 {
