@@ -29,12 +29,14 @@ namespace INA.ViewModel
         #region Members
         Model.Model _Model;
         LogFile _Logfile;
+        ProgressBarControl _ProgressBarControl;
         #endregion
 
         public ViewModel()
         {
             _Logfile = new LogFile(this);
-            _Model = new Model.Model(_Logfile);
+            _ProgressBarControl = new ProgressBarControl(this);
+            _Model = new Model.Model(_Logfile, _ProgressBarControl);
             
         }
 
@@ -60,10 +62,19 @@ namespace INA.ViewModel
             }
         }
 
-
         public string setloadedFilesWithAbsolutePath
         {
             set { _Model.setloadedFilesWithAbsolutePath = value; }
+        }
+
+        public double ProgressStatus
+        {
+            get { return _Model._progressStatus; }
+            set
+            {
+                _Model._progressStatus = value;
+                OnPropertyChanged("ProgressStatus");
+            }
         }
         #endregion
 

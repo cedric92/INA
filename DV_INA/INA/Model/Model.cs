@@ -12,21 +12,28 @@ namespace INA.Model
     {
         #region Members
         FileSplit _FileSplit;
-        
         //QueueManagement _QueueManagement
         private List<string> loadedFilesWithAbsolutePath = new List<string>();
-       
+
         private ObservableCollection<string> loadedFiles = new ObservableCollection<string>();
 
         string[] info = new string[7];
-        
+
         int infoCount = 0;
 
+        private double progressStatus;
+
         #endregion
-        
-        public Model(LogFile _Logfile)
+
+        public Model(LogFile _Logfile, ProgressBarControl pbc)
         {
-            _FileSplit = new FileSplit(_Logfile);
+            DatabaseManagement _databasemanagement = new DatabaseManagement(_Logfile, pbc);
+            MultiTasking _MultiTasking = new MultiTasking(_Logfile, _databasemanagement);
+            QueueManagement _QueueManagement = new QueueManagement();
+            _FileSplit = new FileSplit(_Logfile, _MultiTasking, pbc);
+            
+
+
             info[0] = " ";
             info[1] = " ";
             info[2] = " ";
@@ -36,18 +43,25 @@ namespace INA.Model
             info[6] = " ";
         }
         #region Getter/Setter
+
+        public double _progressStatus
+        {
+            get { return this.progressStatus; }
+            set { this.progressStatus = value; }
+        }
         public string _textBoxInfo
         {
-            get {
+            get
+            {
                 string s = "";
                 for (int i = 0; i < info.Count(); i++)
                 {
-                    s += (info[i].ToString()+"\n");
+                    s += (info[i].ToString() + "\n");
                 }
-                return s; 
+                return s;
             }
             set
-            {              
+            {
                 info[infoCount] = value;
 
                 infoCount++;
@@ -68,11 +82,11 @@ namespace INA.Model
         {
             set { this.loadedFilesWithAbsolutePath.Add(value); }
         }
-    
-        #endregion
-        
 
-   /*    
+        #endregion
+
+
+        /*    
       internal QueueManagement QueueManagement
         {
             get
@@ -98,7 +112,7 @@ namespace INA.Model
             {
                 if (loadedFilesWithAbsolutePath.ElementAt(i).Equals(path))
                 {
-                   return true;
+                    return true;
                 }
             }
             return false;
@@ -113,7 +127,7 @@ namespace INA.Model
 
         public void clearFilePath(int index)
         {
-            
+
             string s1 = loadedFiles.ElementAt(index);
             loadedFiles.Remove(s1);
 

@@ -70,6 +70,7 @@
     <Compile Include="Model\LogFile.cs" />
     <Compile Include="Model\Model.cs" />
     <Compile Include="Model\MultiTasking.cs" />
+    <Compile Include="Model\ProgressBarControl.cs" />
     <Compile Include="Model\QueueManagement.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">

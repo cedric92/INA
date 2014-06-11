@@ -13,15 +13,17 @@ namespace INA.Model
         #region Members
         SqlConnection _sqlconnection = null;
         LogFile _LogFile;
+        ProgressBarControl _ProgressBarControl;
         string conString = @"Server=WINJ5GTVAPSLQX\SQLEXPRESS;Database=INA;Trusted_Connection=True;";
         #endregion
 
         #region Constructor
 
-        public DatabaseManagement(LogFile f)
+        public DatabaseManagement(LogFile f, ProgressBarControl pbc)
         {
             // start new connection with constring
             _sqlconnection = new SqlConnection(conString);
+            this._ProgressBarControl = pbc;
             this._LogFile = f;
         }
 
@@ -114,6 +116,7 @@ namespace INA.Model
                     {
                         //everything worked => return true
                         this._LogFile.writeToFile("Complete file with "+record[2]+" messages successfully inserted!");
+                        this._ProgressBarControl.setProgressStatus();
                         return true;
                     }
                 }

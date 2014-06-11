@@ -42,18 +42,18 @@ namespace INA
         }
         private void Button_ClickStart(object sender, RoutedEventArgs e)
         {
+            progBar.Value = 0;
             //call method splitFile which splits the chosen file according to the fileNam
             _ViewModel.splitFiles();
 
             // deacticate start button
             btStart.IsEnabled = false;
 
+            
+            
             _ViewModel.startTasks();
 
-          
-
-          
-
+           
         }
 
         

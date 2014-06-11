@@ -22,10 +22,10 @@ namespace INA.Model
         #endregion
 
 
-        public MultiTasking(LogFile f)
+        public MultiTasking(LogFile f, DatabaseManagement db)
         {
             this._Logfile = f;
-            _databasemanagement = new DatabaseManagement(f);
+            _databasemanagement = db;
         }
         #region Methods
         public void startTasks()

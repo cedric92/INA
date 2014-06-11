@@ -13,19 +13,21 @@ namespace INA.Model
     class FileSplit : QueueManagement
     {
 
-        #region Members
-
-        MultiTasking _MultiTasking;
+        #region Members      
         LogFile _Logfile;
+        MultiTasking _MultiTasking;
+        ProgressBarControl _ProgressBarControl;
 
+        private int numberOfFiles = 0;
         #endregion
 
         #region Constructor
 
-        public FileSplit(LogFile f)
+        public FileSplit(LogFile f, MultiTasking m, ProgressBarControl pbc)
         {
             this._Logfile = f;
-            _MultiTasking = new MultiTasking(f);
+            this._MultiTasking = m;
+            this._ProgressBarControl = pbc;
         }
 
         #endregion
@@ -41,6 +43,7 @@ namespace INA.Model
         {
             // file id for  queue
             int id = 0;
+            numberOfFiles = loadedFilePaths.Count();
 
             // write to log file
             /*   _Logfile.writeToFile("### Start Import: "
@@ -59,12 +62,6 @@ namespace INA.Model
             Task.Factory.StartNew(() =>
             Parallel.ForEach<string>(loadedFilePaths, path => readFile(path, id++))
             );
-
-
-
-
-
-
 
             /*
                         // fuer anhalten button (kommt noch)
@@ -143,7 +140,7 @@ namespace INA.Model
                     startMessageQueue((new KeyValuePair<int, string>(id, "Footer " + count)).ToString());
 
                     _Logfile.writeToFile("File successfully imported");
-
+                    _ProgressBarControl.setProgressStatus(numberOfFiles);
                     count = 0;
                 }
 
