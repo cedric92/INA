@@ -48,7 +48,7 @@ namespace INA.Model
             //enumerable range + max degree of parallelism => define how many threads will be created
 
             
-            _Logfile.writeToFile("Successfully importet into DB!! Everything completed.");
+           // _Logfile.writeToFile("Successfully importet into DB!! Everything completed.");
         }
 
         //used by each task

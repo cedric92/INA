@@ -110,7 +110,7 @@ namespace INA
                     //set text for loaded files => databinding
                   
                     //_ViewModel.loadedFiles = sub;
-                
+               
                     tmp.Add(sub);
                     _ViewModel._loadedFiles = tmp;
                 } 
@@ -125,6 +125,9 @@ namespace INA
                 int index = filesView.SelectedIndex;
                 _ViewModel.clearFilePath(index);
             }
+
+
+           
            
         }
 

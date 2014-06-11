@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace INA.Model
 {
@@ -139,7 +140,12 @@ namespace INA.Model
                     // send footer to queue, add count
                     startMessageQueue((new KeyValuePair<int, string>(id, "Footer " + count)).ToString());
 
-                    _Logfile.writeToFile("File successfully imported");
+                    
+
+
+                        _Logfile.writeToFile("File successfully imported\n");
+                    
+
                     _ProgressBarControl.setProgressStatus(numberOfFiles);
                     count = 0;
                 }

@@ -9,10 +9,8 @@
         <TextBlock x:Name="txtContent" HorizontalAlignment="Left" Margin="50,7,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="280" Text="Geladene Dateien"/>
         <Grid HorizontalAlignment="Left" Height="31" Margin="-1,270,-7,0" VerticalAlignment="Top" Width="500">
             <Button x:Name="btStart" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Height="30" Click="Button_ClickStart" Margin="51,0,0,0" IsEnabled="False"/>
-            <Button x:Name="btBeenden" Content="Beenden" Margin="358,0,0,0" VerticalAlignment="Top" Height="30" Click="btBeenden_Click" HorizontalAlignment="Left" Width="90" IsEnabled="False"/>
+            <Button x:Name="btBeenden" Content="Beenden" Margin="360,0,0,0" VerticalAlignment="Top" Height="30" Click="btBeenden_Click" HorizontalAlignment="Left" Width="90" IsEnabled="False"/>
         </Grid>
-
-        <TextBlock x:Name="tbInfo"   HorizontalAlignment="Left" Margin="50,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="112" Width="400" Background="#FFF1F0F0" Text="{Binding _textBoxInfo}"  />
 
         <ListView x:Name="filesView" HorizontalAlignment="Left" Height="92" Margin="50,29,0,0" VerticalAlignment="Top" Width="280" ItemsSource="{Binding _loadedFiles}" SelectionMode="Single">
             <ListView.View>
@@ -22,19 +20,34 @@
             </ListView.View>
         </ListView>
         <Button x:Name="btDelete" Content="Delete" HorizontalAlignment="Left" Height="19" Margin="335,102,0,0" VerticalAlignment="Top" Width="115" Click="btDelete_Click"/>
-       
-        
-        
-        
-       
-                <ProgressBar x:Name="progBar" HorizontalAlignment="Left" Height="22" Margin="50,126,0,0" VerticalAlignment="Top" Width="400" Value="{Binding ProgressStatus}"  Minimum="0" Maximum="100" />
 
-        
 
-        
-        
-        
-        
+
+
+
+        <ProgressBar x:Name="progBar" HorizontalAlignment="Left" Height="22" Margin="50,126,0,0" VerticalAlignment="Top" Width="400" Value="{Binding ProgressStatus}"  Minimum="0" Maximum="100" />
+        <ListView x:Name="lvLog" HorizontalAlignment="Left" Height="100" Margin="50,165,0,0" VerticalAlignment="Top" Width="400" BorderBrush="Gray" ItemsSource="{Binding _listViewInfo}" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+
+
+                </GridView>
+            </ListView.View>
+
+            <ListView.Resources>
+                <Style TargetType="GridViewColumnHeader">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+            </ListView.Resources>
+        </ListView>
+
+
+
+
+
+
+
 
     </Grid>
 </Window>

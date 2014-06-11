@@ -42,13 +42,13 @@ namespace INA.ViewModel
 
         #region Getter/Setter
 
-        public string _textBoxInfo
+        public ObservableCollection<string> _listViewInfo
         {
-            get { return _Model._textBoxInfo; }
+            get { return _Model._listViewInfo; }
             set
             {
-                _Model._textBoxInfo = value;
-                OnPropertyChanged("_textBoxInfo");
+                _Model._listViewInfo = value;
+                OnPropertyChanged("_listViewInfo");
             }
         }
 
@@ -59,6 +59,15 @@ namespace INA.ViewModel
             {
                 _Model._loadedFiles = value;
                 OnPropertyChanged("_loadedFiles");
+            }
+        }
+
+        public string setListViewInfo
+        {
+            set
+            {
+                _Model.addListViewInfo=value;
+                OnPropertyChanged("_listViewInfo");
             }
         }
 

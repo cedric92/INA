@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Collections.ObjectModel;
+using System.Windows.Threading;
 
 namespace INA.Model
 {
@@ -49,9 +51,16 @@ namespace INA.Model
             }
         }
 
+        static readonly object _lock = new object();
         private void callVM(string message)
         {
-            this._vm._textBoxInfo = message;
+            
+                ObservableCollection<string> tmp = _vm._listViewInfo;
+              //  tmp.Add(message);
+                this._vm._listViewInfo = tmp; 
+            
+
+                               
         }
         #endregion
     }

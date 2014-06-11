@@ -16,10 +16,7 @@ namespace INA.Model
         private List<string> loadedFilesWithAbsolutePath = new List<string>();
 
         private ObservableCollection<string> loadedFiles = new ObservableCollection<string>();
-
-        string[] info = new string[7];
-
-        int infoCount = 0;
+        private ObservableCollection<string> listViewInfo = new ObservableCollection<string>();
 
         private double progressStatus;
 
@@ -32,15 +29,6 @@ namespace INA.Model
             QueueManagement _QueueManagement = new QueueManagement();
             _FileSplit = new FileSplit(_Logfile, _MultiTasking, pbc);
             
-
-
-            info[0] = " ";
-            info[1] = " ";
-            info[2] = " ";
-            info[3] = " ";
-            info[4] = " ";
-            info[5] = " ";
-            info[6] = " ";
         }
         #region Getter/Setter
 
@@ -49,27 +37,16 @@ namespace INA.Model
             get { return this.progressStatus; }
             set { this.progressStatus = value; }
         }
-        public string _textBoxInfo
+        public ObservableCollection<string> _listViewInfo
         {
-            get
-            {
-                string s = "";
-                for (int i = 0; i < info.Count(); i++)
-                {
-                    s += (info[i].ToString() + "\n");
-                }
-                return s;
-            }
-            set
-            {
-                info[infoCount] = value;
+            get { return listViewInfo; }
+            set { listViewInfo = value; }
+        }
+        public string addListViewInfo
+        {
+            set { 
 
-                infoCount++;
-                if (infoCount == 7)
-                {
-                    infoCount = 0;
-                }
-
+                this._listViewInfo.Add(value); 
             }
         }
         public ObservableCollection<string> _loadedFiles
