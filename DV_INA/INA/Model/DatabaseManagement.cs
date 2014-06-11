@@ -14,7 +14,8 @@ namespace INA.Model
         SqlConnection _sqlconnection = null;
         LogFile _LogFile;
         ProgressBarControl _ProgressBarControl;
-        string conString = @"Server=WINJ5GTVAPSLQX\SQLEXPRESS;Database=INA;Trusted_Connection=True;";
+        string conString = @"Server=CEDRIC\SQLEXPRESS;Database=dv projekt;Trusted_Connection=True; Connect Timeout=1;";
+        // string conString = @"Server=WINJ5GTVAPSLQX\SQLEXPRESS;Database=INA;Trusted_Connection=True;";
         #endregion
 
         #region Constructor
@@ -72,11 +73,11 @@ namespace INA.Model
                     break;
                 //message is a footer
                 case "Footer":
-                    //success = evaluateFooter(record);
+                    success = evaluateFooter(record);
                     break;
                 //message is no footer/header
                 default:
-                   // success = evaluateMessage(record);
+                    success = evaluateMessage(record);
                     break;
             }
             return success;
@@ -92,36 +93,43 @@ namespace INA.Model
                 try
                 {
                     // open connection
-                    _sqlconnection.Open();
-                    trans = _sqlconnection.BeginTransaction();
+                    SqlConnection _sqlconnection2 = new SqlConnection(conString);
+                    _sqlconnection2.Open();
+                    trans = _sqlconnection2.BeginTransaction();
 
 
-                    SqlCommand command = _sqlconnection.CreateCommand();
-                    command.Connection = _sqlconnection;
+                    SqlCommand command = _sqlconnection2.CreateCommand();
+                    command.Connection = _sqlconnection2;
                     command.Transaction = trans;
 
                     // begin transaction
-                    
-                    command.CommandText = "SELECT * FROM AccMgmt WHERE Fileid=" + record[0] + ")";
+
+                    command.CommandText = "SELECT * FROM AccMgmt WHERE Fileid=" + record[0];
                     int i = command.ExecuteNonQuery();
                     trans.Commit();
 
                     // alles da?
                     if (i != Convert.ToInt32(record[2]))
                     {
-                       
+
                         return false;
                     }
                     else
                     {
                         //everything worked => return true
-                        this._LogFile.writeToFile("Complete file with "+record[2]+" messages successfully inserted!");
+                        this._LogFile.writeToFile("Complete file with " + record[2] + " messages successfully inserted!");
                         this._ProgressBarControl.setProgressStatus();
                         return true;
                     }
                 }
-                catch (Exception)
+                catch (SqlException se)
                 {
+                    Console.WriteLine(se.Message);
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
                     return false;
                 }
             }
