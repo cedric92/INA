@@ -25,7 +25,7 @@
 
 
 
-        <ProgressBar x:Name="progBar" HorizontalAlignment="Left" Height="22" Margin="50,126,0,0" VerticalAlignment="Top" Width="400" Value="{Binding ProgressStatus}"  Minimum="0" Maximum="100" />
+        <ProgressBar x:Name="progBar" HorizontalAlignment="Left" Height="22" Margin="50,126,0,0" VerticalAlignment="Top" Width="400" Value="{Binding ProgressStatus}"  Minimum="0" Maximum="100" Foreground="#FF689BE6" />
         <TextBox x:Name="tbInfo3" HorizontalAlignment="Left" Height="112" Margin="50,153,0,0" TextWrapping="Wrap" Text="{Binding _tbInfo}" VerticalAlignment="Top" Width="400" ScrollViewer.VerticalScrollBarVisibility="Visible" Focusable="False"  />
 
 

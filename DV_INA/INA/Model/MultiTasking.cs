@@ -53,28 +53,28 @@ namespace INA.Model
         private void process()
         {
             // Create a transaction.
-            MessageQueueTransaction myTransaction = new MessageQueueTransaction();
+            MessageQueueTransaction trans = new MessageQueueTransaction();
 
             try
             {
                 // Begin the transaction.
-                myTransaction.Begin();
+               trans.Begin();
 
                 // Receive the message from msmq
                 //
-                Message myMessage = queue.Receive(myTransaction);
-                String myOrder = (String)myMessage.Body;
+                Message msg = queue.Receive(trans);
+                String value = (String)msg.Body;
 
                 // Display message information.
-                if (_databasemanagement.evaluateMessageLine(myOrder))
+                if (_databasemanagement.evaluateMessageLine(value))
                 {
                     // Commit the transaction.
-                    myTransaction.Commit();
+                    trans.Commit();
                 }
                 else
                 {
                     // Abort the transaction.
-                    myTransaction.Abort();
+                    trans.Abort();
                 }
             }
 
@@ -88,7 +88,7 @@ namespace INA.Model
                 }
 
                 // Roll back the transaction.
-                myTransaction.Abort();
+                trans.Abort();
             }
             // rekursiv
             process();

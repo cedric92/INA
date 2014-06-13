@@ -11,7 +11,7 @@ namespace INA.Model
     class DatabaseManagement : QueueManagement
     {
         #region Members
-        SqlConnection _sqlconnection = null;
+     
         LogFile _LogFile;
         ProgressBarControl _ProgressBarControl;
         string conString = @"Server=CEDRIC\SQLEXPRESS;Database=dv projekt;Trusted_Connection=True; Connect Timeout=1;";
@@ -23,7 +23,7 @@ namespace INA.Model
         public DatabaseManagement(LogFile f, ProgressBarControl pbc)
         {
             // start new connection with constring
-            _sqlconnection = new SqlConnection(conString);
+            
             this._ProgressBarControl = pbc;
             this._LogFile = f;
         }
@@ -88,8 +88,6 @@ namespace INA.Model
         {
             SqlTransaction trans;
             // connect to database
-            using (_sqlconnection = new SqlConnection(conString))
-            {
                 try
                 {
                     // open connection
@@ -104,8 +102,12 @@ namespace INA.Model
 
                     // begin transaction
 
-                    command.CommandText = "SELECT * FROM AccMgmt WHERE Fileid=" + record[0];
-                    int i = command.ExecuteNonQuery();
+                    // command.CommandText = "SELECT * FROM AccMgmt WHERE Fileid= '" + record[0]+"'";
+                    command.CommandText = "select count(*) from AccMgmt where Fileid = '" + record[0] + "'";
+                    // int i = command.ExecuteNonQuery();
+
+                    int i = (int)command.ExecuteScalar();
+
                     trans.Commit();
 
                     // alles da?
@@ -117,14 +119,14 @@ namespace INA.Model
                     else
                     {
                         //everything worked => return true
-                        this._LogFile.writeToFile("Complete file with " + record[2] + " messages successfully inserted!");
-                        this._ProgressBarControl.setProgressStatus();
+                        this._LogFile.writeToFile("Complete file " + record[0] + " with " + record[2] + " messages successfully inserted!\n");
+                       
                         return true;
                     }
                 }
                 catch (SqlException se)
                 {
-                    Console.WriteLine(se.Message);
+                    Console.WriteLine("Eine SQL Exception ist da´: !" + se.Message);
                     return false;
                 }
                 catch (Exception e)
@@ -132,14 +134,14 @@ namespace INA.Model
                     Console.WriteLine(e.Message);
                     return false;
                 }
-            }
+            
         }
         private bool evaluateMessage(string[] record)
         {
             SqlTransaction trans;
+            SqlConnection _sqlconnection = new SqlConnection(conString);
+
             // connect to database
-            using (_sqlconnection = new SqlConnection(conString))
-            {
                 try
                 {
                     // open connection
@@ -152,23 +154,24 @@ namespace INA.Model
 
                     // begin transaction
 
-                    command.CommandText = "INSERT INTO AccMgmt (Account, Amount, Fileid) VALUES (" + record[1] + "," + record[2] + "," + record[0] + ")";
+                    command.CommandText = "INSERT INTO AccMgmt (Account, Amount, Fileid) VALUES (" + record[1] + "," + record[2] + ", '" + record[0] + "' )";
                     command.ExecuteNonQuery();
 
                     trans.Commit();
 
-                    //add step to progressbar
-                    _ProgressBarControl.setProgressStatus();
-
                     //everything ok: return true
                     return true;
                 }
-                catch (Exception)
+                catch (SqlException sqle)
                 {
+                    Console.WriteLine(sqle.Message);
                     return false;
                 }
-
-            }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return false;
+                }
         }
 
         #endregion

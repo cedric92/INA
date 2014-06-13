@@ -22,7 +22,7 @@ namespace INA.Model
         //e.g. : 4 files => steps = 8
         public void setProgressStatus(int steps)
         {
-            stepValue = 100/ (steps * 2);
+            stepValue = 100/ (steps);
             _ViewModel.ProgressStatus += stepValue;
         }
 

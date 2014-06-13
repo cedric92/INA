@@ -42,8 +42,6 @@ namespace INA.Model
         // split file into lines
         public void splitFile(List<string> loadedFilePaths)
         {
-            // file id for  queue
-            int id = 0;
             numberOfFiles = loadedFilePaths.Count();
 
             // write to log file
@@ -57,7 +55,7 @@ namespace INA.Model
              * */
             var loopResult =
             Task.Factory.StartNew(() =>
-            Parallel.ForEach<string>(loadedFilePaths, path => readFile(path, id++))
+            Parallel.ForEach<string>(loadedFilePaths, path => readFile(path))
             );
 
             /*
@@ -70,22 +68,25 @@ namespace INA.Model
         }
 
         // import and check files
-        public void readFile(string filePath, int id)
+        public void readFile(string filePath)
         {
-            _Logfile.writeToFile("###Started to import file " + filePath+"###\n");
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            _Logfile.writeToFile("###Started to import file " + fileName+"###\n");
 
             try
             {
                 using (StreamReader sr = new StreamReader(filePath))
                 {
                     string line = "";
+
+                    //count lines
                     int count = 0;
 
                     // save whole transactions, KeyValuePair simplifies access to key and value (acc-no + sum)
-                    List<KeyValuePair<int, string>> transactionBlock = new List<KeyValuePair<int, string>>();
+                    List<KeyValuePair<string, string>> transactionBlock = new List<KeyValuePair<string, string>>();
 
                     // send header to queue
-                    startMessageQueue((new KeyValuePair<int, string>(id, "Header")).ToString());
+                    startMessageQueue((new KeyValuePair<string, string>(fileName, "Header")).ToString());
 
                     // read file
                     while ((line = sr.ReadLine()) != null)
@@ -93,7 +94,7 @@ namespace INA.Model
                         if (!line.Contains('#'))
                         {
                             // add line to transactionBlock
-                            transactionBlock.Add((new KeyValuePair<int, string>(id, line)));
+                            transactionBlock.Add((new KeyValuePair<string, string>(fileName, line)));
                         }
                         else
                         {
@@ -104,7 +105,7 @@ namespace INA.Model
                                 {
                                     foreach (var tline in transactionBlock)
                                     {
-                                        _Logfile.writeToFile("ERROR: " + Path.GetFileName(filePath) + ", "
+                                        _Logfile.writeToFile("ERROR: " + fileName + ", "
                                             + tline.ToString() + Environment.NewLine);
                                     }
                                     transactionBlock.Clear();
@@ -125,10 +126,10 @@ namespace INA.Model
                     }
 
                     // send footer to queue, add count
-                    startMessageQueue((new KeyValuePair<int, string>(id, "Footer " + count)).ToString());
+                    startMessageQueue((new KeyValuePair<string, string>(fileName, "Footer " + count)).ToString());
 
 
-                    _Logfile.writeToFile("###File successfully imported###\n");
+                    _Logfile.writeToFile("###File "+fileName+" successfully imported###\n");
 
 
                     _ProgressBarControl.setProgressStatus(numberOfFiles);
@@ -147,7 +148,7 @@ namespace INA.Model
 
         //check if the entries in the list are valid. 
         // fileName is used to show errormessages
-        private bool checkTextLines(List<KeyValuePair<int, string>> transactionBlock, string filePath)
+        private bool checkTextLines(List<KeyValuePair<string, string>> transactionBlock, string filePath)
         {
             int sum = 0;
             int value = 0;
