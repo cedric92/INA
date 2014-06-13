@@ -53,14 +53,10 @@ namespace INA.Model
 
         static readonly object _lock = new object();
         private void callVM(string message)
-        {
-            
+        {            
                 ObservableCollection<string> tmp = _vm._listViewInfo;
-              //  tmp.Add(message);
-                this._vm._listViewInfo = tmp; 
-            
-
-                               
+                //tmp.Add(message);
+                this._vm._listViewInfo = tmp;                             
         }
         #endregion
     }

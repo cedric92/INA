@@ -46,9 +46,6 @@ namespace INA.Model
            })
                 );
             //enumerable range + max degree of parallelism => define how many threads will be created
-
-            
-           // _Logfile.writeToFile("Successfully importet into DB!! Everything completed.");
         }
 
         //used by each task
@@ -63,7 +60,8 @@ namespace INA.Model
                 // Begin the transaction.
                 myTransaction.Begin();
 
-                // Receive the message. 
+                // Receive the message from msmq
+                //
                 Message myMessage = queue.Receive(myTransaction);
                 String myOrder = (String)myMessage.Body;
 

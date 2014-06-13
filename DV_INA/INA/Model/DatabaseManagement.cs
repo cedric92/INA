@@ -146,7 +146,6 @@ namespace INA.Model
                     _sqlconnection.Open();
                     trans = _sqlconnection.BeginTransaction();
 
-
                     SqlCommand command = _sqlconnection.CreateCommand();
                     command.Connection = _sqlconnection;
                     command.Transaction = trans;

@@ -14,7 +14,7 @@ namespace INA.Model
     class FileSplit : QueueManagement
     {
 
-        #region Members      
+        #region Members
         LogFile _Logfile;
         MultiTasking _MultiTasking;
         ProgressBarControl _ProgressBarControl;
@@ -55,10 +55,6 @@ namespace INA.Model
             /*Info für Parallel:
              * http://stackoverflow.com/questions/5009181/parallel-foreach-vs-task-factory-startnew
              * */
-
-
-
-
             var loopResult =
             Task.Factory.StartNew(() =>
             Parallel.ForEach<string>(loadedFilePaths, path => readFile(path, id++))
@@ -71,21 +67,12 @@ namespace INA.Model
                             // write to log file
                             _Logfile.writeToFile("### Import aborted ############" + Environment.NewLine);
                         }*/
-
-            // if loop successful
-            // if (loopResult.IsCompleted)
-            {
-                // write to log file
-                // _Logfile.writeToFile("### Import successful ############" + Environment.NewLine);
-            }
         }
 
         // import and check files
         public void readFile(string filePath, int id)
         {
-            
-
-            _Logfile.writeToFile("Started to import file " + filePath);
+            _Logfile.writeToFile("###Started to import file " + filePath+"###\n");
 
             try
             {
@@ -140,11 +127,9 @@ namespace INA.Model
                     // send footer to queue, add count
                     startMessageQueue((new KeyValuePair<int, string>(id, "Footer " + count)).ToString());
 
-                    
 
+                    _Logfile.writeToFile("###File successfully imported###\n");
 
-                        _Logfile.writeToFile("File successfully imported\n");
-                    
 
                     _ProgressBarControl.setProgressStatus(numberOfFiles);
                     count = 0;
