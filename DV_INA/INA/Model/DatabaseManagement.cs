@@ -157,6 +157,9 @@ namespace INA.Model
 
                     trans.Commit();
 
+                    //add step to progressbar
+                    _ProgressBarControl.setProgressStatus();
+
                     //everything ok: return true
                     return true;
                 }

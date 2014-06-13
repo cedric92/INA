@@ -47,13 +47,11 @@ namespace INA
             _ViewModel.splitFiles();
 
             // deacticate start button
-            btStart.IsEnabled = false;
-
-            
+            btStart.IsEnabled = false;          
             
             _ViewModel.startTasks();
-
-           
+          
+            btBeenden.IsEnabled = true;       
         }
 
         
@@ -70,8 +68,7 @@ namespace INA
 
         private void btOpenFile_Click(object sender, RoutedEventArgs e)
         {
-            // acticate start button
-            btStart.IsEnabled = true;
+          
             
             // Configure open file dialog box
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -85,6 +82,12 @@ namespace INA
             // Process open file dialog box results
             if (result == true)
             {
+                // acticate start button
+                btStart.IsEnabled = true;
+
+                //clear progressbar and tbinfo field
+                _ViewModel.clearGuI();
+
                 //get absolute file path
                 this.filename = dlg.FileName;
 
@@ -122,15 +125,17 @@ namespace INA
         {
             if (filesView.SelectedItem != null)
             {
+                //clear progress bar and textblock info
+                _ViewModel.clearGuI();
+
                 int index = filesView.SelectedIndex;
                 _ViewModel.clearFilePath(index);
-            }
 
-
-           
-           
-        }
-
-        
+                if (filesView.Items.Count == 0)
+                {
+                    btStart.IsEnabled = false;
+                }
+            }                    
+        }        
     }
 }

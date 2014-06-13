@@ -42,6 +42,16 @@ namespace INA.ViewModel
 
         #region Getter/Setter
 
+        public string _tbInfo
+        {
+            get { return _Model._tbInfo; }
+            set
+            {
+                _Model._tbInfo = value;
+                OnPropertyChanged("_tbInfo");
+            }
+        }
+
         public ObservableCollection<string> _listViewInfo
         {
             get { return _Model._listViewInfo; }
@@ -59,15 +69,6 @@ namespace INA.ViewModel
             {
                 _Model._loadedFiles = value;
                 OnPropertyChanged("_loadedFiles");
-            }
-        }
-
-        public string setListViewInfo
-        {
-            set
-            {
-                _Model.addListViewInfo=value;
-                OnPropertyChanged("_listViewInfo");
             }
         }
 
@@ -106,6 +107,12 @@ namespace INA.ViewModel
         {
             _Model.clearFilePath(index);
             OnPropertyChanged("_loadedFiles");
+        }
+        public void clearGuI()
+        {
+            this.ProgressStatus = 0;
+
+            this._tbInfo = "";
         }
         #endregion
     }

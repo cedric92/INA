@@ -20,6 +20,8 @@ namespace INA.Model
 
         private double progressStatus;
 
+        private string tbInfo="";
+
         #endregion
 
         public Model(LogFile _Logfile, ProgressBarControl pbc)
@@ -32,6 +34,11 @@ namespace INA.Model
         }
         #region Getter/Setter
 
+        public string _tbInfo
+        {
+            get { return this.tbInfo; }
+            set { this.tbInfo = value; }
+        }
         public double _progressStatus
         {
             get { return this.progressStatus; }

@@ -26,21 +26,8 @@
 
 
         <ProgressBar x:Name="progBar" HorizontalAlignment="Left" Height="22" Margin="50,126,0,0" VerticalAlignment="Top" Width="400" Value="{Binding ProgressStatus}"  Minimum="0" Maximum="100" />
-        <ListView x:Name="lvLog" HorizontalAlignment="Left" Height="100" Margin="50,165,0,0" VerticalAlignment="Top" Width="400" BorderBrush="Gray"  >
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
+        <TextBox x:Name="tbInfo3" HorizontalAlignment="Left" Height="112" Margin="50,153,0,0" TextWrapping="Wrap" Text="{Binding _tbInfo}" VerticalAlignment="Top" Width="400" ScrollViewer.VerticalScrollBarVisibility="Visible" Focusable="False"  />
 
-
-                </GridView>
-            </ListView.View>
-
-            <ListView.Resources>
-                <Style TargetType="GridViewColumnHeader">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                </Style>
-            </ListView.Resources>
-        </ListView>
 
 
 

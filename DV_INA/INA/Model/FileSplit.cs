@@ -143,7 +143,6 @@ namespace INA.Model
             {
                 Console.WriteLine(e.Message);
             }
-
         }
 
         //check if the entries in the list are valid. 
