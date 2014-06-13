@@ -42,6 +42,9 @@ namespace DV_CreateFile
             int min = 0;
             int max = 0;
 
+            int no_acc = 0;
+            int sum = 0;
+
             try
             {
                 min = Convert.ToInt32(txtMin.Text);
@@ -52,17 +55,16 @@ namespace DV_CreateFile
                 MessageBox.Show("Bitte geeignete Beträge eingeben.");
                 txtMax.Text = "";
                 txtMin.Text = "";
-            } 
+            }
 
             if (min < max)
             {
+                string filename = string.Format("{0:yyyy-MM-dd_hh-mm-ss}.txt", DateTime.Now);
 
                 Microsoft.Win32.SaveFileDialog saveDialog = new Microsoft.Win32.SaveFileDialog();
-                saveDialog.FileName = "Document"; // Default file name
+                saveDialog.FileName = filename; // Default file name
                 saveDialog.DefaultExt = ".txt"; // Default file extension
                 saveDialog.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
-
-                string filename = null;
 
                 // Show save file dialog box
                 Nullable<bool> result = saveDialog.ShowDialog();
@@ -74,16 +76,12 @@ namespace DV_CreateFile
                     filename = saveDialog.FileName;
                 }
 
-                int lines = 0;
+                int lines = Convert.ToInt32(txtLines.Text);
 
-                if (Convert.ToInt32(txtLines.Text) > 0)
+                if (lines < 2)
                 {
-                    lines = Convert.ToInt32(txtLines.Text);
-                }
-                else
-                {
-                    lines = 100;
-                    MessageBox.Show("Es wurde eine Datei mit 100 Zeilen erstellt.", "Information");
+                    lines = 10;
+                    txtLines.Text = "10";
                 }
 
                 string extension = Path.GetExtension(saveDialog.FileName);
@@ -96,171 +94,123 @@ namespace DV_CreateFile
 
                     int value = 0;
 
-                    if (chbBuggy.IsChecked == true)
+                    using (StreamWriter sw = File.CreateText(filename))
                     {
-                        Random rnd_checked = new Random();
-                        int bug = rnd_checked.Next(1, lines);
+                        // hashtag line 1
+                        sw.WriteLine("#");
 
-                        using (StreamWriter sw = File.CreateText(filename))
+                        // while > 5 generate lines
+                        while (lines > 5)
                         {
-                            // Hastag Z 1
+
+                            no_acc = rnd_entries.Next(2, 4);
+                            sum = 0;
+
+                            for (int j = 0; j < no_acc - 1; j++)
+                            {
+                                value = rnd_sum.Next(min, max);
+                                // write random account
+                                sw.Write(rnd_acc.Next(1, 100));
+                                // write random amount
+                                sw.WriteLine(" " + value.ToString());
+                                // add to sum
+                                sum += value;
+                            }
+
+                            // write random account
+                            sw.Write(rnd_acc.Next(1, 100));
+                            // write difference
+                            sw.WriteLine(" " + (sum * -1).ToString());
+                            // write closing #
                             sw.WriteLine("#");
 
-                            for (int i = 0; i < lines; i++)
-                            {
-                                int sum = 0;
-                                int no_acc = rnd_entries.Next(2, 5);
-
-                                if (i == bug)
-                                {
-                                    for (int j = 0; j < no_acc - 1; j++)
-                                    {
-                                        value = rnd_sum.Next(min, max);
-                                        // Kto + Betrag
-                                        sw.Write(rnd_acc.Next(1, 100));
-                                        sw.WriteLine(" " + value.ToString());
-                                        sum += value;
-                                    }
-
-                                    // Kto + Betrag
-                                    sw.Write(rnd_acc.Next(1, 100));
-                                    sw.WriteLine(" " + "BUG");
-
-                                    // #
-                                    sw.WriteLine("#");
-                                }
-                                else
-                                {
-                                    for (int j = 0; j < no_acc - 1; j++)
-                                    {
-                                        value = rnd_sum.Next(min, max);
-                                        // Kto + Betrag
-                                        sw.Write(rnd_acc.Next(1, 100));
-                                        sw.WriteLine(" " + value.ToString());
-                                        sum += value;
-                                    }
-
-                                    // Kto + Betrag
-                                    sw.Write(rnd_acc.Next(1, 100));
-                                    sw.WriteLine(" " + (sum * -1).ToString());
-
-                                    // #
-                                    sw.WriteLine("#");
-                                }
-
-                                if (chbWrongamount.IsChecked == true)
-                                {
-                                    sw.Write(rnd_acc.Next(1, 100));
-                                    sw.WriteLine(" " + rnd_sum.Next(min, max).ToString());
-                                    // #
-                                    sw.WriteLine("#");
-                                }
-
-                            }
+                            lines -= no_acc;
                         }
-                    }
-                    else
-                    {
-                        using (StreamWriter sw = File.CreateText(filename))
+
+                        // lines < 6
+                        no_acc = lines;
+                        sum = 0;
+
+                        for (int j = 0; j < no_acc - 1; j++)
                         {
-                            // Hastag Z 1
-                            sw.WriteLine("#");
-
-                            for (int i = 0; i < lines; i++)
-                            {
-                                int no_acc = rnd_entries.Next(2, 5);
-                                int sum = 0;
-
-                                for (int j = 0; j < no_acc - 1; j++)
-                                {
-                                    value = rnd_sum.Next(min, max);
-                                    // Kto + Betrag
-                                    sw.Write(rnd_acc.Next(1, 100));
-                                    sw.WriteLine(" " + value.ToString());
-                                    sum += value;
-                                }
-
-                                // Kto + Betrag
-                                sw.Write(rnd_acc.Next(1, 100));
-                                sw.WriteLine(" " + (sum * -1).ToString());
-
-                                // #
-                                sw.WriteLine("#");
-                            }
-
-                            if (chbWrongamount.IsChecked == true)
-                            {
-                                sw.Write(rnd_acc.Next(1, 100));
-                                sw.WriteLine(" " + rnd_sum.Next(min, max).ToString());
-                                // #
-                                sw.WriteLine("#");
-                            }
+                            value = rnd_sum.Next(min, max);
+                            sw.Write(rnd_acc.Next(1, 100));
+                            sw.WriteLine(" " + value.ToString());
+                            sum += value;
                         }
 
+                        if (chbWrongamount.IsChecked == false)
+                        {
+                            sw.Write(rnd_acc.Next(1, 100));
+                            sw.WriteLine(" " + (sum * -1).ToString());
+                        }
+                        else
+                        {
+                            sw.Write(rnd_acc.Next(1, 100));
+                            sw.WriteLine(" 0");
+                        }
+
+                        // write closing #
+                        sw.WriteLine("#");
                     }
-
-
                     MessageBox.Show("Die Datei wurde erfolgreich erstellt.\nPfad: " + filename, "Information");
-
                 }
-
-
                 else
                 {
                     MessageBox.Show("Bitte korrekte Werte eingeben.", "Information");
                 }
             }
-       /*     else if (extension == ".xml")
-            {
-                // experimental
+            /*     else if (extension == ".xml")
+                 {
+                     // experimental
 
-                XmlDocument doc = new XmlDocument();
-                XmlNode myRoot, myNode;
-               // XmlAttribute myAttribute;
+                     XmlDocument doc = new XmlDocument();
+                     XmlNode myRoot, myNode;
+                    // XmlAttribute myAttribute;
 
-                Random rnd_sum = new Random();
-                Random rnd_acc = new Random();
+                     Random rnd_sum = new Random();
+                     Random rnd_acc = new Random();
 
-                int sum = 0;
-                int value = 0;
+                     int sum = 0;
+                     int value = 0;
 
-                // creare root
-                myRoot = doc.CreateElement("AccountList");
-                doc.AppendChild(myRoot);
+                     // creare root
+                     myRoot = doc.CreateElement("AccountList");
+                     doc.AppendChild(myRoot);
 
-                for (int i = 0; i < lines - 1; i++)
-                {
-                    value = rnd_sum.Next(-1000, 1000);
-                    sum += value; 
+                     for (int i = 0; i < lines - 1; i++)
+                     {
+                         value = rnd_sum.Next(-1000, 1000);
+                         sum += value; 
                     
-                    myNode = doc.CreateElement("Amount");
+                         myNode = doc.CreateElement("Amount");
 
-                    myNode.InnerText = value.ToString();
+                         myNode.InnerText = value.ToString();
 
-                  //  myAttribute = doc.CreateAttribute("accountNo");
-                  //  myAttribute.InnerText = rnd_acc.Next(1, 100).ToString();
-                  //  myNode.Attributes.Append(myAttribute);
+                       //  myAttribute = doc.CreateAttribute("accountNo");
+                       //  myAttribute.InnerText = rnd_acc.Next(1, 100).ToString();
+                       //  myNode.Attributes.Append(myAttribute);
 
-                    myRoot.AppendChild(myNode);  
+                         myRoot.AppendChild(myNode);  
 
-                }
+                     }
 
-                myNode = doc.CreateElement("Amount");
+                     myNode = doc.CreateElement("Amount");
 
-                myNode.InnerText = (sum * -1).ToString();
+                     myNode.InnerText = (sum * -1).ToString();
 
-                // myAttribute = doc.CreateAttribute("accountNo");
-                // myAttribute.InnerText = rnd_acc.Next(1, 100).ToString();
-                // myNode.Attributes.Append(myAttribute);
+                     // myAttribute = doc.CreateAttribute("accountNo");
+                     // myAttribute.InnerText = rnd_acc.Next(1, 100).ToString();
+                     // myNode.Attributes.Append(myAttribute);
 
-                myRoot.AppendChild(myNode);  
+                     myRoot.AppendChild(myNode);  
 
-                doc.Save(filename);
+                     doc.Save(filename);
 
-                MessageBox.Show("Die Datei wurde erfolgreich erstellt.\nPfad: " + filename, "Information");
+                     MessageBox.Show("Die Datei wurde erfolgreich erstellt.\nPfad: " + filename, "Information");
 
-            }
-*/
+                 }
+     */
         }
 
         private void cbFileformat_SelectionChanged(object sender, SelectionChangedEventArgs e)
