@@ -21,31 +21,28 @@ namespace INA.Model
         LogFile _Logfile;
         #endregion
 
-
         public MultiTasking(LogFile f, DatabaseManagement db)
         {
             this._Logfile = f;
             _databasemanagement = db;
         }
+
         #region Methods
+
         public void startTasks()
         {
             // set the formatter to indicate body contains a string
             queue.Formatter = new XmlMessageFormatter(new Type[] { typeof(String) });
 
-            // define eventhandler for msmq
-            // queue.ReceiveCompleted += new ReceiveCompletedEventHandler(createDataQuery);
-
             Task.Factory.StartNew(() =>
-
+                //enumerable range + max degree of parallelism => define how many threads will be created
                  Parallel.ForEach(Enumerable.Range(0, 10), new ParallelOptions { MaxDegreeOfParallelism = 4 }, (i) =>
            {
                // Restart the synchronous receive operation
                process();
-
            })
                 );
-            //enumerable range + max degree of parallelism => define how many threads will be created
+
         }
 
         //used by each task
@@ -58,7 +55,7 @@ namespace INA.Model
             try
             {
                 // Begin the transaction.
-               trans.Begin();
+                trans.Begin();
 
                 // Receive the message from msmq
                 //
@@ -92,11 +89,8 @@ namespace INA.Model
             }
             // rekursiv
             process();
-
         }
 
         #endregion
-
-
     }
 }

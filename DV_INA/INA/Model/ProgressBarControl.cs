@@ -10,7 +10,7 @@ namespace INA.Model
     {
         ViewModel.ViewModel _ViewModel;
         //stepvalue defines how much a single step in the progress bar will be
-        private int stepValue=0;
+        private double stepValue=0;
 
         public ProgressBarControl(ViewModel.ViewModel vm)
         {
@@ -22,7 +22,9 @@ namespace INA.Model
         //e.g. : 4 files => steps = 8
         public void setProgressStatus(int steps)
         {
-            stepValue = 100/ (steps);
+            // double: 100/ 3 = 33,3333... 
+            // int: 100 / 3 = 33 -> error
+            stepValue = 100 / Convert.ToDouble(steps);
             _ViewModel.ProgressStatus += stepValue;
         }
 

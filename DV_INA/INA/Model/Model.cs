@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace INA.Model
 {
@@ -12,7 +13,10 @@ namespace INA.Model
     {
         #region Members
         FileSplit _FileSplit;
-        //QueueManagement _QueueManagement
+        QueueManagement _QueueManagement;
+
+        Stopwatch stopwatch;
+
         private List<string> loadedFilesWithAbsolutePath = new List<string>();
 
         private ObservableCollection<string> loadedFiles = new ObservableCollection<string>();
@@ -28,7 +32,7 @@ namespace INA.Model
         {
             DatabaseManagement _databasemanagement = new DatabaseManagement(_Logfile, pbc);
             MultiTasking _MultiTasking = new MultiTasking(_Logfile, _databasemanagement);
-            QueueManagement _QueueManagement = new QueueManagement();
+            _QueueManagement = new QueueManagement();
             _FileSplit = new FileSplit(_Logfile, _MultiTasking, pbc);
             
         }
@@ -69,24 +73,10 @@ namespace INA.Model
 
         #endregion
 
-
-        /*    
-      internal QueueManagement QueueManagement
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-    */
         #region Methods
 
         public void splitFiles()
         {
-
             _FileSplit.splitFile(loadedFilesWithAbsolutePath);
         }
         //check if the given parameter path already exists in the file path list
@@ -111,12 +101,37 @@ namespace INA.Model
 
         public void clearFilePath(int index)
         {
-
             string s1 = loadedFiles.ElementAt(index);
             loadedFiles.Remove(s1);
 
             string s2 = loadedFilesWithAbsolutePath.ElementAt(index);
             loadedFilesWithAbsolutePath.Remove(s2);
         }
+
+        public void clearMSMQ()
+        {
+            _QueueManagement.clearMSMQ();
+        }
+
+        public int countLoadedFiles()
+        {
+            return loadedFilesWithAbsolutePath.Count();
+        }
+
+        public void startTimer()
+        {
+            // create new stopwatch
+            stopwatch = new Stopwatch();
+            // start watch
+            stopwatch.Start();
+        }
+
+        public string stopTimer()
+        {
+            stopwatch.Stop();
+            return "Time elapsed: " + stopwatch.Elapsed.ToString();
+        }
+
+
     }
 }

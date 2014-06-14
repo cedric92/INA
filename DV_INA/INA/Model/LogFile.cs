@@ -13,6 +13,7 @@ namespace INA.Model
     {
         #region Member
         ViewModel.ViewModel _vm;
+        int completedFiles = 0;
         
         #endregion
 
@@ -27,6 +28,7 @@ namespace INA.Model
 
         static readonly object _lock = new object();
         static readonly object _lock2 = new object();
+
         public void writeToFile(string message)
         {
             lock (_lock)
@@ -34,12 +36,13 @@ namespace INA.Model
                 callVM(message); 
             }
 
+            // lock ensures that one thread does not enter a critical section of code while 
+            // another thread is in the critical section. If another thread tries to enter a 
+            // locked code, it will wait, block, until the object is released.
             lock (_lock2)
             {
                 string path = Path.Combine((Environment.ExpandEnvironmentVariables("%USERPROFILE%") + @"\Desktop"), "Log.txt");
-                //string path = Path.GetTempPath();
-                //string path = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-
+               
                 // This text is added only once to the file.
                 if (!File.Exists(path))
                 {
@@ -60,9 +63,7 @@ namespace INA.Model
                 }
             }
             
-            
         }
-
       
         private void callVM(string message)
         {            
@@ -72,10 +73,26 @@ namespace INA.Model
 
                 string s = _vm._tbInfo + message;*/
             
-                _vm._tbInfo += message;
-            
-                
+                _vm._tbInfo += message;    
         }
+
+        // one footer completed, count it - then check sum
+        public void reportCompleted()
+        {
+            completedFiles++;
+            checkCompleted();
+        }
+
+        // check if all footers are committed
+        private void checkCompleted()
+        {
+            if (this._vm.countLoadedFiles() == completedFiles)
+            {
+                writeToFile("Imported all files successfully into the database." + Environment.NewLine);
+                writeToFile(_vm.stopTimer());
+            }
+        }
+
         #endregion
     }
 }

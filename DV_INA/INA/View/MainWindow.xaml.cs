@@ -18,7 +18,7 @@ using System.Collections.ObjectModel;
 
 namespace INA
 {
-    
+
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
@@ -28,7 +28,7 @@ namespace INA
     {
         #region Members
         ViewModel.ViewModel _ViewModel;
-        string filename="";
+        string filename = "";
         ObservableCollection<string> tmp = new ObservableCollection<string>();
         #endregion
 
@@ -37,39 +37,53 @@ namespace INA
             InitializeComponent();
             _ViewModel = new ViewModel.ViewModel();
 
-           this.DataContext = _ViewModel;
+            this.DataContext = _ViewModel;
 
         }
         private void Button_ClickStart(object sender, RoutedEventArgs e)
         {
             progBar.Value = 0;
+
             //call method splitFile which splits the chosen file according to the fileNam
             _ViewModel.splitFiles();
-
-            // deacticate start button
-            btStart.IsEnabled = false;          
-            
+            // start tasks reading from msmq
             _ViewModel.startTasks();
-          
-            btBeenden.IsEnabled = true;       
+            // start timer
+            _ViewModel.startTimer();
+
+            // de/activate buttons
+            btStart.IsEnabled = false;
+            btBeenden.IsEnabled = true;
+
+           
+
+            
         }
 
-        
+
         private void btBeenden_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Möchten Sie wirklich beenden?", "INA beenden", 
-                MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes); 
-            
+            closeINA();
+        }
+
+        private void closeINA()
+        {
+            MessageBoxResult result = MessageBox.Show("Möchten Sie wirklich beenden?", "INA beenden",
+            MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
+
             if (result == MessageBoxResult.Yes)
-            { 
-                this.Close(); 
+            {
+                this.Close();
             }
         }
 
         private void btOpenFile_Click(object sender, RoutedEventArgs e)
         {
-          
-            
+            openFile();
+        }
+
+        private void openFile()
+        {
             // Configure open file dialog box
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.FileName = "Document"; // Default file name
@@ -111,16 +125,16 @@ namespace INA
                     //cut the path at the last pos of \ => shows only the file name without absolute path
                     string sub = filename.Substring(pos + 1);
                     //set text for loaded files => databinding
-                  
+
                     //_ViewModel.loadedFiles = sub;
-               
+
                     tmp.Add(sub);
                     _ViewModel._loadedFiles = tmp;
-                } 
-            }         
+                }
+            }
         }
-        
-      
+
+
         private void btDelete_Click(object sender, RoutedEventArgs e)
         {
             if (filesView.SelectedItem != null)
@@ -135,7 +149,71 @@ namespace INA
                 {
                     btStart.IsEnabled = false;
                 }
-            }                    
-        }        
+            }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            closeINA();
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            openFile();
+        }
+
+        private void filesView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+        }
+
+        private void DeleteFile(object sender, RoutedEventArgs e)
+        {
+            // get depency to listview filesView
+            DependencyObject dep = (DependencyObject)e.OriginalSource;
+
+            while ((dep != null) && !(dep is ListViewItem))
+            {
+                dep = VisualTreeHelper.GetParent(dep);
+            }
+
+            if (dep == null)
+                return;
+
+            // get concerned index
+            int index = filesView.ItemContainerGenerator.IndexFromContainer(dep);
+
+            // mvvm
+            _ViewModel.clearFilePath(index);
+        }
+
+        private void menu_opencompmgmnt_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            process.StartInfo.FileName = "compmgmt.msc";
+            process.Start();
+        }
+
+        private void menu_clearMSMQ_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Möchten Sie die MSMQ wirklich leeren?\nEntfernte Nachrichten werden nicht mehr in die Datenbank übertragen.", "INAqueue leeren",
+            MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                _ViewModel.clearMSMQ();
+            }
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void progBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+
     }
 }

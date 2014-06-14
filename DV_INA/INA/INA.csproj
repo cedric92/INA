@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>db.ico</ApplicationIcon>
+    <ApplicationIcon>images\db.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -107,7 +107,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="db.ico" />
+    <Resource Include="images\db.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\add.png" />
+    <Resource Include="images\deletequeue.png" />
+    <Resource Include="images\exit.png" />
+    <Resource Include="images\queue.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

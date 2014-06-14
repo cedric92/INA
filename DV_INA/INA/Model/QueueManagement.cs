@@ -75,7 +75,13 @@ namespace INA.Model
            }
         }
 
-    #endregion
+        public void clearMSMQ()
+        {
+            // clear msmq
+            MessageQueue msgQueue = GetStringMessageQueue();
+            msgQueue.Purge();
+        }
 
+    #endregion
     }
 }

@@ -14,8 +14,11 @@ namespace INA.Model
      
         LogFile _LogFile;
         ProgressBarControl _ProgressBarControl;
-        string conString = @"Server=CEDRIC\SQLEXPRESS;Database=dv projekt;Trusted_Connection=True; Connect Timeout=1;";
+
+        string conString = @"Server=JANINE-NETBOOK\SQLEXPRESS;Database=INA;Trusted_Connection=True; Connect Timeout=1;";
+        // string conString = @"Server=CEDRIC\SQLEXPRESS;Database=dv projekt;Trusted_Connection=True; Connect Timeout=1;";
         // string conString = @"Server=WINJ5GTVAPSLQX\SQLEXPRESS;Database=INA;Trusted_Connection=True;";
+
         #endregion
 
         #region Constructor
@@ -120,13 +123,13 @@ namespace INA.Model
                     {
                         //everything worked => return true
                         this._LogFile.writeToFile("Complete file " + record[0] + " with " + record[2] + " messages successfully inserted!\n");
-                       
+                        this._LogFile.reportCompleted();
                         return true;
                     }
                 }
                 catch (SqlException se)
                 {
-                    Console.WriteLine("Eine SQL Exception ist da´: !" + se.Message);
+                    Console.WriteLine("SQL Exception: " + se.Message);
                     return false;
                 }
                 catch (Exception e)

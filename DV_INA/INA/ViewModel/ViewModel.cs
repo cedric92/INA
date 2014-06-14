@@ -7,11 +7,8 @@ using INA.Model;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
-
-
 namespace INA.ViewModel
 {
-    // ---------- VIEWMODEL ---------------------------------------
     public class ViewModel : INotifyPropertyChanged
     {
         #region NotifiyPropertyChanged
@@ -27,9 +24,11 @@ namespace INA.ViewModel
         #endregion
 
         #region Members
+
         Model.Model _Model;
         LogFile _Logfile;
         ProgressBarControl _ProgressBarControl;
+
         #endregion
 
         public ViewModel()
@@ -114,6 +113,31 @@ namespace INA.ViewModel
 
             this._tbInfo = "";
         }
+
+        // clear msmq
+        public void clearMSMQ()
+        {
+            _Model.clearMSMQ();
+        }
+
+        // count loaded files f logfile
+        public int countLoadedFiles()
+        {
+            return _Model.countLoadedFiles();
+        }
+
+        // implementing timer for testing purposes
+        public void startTimer()
+        {
+            _Model.startTimer();
+        }
+
+        // stop timer and return elapsed time
+        public string stopTimer()
+        {
+            return _Model.stopTimer();
+        }
+
         #endregion
     }
 }

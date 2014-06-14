@@ -44,12 +44,6 @@ namespace INA.Model
         {
             numberOfFiles = loadedFilePaths.Count();
 
-            // write to log file
-            /*   _Logfile.writeToFile("### Start Import: "
-                   + DateTime.Now.ToShortTimeString().ToString() + ", "
-                   + DateTime.Now.ToString("dd-MM-yyyy")
-                   + Environment.NewLine);*/
-
             /*Info für Parallel:
              * http://stackoverflow.com/questions/5009181/parallel-foreach-vs-task-factory-startnew
              * */
@@ -57,14 +51,6 @@ namespace INA.Model
             Task.Factory.StartNew(() =>
             Parallel.ForEach<string>(loadedFilePaths, path => readFile(path))
             );
-
-            /*
-                        // fuer anhalten button (kommt noch)
-                        if (!loopResult.IsCompleted && !loopResult.LowestBreakIteration.HasValue)
-                        {
-                            // write to log file
-                            _Logfile.writeToFile("### Import aborted ############" + Environment.NewLine);
-                        }*/
         }
 
         // import and check files
@@ -129,10 +115,10 @@ namespace INA.Model
                     startMessageQueue((new KeyValuePair<string, string>(fileName, "Footer " + count)).ToString());
 
 
-                    _Logfile.writeToFile("###File "+fileName+" successfully imported###\n");
+                    _Logfile.writeToFile("### File "+fileName+" successfully imported ###\n");
 
 
-                    _ProgressBarControl.setProgressStatus(numberOfFiles);
+                    _ProgressBarControl.setProgressStatus(1);
                     count = 0;
                 }
 
@@ -179,12 +165,12 @@ namespace INA.Model
             return check;
         }
 
-        #endregion
-
         public void startTasks()
         {
             _MultiTasking.startTasks();
         }
+
+        #endregion
     }
 
 
