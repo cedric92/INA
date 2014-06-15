@@ -55,9 +55,6 @@ namespace INA
             btStart.IsEnabled = false;
             btBeenden.IsEnabled = true;
 
-           
-
-            
         }
 
 
@@ -130,24 +127,6 @@ namespace INA
 
                     tmp.Add(sub);
                     _ViewModel._loadedFiles = tmp;
-                }
-            }
-        }
-
-
-        private void btDelete_Click(object sender, RoutedEventArgs e)
-        {
-            if (filesView.SelectedItem != null)
-            {
-                //clear progress bar and textblock info
-                _ViewModel.clearGuI();
-
-                int index = filesView.SelectedIndex;
-                _ViewModel.clearFilePath(index);
-
-                if (filesView.Items.Count == 0)
-                {
-                    btStart.IsEnabled = false;
                 }
             }
         }
