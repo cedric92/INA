@@ -4,7 +4,6 @@
         xmlns:ViewModel="clr-namespace:INA.ViewModel" x:Name="INAMainWindow" x:Class="INA.MainWindow"
         Title="INA" Height="464" Width="500" Icon="/INA;component/images/db.ico" ResizeMode="CanMinimize" Background="#FFE9EAF0">
     <Window.Resources>
-
     </Window.Resources>
     <Grid RenderTransformOrigin="0.624,0.627">
         <Grid HorizontalAlignment="Left" Height="31" Margin="-11,370,0,0" VerticalAlignment="Top" Width="500">
@@ -19,10 +18,10 @@
                     <GridViewColumn Width="auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Width="20" Height="20" Content="" Click="DeleteFile">
-                                    <Button.Background>
-                                        <ImageBrush ImageSource="/INA;component/images/delete.png"></ImageBrush>
-                                    </Button.Background>
+                                <Button Width="20" Height="20" Click="DeleteFile">
+                                    <DockPanel>
+                                        <Image Source="/INA;component/images/delete.png"/>
+                                    </DockPanel>
                                 </Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -30,16 +29,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
-
-
-
-
         <ProgressBar x:Name="progBar" HorizontalAlignment="Left" Height="27" Margin="40,221,0,0" VerticalAlignment="Top" Width="400" Value="{Binding ProgressStatus}"  Minimum="0" Maximum="100" Foreground="#FF689BE6" ValueChanged="progBar_ValueChanged" />
         <TextBox x:Name="tbInfo3" HorizontalAlignment="Left" Height="112" Margin="40,253,0,0" TextWrapping="Wrap" Text="{Binding _tbInfo}" VerticalAlignment="Top" Width="400" ScrollViewer.VerticalScrollBarVisibility="Visible" Focusable="False"  />
-
-
-
         <Menu IsMainMenu="True" HorizontalAlignment="Left" Height="31" Margin="-1,0,0,0" VerticalAlignment="Top" Width="493" Grid.ColumnSpan="3">
             <MenuItem Header="_Datei">
                 <MenuItem Header="_Datei hinzufügen" Click="MenuItem_Click_1">
@@ -68,10 +59,5 @@
             </MenuItem>
         </Menu>
         <Label Content="INA" HorizontalAlignment="Left" Margin="33,36,0,0" VerticalAlignment="Top" Width="85" Foreground="#1a1d9e" FontFamily="Imprint MT Shadow" FontSize="36"/>
-
-
-
-
-
     </Grid>
 </Window>
